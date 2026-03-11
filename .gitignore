@@ -16,9 +16,8 @@ dist/
 downloads/
 eggs/
 .eggs/
-# Python lib directories (root level only, not frontend/src/lib/)
-/lib/
-/lib64/
+lib/
+lib64/
 parts/
 sdist/
 var/
@@ -199,11 +198,10 @@ playwright-report/
 *.tar.gz
 *.zip
 
-# Windows nul device artifacts
-nul
-
 # Planning
 Context.md
 currentplan.txt
 SystemDesign.md
 ollama_LLM.txt
+cloudoptions.txt
+nul

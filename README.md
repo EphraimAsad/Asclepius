@@ -302,6 +302,23 @@ Asclepius optionally uses LLM to enhance explanations and generate follow-up que
 | OpenAI | Stub (future) | Cloud deployment |
 | Anthropic | Stub (future) | Cloud deployment |
 
+### Recommended Model Sizes
+
+| Size | Status | Notes |
+|------|--------|-------|
+| 4-7B | Minimum | Works but may miss nuance in complex symptoms |
+| **14B+** | **Recommended** | Best balance of quality and response time |
+| 32B+ | Premium | Highest quality, requires powerful hardware |
+
+**Tested models:**
+- `gemma:7b` - Works, basic enhancement
+- `gemma2:9b` - Good quality
+- `qwen2.5:14b` - Recommended for production
+- `llama3:8b` - Good alternative
+- `mistral:7b` - Fast, decent quality
+
+**Hardware note:** 14B models require ~16GB RAM. For systems with limited resources, 7B models provide functional (if less polished) enhancement.
+
 ### Configuration
 
 Set these environment variables (or in `.env` file):
@@ -314,7 +331,7 @@ LLM_ENABLED=true
 LLM_PROVIDER=ollama
 
 # Model name (provider-specific)
-LLM_MODEL=qwen3.5:4b
+LLM_MODEL=gemma:7b
 
 # Ollama endpoint (for local deployment)
 LLM_BASE_URL=http://127.0.0.1:11434
@@ -332,7 +349,7 @@ LLM_CACHE_TTL_SECONDS=3600
 ### Using with Ollama (Local)
 
 1. Install Ollama: https://ollama.ai
-2. Pull a model: `ollama pull qwen3.5:4b`
+2. Pull a model: `ollama pull gemma:7b`
 3. Start Ollama: `ollama serve`
 4. Set environment variables and start the backend
 
