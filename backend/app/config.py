@@ -31,7 +31,7 @@ class Settings(BaseSettings):
     # LLM Configuration
     llm_enabled: bool = True
     llm_provider: str = "ollama"  # "ollama", "openai", "anthropic"
-    llm_model: str = "llama3.2:3b"
+    llm_model: str = "gemma:7b"
     llm_base_url: str = "http://127.0.0.1:11434"
     llm_api_key: Optional[str] = None
     llm_timeout_seconds: float = 60.0
