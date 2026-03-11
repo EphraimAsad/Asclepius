@@ -30,7 +30,8 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Compile rules
-        run: python ../scripts/compile_rules.py
+        working-directory: .
+        run: python scripts/compile_rules.py
 
       - name: Run tests
         run: pytest -v
@@ -95,7 +96,8 @@ jobs:
         run: pip install -r ../backend/requirements.txt
 
       - name: Compile rules
-        run: python ../scripts/compile_rules.py
+        working-directory: .
+        run: python scripts/compile_rules.py
 
       - name: Install frontend dependencies
         run: npm ci
