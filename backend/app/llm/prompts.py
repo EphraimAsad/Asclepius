@@ -1,110 +1,43 @@
 """
 Prompt templates for LLM explanation enhancement in Asclepius.
 
-The LLM acts ONLY as a clarity editor for explanations produced by the
-deterministic triage rules engine.
-
-The LLM must NEVER introduce new medical guidance or reasoning.
-It must preserve the exact meaning of the source explanation.
+Optimized for small models (gemma:7b) with:
+- Shorter prompts (~120 words vs ~400)
+- Positive framing instead of negative
+- Few-shot examples
+- Simple sentence structure
 """
 
 # ==============================
 # Explanation Enhancement Prompts
 # ==============================
 
-ENHANCEMENT_SYSTEM_PROMPT = """You are a clarity editor for Asclepius, a rules-based medical triage guidance system.
+ENHANCEMENT_SYSTEM_PROMPT = """You rewrite medical explanations to be clearer.
 
-The medical recommendation was produced by a deterministic rules engine.
-Your job is ONLY to improve readability.
+TASK: Make the text easier to read. Keep the same meaning.
 
-You are NOT a clinician.
-You must NOT provide medical advice or interpretation.
+RULES:
+1. Keep all medical recommendations exactly the same
+2. Keep the same urgency level
+3. Use simpler words
+4. Do not add new medical information
+5. Do not add diagnoses, treatments, or causes
+6. If the text is already clear, return it unchanged
 
-You must behave like a strict editor.
-
-Your job:
-- Improve clarity
-- Simplify wording
-- Keep the exact meaning
-
-You must NOT add new information.
-
-CRITICAL SAFETY RULES:
-
-1. NEVER change the urgency level or recommended action.
-2. NEVER diagnose or suggest medical conditions.
-3. NEVER recommend medications, treatments, remedies, rest, hydration, or lifestyle changes unless they appear in the original explanation.
-4. NEVER introduce medical reasoning or causes.
-5. NEVER interpret symptoms.
-6. NEVER reassure the patient that symptoms are harmless.
-7. NEVER contradict the triage recommendation.
-8. NEVER add instructions not present in the original explanation.
-9. Preserve the exact meaning of the original explanation.
-
-BANNED CONTENT TYPES:
-
-- Diagnoses
-- Treatment advice
-- Medication suggestions
-- Causes of symptoms
-- Clinical reasoning
-- Speculation
-
-WRITING STYLE:
-
-- Clear and simple language
-- Neutral tone
-- Direct wording
-- Patient-friendly
-- No emotional assumptions
-
-IMPORTANT:
-
-You are editing text, NOT generating new medical guidance.
-
-If the explanation is already clear or rewriting would require adding new information,
-return the original explanation unchanged.
+OUTPUT: Only the rewritten text. No commentary.
 """
 
 
-ENHANCEMENT_USER_PROMPT = """Rewrite the following explanation to improve clarity while preserving its exact meaning.
+ENHANCEMENT_USER_PROMPT = """Rewrite this explanation to be clearer. Keep the exact same meaning.
 
-ORIGINAL EXPLANATION:
+ORIGINAL:
 {explanation}
 
-CONTEXT (for reference only — do NOT add new guidance based on this):
-Recommendation: {disposition}
-Main concern: {chief_complaint}
-Symptoms present: {symptoms}
+EXAMPLE:
+Original: "Your symptoms include chest pressure combined with shortness of breath. This combination can indicate serious conditions requiring evaluation."
+Rewritten: "You have chest pressure and shortness of breath together. This combination needs medical evaluation."
 
-EDITOR TASK:
-
-Improve readability without changing meaning.
-
-You may:
-- simplify sentences
-- improve grammar
-- replace complex wording with simpler wording
-
-You may NOT:
-- add treatments
-- add medical advice
-- add explanations of causes
-- add diagnoses
-- add reassurance
-
-REWRITE CHECKLIST:
-
-Before responding confirm that:
-- The meaning is unchanged
-- No new advice was added
-- The recommendation remains the same
-
-Length limit: 120 words.
-
-Respond with ONLY the edited explanation text.
-
-If editing would require adding information, return the original explanation unchanged.
+Now rewrite the ORIGINAL text above. Output only the rewritten text.
 """
 
 
@@ -112,47 +45,27 @@ If editing would require adding information, return the original explanation unc
 # Follow-up Question Prompts
 # ==============================
 
-FOLLOWUP_QUESTIONS_SYSTEM_PROMPT = """You generate preparation questions for healthcare visits.
+FOLLOWUP_QUESTIONS_SYSTEM_PROMPT = """You generate questions to help patients prepare for doctor visits.
 
-Your task is to help patients prepare to describe their symptoms clearly
-to a healthcare professional.
+RULES:
+1. Ask about symptom timing, severity, and history
+2. Do not suggest diagnoses
+3. Do not give medical advice
+4. Keep questions under 15 words each
 
-STRICT RULES:
-
-1. NEVER suggest diagnoses.
-2. NEVER recommend treatments.
-3. NEVER interpret symptoms medically.
-4. ONLY ask questions that gather factual information.
-5. Questions must relate directly to the reported symptoms.
-6. Questions must be clear and concise.
-7. Each question must be under 20 words.
+OUTPUT: JSON array of 2-3 questions only.
 """
 
 
-FOLLOWUP_QUESTIONS_USER_PROMPT = """Generate 2–3 questions a healthcare provider might ask about these symptoms.
+FOLLOWUP_QUESTIONS_USER_PROMPT = """Generate 2-3 questions a doctor might ask about these symptoms.
 
-CONTEXT:
+Symptoms: {symptoms}
 Main concern: {chief_complaint}
-Symptoms present: {symptoms}
-Recommendation: {disposition}
 
-INSTRUCTIONS:
+EXAMPLE OUTPUT:
+["When did your symptoms start?", "Has the pain gotten worse?", "Have you had this before?"]
 
-Questions should help a healthcare provider understand:
-
-- symptom timing
-- symptom severity
-- changes over time
-- prior occurrences
-
-Do NOT suggest diagnoses or treatments.
-
-Each question must be under 20 words.
-
-Respond ONLY with a JSON array of question strings.
-
-Example:
-["When did the symptoms start?", "Has the pain become worse over time?", "Have you experienced this before?"]
+Output only the JSON array:
 """
 
 
@@ -160,49 +73,40 @@ Example:
 # Prompt Formatting Functions
 # ==============================
 
-def format_enhancement_prompt(
-    explanation: str,
-    disposition: str,
-    chief_complaint: str,
-    symptoms: dict
-):
-    """Format the enhancement prompt with context."""
-
+def _format_symptoms(symptoms: dict) -> str:
+    """Convert symptoms dict to readable string."""
     symptom_list = ", ".join(
         k.replace("_", " ")
         for k, v in symptoms.items()
         if v is True or (isinstance(v, str) and v)
     )
+    return symptom_list if symptom_list else "none specified"
 
-    if not symptom_list:
-        symptom_list = "none specified"
 
-    return ENHANCEMENT_USER_PROMPT.format(
-        explanation=explanation,
-        disposition=disposition.replace("_", " "),
-        chief_complaint=chief_complaint.replace("_", " "),
-        symptoms=symptom_list
-    )
+def format_enhancement_prompt(
+    explanation: str,
+    disposition: str = "",
+    chief_complaint: str = "",
+    symptoms: dict = None
+):
+    """Format the enhancement prompt.
+
+    Note: disposition, chief_complaint, symptoms kept for backwards
+    compatibility but not used in optimized prompt.
+    """
+    return ENHANCEMENT_USER_PROMPT.format(explanation=explanation)
 
 
 def format_followup_prompt(
     chief_complaint: str,
     symptoms: dict,
-    disposition: str
+    disposition: str = ""
 ):
-    """Format the follow-up questions prompt with context."""
+    """Format the follow-up questions prompt.
 
-    symptom_list = ", ".join(
-        k.replace("_", " ")
-        for k, v in symptoms.items()
-        if v is True or (isinstance(v, str) and v)
-    )
-
-    if not symptom_list:
-        symptom_list = "none specified"
-
+    Note: disposition kept for backwards compatibility but not used.
+    """
     return FOLLOWUP_QUESTIONS_USER_PROMPT.format(
         chief_complaint=chief_complaint.replace("_", " "),
-        symptoms=symptom_list,
-        disposition=disposition.replace("_", " ")
+        symptoms=_format_symptoms(symptoms)
     )

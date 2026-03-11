@@ -169,7 +169,11 @@ class TestPromptFormatting:
     """Tests for prompt formatting functions."""
 
     def test_format_enhancement_prompt(self):
-        """Test enhancement prompt formatting."""
+        """Test enhancement prompt formatting.
+
+        Optimized prompts are simpler - only include explanation text.
+        Context fields kept for backwards compatibility but not used.
+        """
         prompt = format_enhancement_prompt(
             explanation="Original text",
             disposition="ER_NOW",
@@ -178,13 +182,15 @@ class TestPromptFormatting:
         )
 
         assert "Original text" in prompt
-        assert "ER NOW" in prompt
-        assert "chest pain" in prompt
-        assert "chest pressure" in prompt
-        assert "nausea" in prompt
+        assert "EXAMPLE" in prompt  # Few-shot example included
+        assert "rewritten text" in prompt.lower()
 
     def test_format_followup_prompt(self):
-        """Test follow-up questions prompt formatting."""
+        """Test follow-up questions prompt formatting.
+
+        Optimized prompts include chief_complaint and symptoms.
+        Disposition kept for backwards compatibility but not used.
+        """
         prompt = format_followup_prompt(
             chief_complaint="headache",
             symptoms={"severe_pain": True, "vision_changes": True},
@@ -194,7 +200,8 @@ class TestPromptFormatting:
         assert "headache" in prompt
         assert "severe pain" in prompt
         assert "vision changes" in prompt
-        assert "JSON array" in prompt
+        assert "json array" in prompt.lower()
+        assert "EXAMPLE" in prompt  # Few-shot example included
 
 
 # Ollama provider tests
