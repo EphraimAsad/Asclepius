@@ -57,7 +57,7 @@ jobs:
           cache-dependency-path: frontend/package-lock.json
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: Run linter
         run: npm run lint
@@ -100,7 +100,7 @@ jobs:
         run: python scripts/compile_rules.py
 
       - name: Install frontend dependencies
-        run: npm install
+        run: npm ci
 
       - name: Install Playwright browsers
         run: npx playwright install --with-deps chromium
@@ -110,9 +110,11 @@ jobs:
           cd ../backend
           LLM_ENABLED=false uvicorn app.main:app --host 0.0.0.0 --port 8000 &
           sleep 5
+          curl -f http://localhost:8000/api/v1/health || exit 1
 
       - name: Run E2E tests
         run: npm run test:e2e
+        timeout-minutes: 10
 
       - name: Upload Playwright report
         uses: actions/upload-artifact@v4
