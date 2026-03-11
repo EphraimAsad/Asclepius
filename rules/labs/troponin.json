@@ -1,0 +1,62 @@
+{
+  "test_code": "troponin",
+  "display_name": "Troponin",
+  "category": "cardiac",
+  "description_key": "troponin_description",
+  "units": ["ng/L", "ng/mL"],
+  "range_strategy": "lab_reference_preferred",
+  "status_logic": {
+    "method": "flag_first_then_reference_range",
+    "critical_low": null,
+    "low": null,
+    "high": { "use_reference_high": true },
+    "critical_high": { "multiplier_of_reference_high": 3 }
+  },
+  "interpretation": {
+    "normal_key": "troponin_normal",
+    "high_key": "troponin_high",
+    "critical_high_key": "troponin_critical_high"
+  },
+  "urgency_rules": [
+    {
+      "id": "troponin_critical_with_symptoms",
+      "label": "Critical troponin with cardiac symptoms",
+      "join": "all",
+      "conditions": [
+        { "field": "derived.lab_status.troponin", "operator": "in", "value": ["HIGH", "CRITICAL_HIGH"] },
+        { "field": "symptoms.chest_pressure", "operator": "is_true", "value": true }
+      ],
+      "disposition": "ER_NOW",
+      "priority": "critical",
+      "reason_codes": ["ABNORMAL_TROPONIN", "TROPONIN_CHEST_PAIN"],
+      "explanation_keys": ["possible_cardiac_injury"],
+      "safety_net_keys": ["seek_immediate_evaluation"]
+    },
+    {
+      "id": "troponin_critical_isolated",
+      "label": "Critical troponin without symptoms",
+      "join": "all",
+      "conditions": [
+        { "field": "derived.lab_status.troponin", "operator": "eq", "value": "CRITICAL_HIGH" }
+      ],
+      "disposition": "ER_NOW",
+      "priority": "high",
+      "reason_codes": ["ABNORMAL_TROPONIN"],
+      "explanation_keys": ["troponin_critical_high"],
+      "safety_net_keys": ["seek_immediate_evaluation"]
+    },
+    {
+      "id": "troponin_elevated_isolated",
+      "label": "Elevated troponin without symptoms",
+      "join": "all",
+      "conditions": [
+        { "field": "derived.lab_status.troponin", "operator": "eq", "value": "HIGH" }
+      ],
+      "disposition": "URGENT_CARE_TODAY",
+      "priority": "medium",
+      "reason_codes": ["ABNORMAL_TROPONIN"],
+      "explanation_keys": ["troponin_high"],
+      "safety_net_keys": ["seek_immediate_evaluation", "monitor_symptoms"]
+    }
+  ]
+}

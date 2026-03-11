@@ -1,0 +1,28 @@
+{
+  "pathway_id": "chest_pain",
+  "display_name": "Chest Pain",
+  "chief_complaint_aliases": ["chest_pain", "chest_pressure", "chest_tightness"],
+  "intake_fields": [
+    "symptoms.chest_pressure", 
+    "symptoms.shortness_of_breath", 
+    "symptoms.radiation_to_arm_jaw_back", 
+    "symptoms.sweating", 
+    "symptoms.fainting"
+  ],
+  "rules": [
+    {
+      "id": "cp_high_acuity",
+      "label": "High-acuity chest pain",
+      "join": "all",
+      "conditions": [
+        { "field": "symptoms.chest_pressure", "operator": "is_true", "value": true },
+        { "field": "symptoms.shortness_of_breath", "operator": "is_true", "value": true }
+      ],
+      "disposition": "ER_NOW",
+      "priority": "critical",
+      "reason_codes": ["POSSIBLE_ACS"],
+      "explanation_keys": ["chest_pain_with_cardiopulmonary_features"],
+      "safety_net_keys": ["seek_immediate_evaluation"]
+    }
+  ]
+}

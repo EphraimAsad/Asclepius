@@ -1,0 +1,15 @@
+{
+  "POSSIBLE_ACS": "Possible acute coronary syndrome - combination of symptoms suggests potential heart attack or unstable angina",
+  "ABNORMAL_TROPONIN": "Abnormal troponin level detected - may indicate heart muscle injury",
+  "TROPONIN_CHEST_PAIN": "Elevated troponin with chest pain symptoms",
+  "CARDIAC_ARREST": "Signs consistent with cardiac arrest - immediate life-threatening emergency",
+  "STROKE_SIGNS": "Signs consistent with stroke (FAST criteria) - time-critical emergency",
+  "SEVERE_RESPIRATORY_DISTRESS": "Severe difficulty breathing - potential respiratory or cardiac emergency",
+  "ANAPHYLAXIS": "Signs of severe allergic reaction (anaphylaxis) - life-threatening emergency",
+  "UNCONTROLLED_HEMORRHAGE": "Severe uncontrolled bleeding - potential life-threatening blood loss",
+  "SYNCOPE_UNRESPONSIVE": "Loss of consciousness or unresponsiveness - requires emergency evaluation",
+  "DIABETES_CARDIAC_RISK": "Diabetes present - increases risk of cardiac events and warrants more urgent evaluation",
+  "HYPERTENSION_RISK": "Hypertension present - increases cardiovascular risk",
+  "ELDERLY_RISK": "Age over 65 - increased risk for serious cardiac and vascular events",
+  "PRIOR_MI_RISK": "History of prior heart attack - significantly increases risk of recurrent cardiac events"
+}

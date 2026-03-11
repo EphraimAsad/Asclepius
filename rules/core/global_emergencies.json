@@ -1,0 +1,116 @@
+{
+  "global_emergency_rules": [
+    {
+      "id": "ge_cardiac_arrest",
+      "label": "Signs of cardiac arrest",
+      "join": "any",
+      "conditions": [
+        { "field": "symptoms.unresponsive", "operator": "is_true", "value": true },
+        { "field": "symptoms.not_breathing", "operator": "is_true", "value": true },
+        { "field": "symptoms.no_pulse", "operator": "is_true", "value": true }
+      ],
+      "disposition": "CALL_911",
+      "priority": "critical",
+      "reason_codes": ["CARDIAC_ARREST"],
+      "explanation_keys": ["cardiac_arrest_explanation"],
+      "safety_net_keys": ["call_911_immediately"]
+    },
+    {
+      "id": "ge_stroke_fast",
+      "label": "Signs of stroke (FAST criteria)",
+      "join": "any",
+      "conditions": [
+        { "field": "symptoms.facial_drooping", "operator": "is_true", "value": true },
+        { "field": "symptoms.arm_weakness_sudden", "operator": "is_true", "value": true },
+        { "field": "symptoms.speech_difficulty_sudden", "operator": "is_true", "value": true },
+        { "field": "symptoms.sudden_severe_headache", "operator": "is_true", "value": true },
+        { "field": "symptoms.sudden_vision_loss", "operator": "is_true", "value": true },
+        { "field": "symptoms.sudden_confusion", "operator": "is_true", "value": true }
+      ],
+      "disposition": "CALL_911",
+      "priority": "critical",
+      "reason_codes": ["STROKE_SIGNS"],
+      "explanation_keys": ["stroke_explanation"],
+      "safety_net_keys": ["call_911_immediately", "stroke_warning"]
+    },
+    {
+      "id": "ge_severe_breathing",
+      "label": "Severe breathing difficulty",
+      "join": "any",
+      "conditions": [
+        { "field": "symptoms.cannot_speak_full_sentences", "operator": "is_true", "value": true },
+        { "field": "symptoms.lips_turning_blue", "operator": "is_true", "value": true },
+        { "field": "symptoms.gasping_for_air", "operator": "is_true", "value": true },
+        { "field": "symptoms.choking", "operator": "is_true", "value": true }
+      ],
+      "disposition": "CALL_911",
+      "priority": "critical",
+      "reason_codes": ["SEVERE_RESPIRATORY_DISTRESS"],
+      "explanation_keys": ["severe_breathing_difficulty_explanation"],
+      "safety_net_keys": ["call_911_immediately"]
+    },
+    {
+      "id": "ge_anaphylaxis",
+      "label": "Signs of severe allergic reaction (anaphylaxis)",
+      "join": "all",
+      "conditions": [
+        { "field": "symptoms.known_allergen_exposure", "operator": "is_true", "value": true }
+      ],
+      "context_conditions": [
+        { "field": "symptoms.throat_swelling", "operator": "is_true", "value": true },
+        { "field": "symptoms.difficulty_breathing", "operator": "is_true", "value": true },
+        { "field": "symptoms.widespread_hives", "operator": "is_true", "value": true }
+      ],
+      "context_join": "any",
+      "disposition": "CALL_911",
+      "priority": "critical",
+      "reason_codes": ["ANAPHYLAXIS"],
+      "explanation_keys": ["anaphylaxis_explanation"],
+      "safety_net_keys": ["call_911_immediately", "allergy_warning"]
+    },
+    {
+      "id": "ge_uncontrolled_bleeding",
+      "label": "Severe uncontrolled bleeding",
+      "join": "any",
+      "conditions": [
+        { "field": "symptoms.bleeding_not_stopping", "operator": "is_true", "value": true },
+        { "field": "symptoms.spurting_blood", "operator": "is_true", "value": true },
+        { "field": "symptoms.soaking_through_bandages", "operator": "is_true", "value": true }
+      ],
+      "disposition": "CALL_911",
+      "priority": "critical",
+      "reason_codes": ["UNCONTROLLED_HEMORRHAGE"],
+      "explanation_keys": ["uncontrolled_bleeding_explanation"],
+      "safety_net_keys": ["call_911_immediately", "bleeding_warning"]
+    },
+    {
+      "id": "ge_loss_of_consciousness",
+      "label": "Sudden loss of consciousness",
+      "join": "any",
+      "conditions": [
+        { "field": "symptoms.lost_consciousness", "operator": "is_true", "value": true },
+        { "field": "symptoms.currently_unconscious", "operator": "is_true", "value": true }
+      ],
+      "disposition": "CALL_911",
+      "priority": "critical",
+      "reason_codes": ["SYNCOPE_UNRESPONSIVE"],
+      "explanation_keys": ["loss_of_consciousness_explanation"],
+      "safety_net_keys": ["call_911_immediately"]
+    },
+    {
+      "id": "ge_chest_pain_with_all_acs_signs",
+      "label": "Classic heart attack presentation",
+      "join": "all",
+      "conditions": [
+        { "field": "symptoms.chest_pressure", "operator": "is_true", "value": true },
+        { "field": "symptoms.radiation_to_arm_jaw_back", "operator": "is_true", "value": true },
+        { "field": "symptoms.sweating", "operator": "is_true", "value": true }
+      ],
+      "disposition": "CALL_911",
+      "priority": "critical",
+      "reason_codes": ["POSSIBLE_ACS"],
+      "explanation_keys": ["chest_pain_with_cardiopulmonary_features"],
+      "safety_net_keys": ["call_911_immediately"]
+    }
+  ]
+}

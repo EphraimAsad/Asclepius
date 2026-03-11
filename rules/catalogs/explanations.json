@@ -1,0 +1,58 @@
+{
+  "chest_pain_with_cardiopulmonary_features": {
+    "title": "Chest Pain with Cardiopulmonary Features",
+    "body": "Your symptoms include chest pressure combined with shortness of breath. This combination can indicate a serious cardiac or pulmonary condition that requires immediate medical evaluation. These symptoms together increase the concern for conditions like acute coronary syndrome or pulmonary embolism."
+  },
+  "possible_cardiac_injury": {
+    "title": "Possible Cardiac Injury Detected",
+    "body": "Your troponin level, combined with your symptoms, suggests possible damage to heart muscle. Troponin is a protein released when heart cells are injured. Elevated levels require immediate medical evaluation to determine the cause and appropriate treatment."
+  },
+  "troponin_description": {
+    "title": "About Troponin",
+    "body": "Troponin is a protein found in heart muscle cells. When the heart is damaged, troponin is released into the bloodstream. Measuring troponin levels helps doctors detect heart injury, including heart attacks."
+  },
+  "troponin_normal": {
+    "title": "Normal Troponin Level",
+    "body": "Your troponin level is within the normal reference range. This suggests no current evidence of heart muscle injury based on this test alone. However, if you are experiencing symptoms, continue to follow medical advice."
+  },
+  "troponin_high": {
+    "title": "Elevated Troponin Level",
+    "body": "Your troponin level is above the normal reference range. This may indicate some degree of heart muscle stress or injury. Further evaluation is recommended to determine the cause."
+  },
+  "troponin_critical_high": {
+    "title": "Critically Elevated Troponin",
+    "body": "Your troponin level is significantly elevated, which strongly suggests heart muscle injury. This requires immediate medical evaluation. Do not delay seeking care."
+  },
+  "cardiac_arrest_explanation": {
+    "title": "Signs of Cardiac Arrest",
+    "body": "The symptoms described indicate a possible cardiac arrest or life-threatening cardiac emergency. Immediate emergency response is critical. Call 911 immediately and begin CPR if the person is unresponsive and not breathing normally."
+  },
+  "stroke_explanation": {
+    "title": "Signs of Stroke",
+    "body": "The symptoms described may indicate a stroke. Time is critical in stroke treatment - every minute matters. Call 911 immediately. Remember FAST: Face drooping, Arm weakness, Speech difficulty, Time to call 911."
+  },
+  "severe_breathing_difficulty_explanation": {
+    "title": "Severe Breathing Difficulty",
+    "body": "Severe difficulty breathing is a medical emergency. This can indicate serious conditions affecting the heart, lungs, or airways. Immediate emergency care is needed."
+  },
+  "anaphylaxis_explanation": {
+    "title": "Signs of Severe Allergic Reaction",
+    "body": "The symptoms described suggest anaphylaxis, a severe and potentially life-threatening allergic reaction. This requires immediate emergency treatment with epinephrine. Call 911 immediately."
+  },
+  "uncontrolled_bleeding_explanation": {
+    "title": "Uncontrolled Bleeding",
+    "body": "Severe, uncontrolled bleeding is a medical emergency. Apply direct pressure to the wound and call 911 immediately. Significant blood loss can be life-threatening."
+  },
+  "loss_of_consciousness_explanation": {
+    "title": "Loss of Consciousness",
+    "body": "Sudden loss of consciousness requires immediate emergency evaluation. This can indicate serious conditions affecting the heart, brain, or other vital organs."
+  },
+  "diabetes_cardiac_risk_explanation": {
+    "title": "Diabetes Increases Cardiac Risk",
+    "body": "Diabetes is a significant risk factor for heart disease. Symptoms that might be less concerning in others warrant more urgent evaluation in people with diabetes."
+  },
+  "troponin_with_symptoms_explanation": {
+    "title": "Elevated Troponin with Symptoms",
+    "body": "The combination of elevated troponin and your current symptoms is concerning for a cardiac event. This requires immediate emergency evaluation."
+  }
+}

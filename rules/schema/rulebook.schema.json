@@ -1,0 +1,389 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://asclepius.local/schema/rulebook.schema.json",
+  "title": "Asclepius Rulebook Schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "engine_metadata",
+    "global_emergency_rules",
+    "risk_modifiers",
+    "triage_pathways",
+    "lab_tests",
+    "symptom_lab_escalation_rules",
+    "explanation_catalog",
+    "safety_net_catalog",
+    "reason_codes"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "engine_metadata": {
+      "$ref": "#/$defs/EngineMetadata"
+    },
+    "global_emergency_rules": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/DecisionRule" }
+    },
+    "risk_modifiers": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/RiskModifier" }
+    },
+    "triage_pathways": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/TriagePathway" }
+    },
+    "lab_tests": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/LabTest" }
+    },
+    "symptom_lab_escalation_rules": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/DecisionRule" }
+    },
+    "explanation_catalog": {
+      "type": "object",
+      "additionalProperties": { "$ref": "#/$defs/CatalogEntry" }
+    },
+    "safety_net_catalog": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "reason_codes": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  },
+  "$defs": {
+    "EngineMetadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "jurisdiction",
+        "intended_use",
+        "not_for"
+      ],
+      "properties": {
+        "name": { "type": "string", "minLength": 1 },
+        "jurisdiction": { "type": "string", "minLength": 1 },
+        "intended_use": { "type": "string", "minLength": 1 },
+        "not_for": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "CatalogEntry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["title", "body"],
+      "properties": {
+        "title": { "type": "string", "minLength": 1 },
+        "body": { "type": "string", "minLength": 1 }
+      }
+    },
+    "Condition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["field", "operator"],
+      "properties": {
+        "field": { "type": "string", "minLength": 1 },
+        "operator": {
+          "type": "string",
+          "enum": [
+            "eq",
+            "neq",
+            "gt",
+            "gte",
+            "lt",
+            "lte",
+            "in",
+            "not_in",
+            "contains",
+            "not_contains",
+            "exists",
+            "not_exists",
+            "between",
+            "is_true",
+            "is_false"
+          ]
+        },
+        "value": {},
+        "value_min": { "type": ["number", "integer", "string"] },
+        "value_max": { "type": ["number", "integer", "string"] }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": { "operator": { "const": "between" } },
+            "required": ["operator"]
+          },
+          "then": {
+            "required": ["value_min", "value_max"]
+          },
+          "else": {
+            "required": ["value"]
+          }
+        }
+      ]
+    },
+    "DecisionRule": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "label",
+        "join",
+        "conditions",
+        "disposition",
+        "priority",
+        "reason_codes",
+        "explanation_keys",
+        "safety_net_keys"
+      ],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "label": { "type": "string", "minLength": 1 },
+        "join": {
+          "type": "string",
+          "enum": ["all", "any"]
+        },
+        "conditions": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/Condition" }
+        },
+        "required_context": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/Condition" }
+        },
+        "context_conditions": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/Condition" }
+        },
+        "context_join": {
+          "type": "string",
+          "enum": ["all", "any"]
+        },
+        "disposition": {
+          "type": "string",
+          "enum": [
+            "CALL_911",
+            "ER_NOW",
+            "URGENT_CARE_TODAY",
+            "PRIMARY_CARE_24_72H",
+            "SELF_CARE"
+          ]
+        },
+        "priority": {
+          "type": "string",
+          "enum": ["critical", "high", "medium", "low"]
+        },
+        "reason_codes": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "explanation_keys": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "safety_net_keys": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "RiskModifier": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "label",
+        "join",
+        "conditions",
+        "effect",
+        "reason_codes"
+      ],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "label": { "type": "string", "minLength": 1 },
+        "join": {
+          "type": "string",
+          "enum": ["all", "any"]
+        },
+        "conditions": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/Condition" }
+        },
+        "effect": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["type"],
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": [
+                "escalate_disposition_by_one_level",
+                "force_minimum_disposition",
+                "append_reason_code",
+                "append_explanation_key"
+              ]
+            },
+            "max_disposition": {
+              "type": "string",
+              "enum": [
+                "CALL_911",
+                "ER_NOW",
+                "URGENT_CARE_TODAY",
+                "PRIMARY_CARE_24_72H",
+                "SELF_CARE"
+              ]
+            },
+            "minimum_disposition": {
+              "type": "string",
+              "enum": [
+                "CALL_911",
+                "ER_NOW",
+                "URGENT_CARE_TODAY",
+                "PRIMARY_CARE_24_72H",
+                "SELF_CARE"
+              ]
+            },
+            "reason_code": { "type": "string" },
+            "explanation_key": { "type": "string" }
+          }
+        },
+        "reason_codes": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "TriagePathway": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "pathway_id",
+        "display_name",
+        "chief_complaint_aliases",
+        "intake_fields",
+        "rules"
+      ],
+      "properties": {
+        "pathway_id": { "type": "string", "minLength": 1 },
+        "display_name": { "type": "string", "minLength": 1 },
+        "chief_complaint_aliases": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "intake_fields": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "rules": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/DecisionRule" }
+        }
+      }
+    },
+    "LabTest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "test_code",
+        "display_name",
+        "category",
+        "description_key",
+        "units",
+        "range_strategy",
+        "status_logic",
+        "interpretation",
+        "urgency_rules"
+      ],
+      "properties": {
+        "test_code": { "type": "string", "minLength": 1 },
+        "display_name": { "type": "string", "minLength": 1 },
+        "category": { "type": "string", "minLength": 1 },
+        "description_key": { "type": "string", "minLength": 1 },
+        "units": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "range_strategy": {
+          "type": "string",
+          "enum": [
+            "lab_reference_preferred",
+            "absolute_thresholds_only",
+            "sex_specific_thresholds",
+            "age_specific_thresholds"
+          ]
+        },
+        "status_logic": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["method"],
+          "properties": {
+            "method": {
+              "type": "string",
+              "enum": [
+                "flag_first_then_reference_range",
+                "reference_range_only",
+                "absolute_thresholds_only"
+              ]
+            },
+            "critical_low": { "$ref": "#/$defs/StatusThreshold" },
+            "low": { "$ref": "#/$defs/StatusThreshold" },
+            "high": { "$ref": "#/$defs/StatusThreshold" },
+            "critical_high": { "$ref": "#/$defs/StatusThreshold" }
+          }
+        },
+        "interpretation": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "critical_low_key": { "type": "string" },
+            "low_key": { "type": "string" },
+            "normal_key": { "type": "string" },
+            "high_key": { "type": "string" },
+            "critical_high_key": { "type": "string" }
+          }
+        },
+        "urgency_rules": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/DecisionRule" }
+        }
+      }
+    },
+    "StatusThreshold": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "properties": {
+        "use_reference_low": { "type": "boolean" },
+        "use_reference_high": { "type": "boolean" },
+        "absolute_threshold_by_unit": {
+          "type": "object",
+          "additionalProperties": {
+            "type": ["number", "integer"]
+          }
+        },
+        "multiplier_of_reference_high": {
+          "type": ["number", "integer"]
+        },
+        "multiplier_of_reference_low": {
+          "type": ["number", "integer"]
+        }
+      }
+    }
+  }
+}

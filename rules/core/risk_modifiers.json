@@ -1,0 +1,58 @@
+{
+  "risk_modifiers": [
+    {
+      "id": "rm_diabetes",
+      "label": "Diabetes increases cardiac risk",
+      "join": "all",
+      "conditions": [
+        { "field": "patient.comorbidities", "operator": "contains", "value": "diabetes" }
+      ],
+      "effect": {
+        "type": "escalate_disposition_by_one_level",
+        "max_disposition": "ER_NOW"
+      },
+      "reason_codes": ["DIABETES_CARDIAC_RISK"]
+    },
+    {
+      "id": "rm_prior_mi",
+      "label": "Prior heart attack increases risk",
+      "join": "all",
+      "conditions": [
+        { "field": "patient.comorbidities", "operator": "contains", "value": "prior_mi" }
+      ],
+      "effect": {
+        "type": "escalate_disposition_by_one_level",
+        "max_disposition": "ER_NOW"
+      },
+      "reason_codes": ["PRIOR_MI_RISK"]
+    },
+    {
+      "id": "rm_elderly_cardiac",
+      "label": "Age over 65 with cardiac symptoms",
+      "join": "all",
+      "conditions": [
+        { "field": "patient.age", "operator": "gte", "value": 65 },
+        { "field": "symptoms.chest_pressure", "operator": "is_true", "value": true }
+      ],
+      "effect": {
+        "type": "force_minimum_disposition",
+        "minimum_disposition": "URGENT_CARE_TODAY"
+      },
+      "reason_codes": ["ELDERLY_RISK"]
+    },
+    {
+      "id": "rm_hypertension_chest_pain",
+      "label": "Hypertension with chest pain",
+      "join": "all",
+      "conditions": [
+        { "field": "patient.comorbidities", "operator": "contains", "value": "hypertension" },
+        { "field": "symptoms.chest_pressure", "operator": "is_true", "value": true }
+      ],
+      "effect": {
+        "type": "append_reason_code",
+        "reason_code": "HYPERTENSION_RISK"
+      },
+      "reason_codes": ["HYPERTENSION_RISK"]
+    }
+  ]
+}

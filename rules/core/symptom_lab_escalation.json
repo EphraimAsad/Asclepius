@@ -1,0 +1,32 @@
+{
+  "symptom_lab_escalation_rules": [
+    {
+      "id": "sle_troponin_chest_pain",
+      "label": "Elevated troponin with chest pain symptoms",
+      "join": "all",
+      "conditions": [
+        { "field": "derived.lab_status.troponin", "operator": "in", "value": ["HIGH", "CRITICAL_HIGH"] },
+        { "field": "symptoms.chest_pressure", "operator": "is_true", "value": true }
+      ],
+      "disposition": "ER_NOW",
+      "priority": "critical",
+      "reason_codes": ["TROPONIN_CHEST_PAIN"],
+      "explanation_keys": ["troponin_with_symptoms_explanation"],
+      "safety_net_keys": ["call_911_immediately"]
+    },
+    {
+      "id": "sle_troponin_shortness_of_breath",
+      "label": "Elevated troponin with shortness of breath",
+      "join": "all",
+      "conditions": [
+        { "field": "derived.lab_status.troponin", "operator": "in", "value": ["HIGH", "CRITICAL_HIGH"] },
+        { "field": "symptoms.shortness_of_breath", "operator": "is_true", "value": true }
+      ],
+      "disposition": "ER_NOW",
+      "priority": "critical",
+      "reason_codes": ["TROPONIN_CHEST_PAIN"],
+      "explanation_keys": ["troponin_with_symptoms_explanation"],
+      "safety_net_keys": ["seek_immediate_evaluation"]
+    }
+  ]
+}
