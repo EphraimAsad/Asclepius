@@ -100,7 +100,7 @@ jobs:
         run: python scripts/compile_rules.py
 
       - name: Install frontend dependencies
-        run: npm ci
+        run: npm install
 
       - name: Install Playwright browsers
         run: npx playwright install --with-deps chromium
