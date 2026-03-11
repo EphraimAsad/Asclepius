@@ -1,0 +1,64 @@
+{
+  "test_code": "hematocrit",
+  "display_name": "Hematocrit",
+  "category": "hematology",
+  "description_key": "hematocrit_description",
+  "units": ["%"],
+  "range_strategy": "lab_reference_preferred",
+  "status_logic": {
+    "method": "flag_first_then_reference_range",
+    "critical_low": { "value": 20 },
+    "low": { "use_reference_low": true },
+    "high": { "use_reference_high": true },
+    "critical_high": { "value": 60 }
+  },
+  "interpretation": {
+    "critical_low_key": "hematocrit_critical_low",
+    "low_key": "hematocrit_low",
+    "normal_key": "hematocrit_normal",
+    "high_key": "hematocrit_high",
+    "critical_high_key": "hematocrit_critical_high"
+  },
+  "urgency_rules": [
+    {
+      "id": "hematocrit_critical_low",
+      "label": "Critically low hematocrit",
+      "join": "all",
+      "conditions": [
+        { "field": "derived.lab_status.hematocrit", "operator": "eq", "value": "CRITICAL_LOW" }
+      ],
+      "disposition": "ER_NOW",
+      "priority": "critical",
+      "reason_codes": ["SEVERE_ANEMIA"],
+      "explanation_keys": ["hematocrit_critical_low"],
+      "safety_net_keys": ["seek_immediate_evaluation"]
+    },
+    {
+      "id": "hematocrit_critical_high",
+      "label": "Critically high hematocrit",
+      "join": "all",
+      "conditions": [
+        { "field": "derived.lab_status.hematocrit", "operator": "eq", "value": "CRITICAL_HIGH" }
+      ],
+      "disposition": "ER_NOW",
+      "priority": "high",
+      "reason_codes": ["POLYCYTHEMIA"],
+      "explanation_keys": ["hematocrit_critical_high"],
+      "safety_net_keys": ["seek_immediate_evaluation"]
+    },
+    {
+      "id": "hematocrit_abnormal",
+      "label": "Abnormal hematocrit",
+      "join": "any",
+      "conditions": [
+        { "field": "derived.lab_status.hematocrit", "operator": "eq", "value": "LOW" },
+        { "field": "derived.lab_status.hematocrit", "operator": "eq", "value": "HIGH" }
+      ],
+      "disposition": "PRIMARY_CARE_24_72H",
+      "priority": "medium",
+      "reason_codes": ["ABNORMAL_HEMATOCRIT"],
+      "explanation_keys": ["hematocrit_abnormal"],
+      "safety_net_keys": ["follow_up_primary_care"]
+    }
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "test_code": "creatinine",
+  "display_name": "Creatinine",
+  "category": "renal",
+  "description_key": "creatinine_description",
+  "units": ["mg/dL", "umol/L"],
+  "range_strategy": "lab_reference_preferred",
+  "status_logic": {
+    "method": "flag_first_then_reference_range",
+    "critical_low": null,
+    "low": { "value": 0.5 },
+    "high": { "use_reference_high": true },
+    "critical_high": { "value": 10.0 }
+  },
+  "interpretation": {
+    "low_key": "creatinine_low",
+    "normal_key": "creatinine_normal",
+    "high_key": "creatinine_high",
+    "critical_high_key": "creatinine_critical_high"
+  },
+  "urgency_rules": [
+    {
+      "id": "creatinine_critical_high",
+      "label": "Severe kidney dysfunction",
+      "join": "all",
+      "conditions": [
+        { "field": "derived.lab_status.creatinine", "operator": "eq", "value": "CRITICAL_HIGH" }
+      ],
+      "disposition": "ER_NOW",
+      "priority": "critical",
+      "reason_codes": ["ACUTE_KIDNEY_INJURY"],
+      "explanation_keys": ["creatinine_critical_high"],
+      "safety_net_keys": ["seek_immediate_evaluation"]
+    },
+    {
+      "id": "creatinine_high_symptomatic",
+      "label": "Elevated creatinine with symptoms",
+      "join": "all",
+      "conditions": [
+        { "field": "derived.lab_status.creatinine", "operator": "eq", "value": "HIGH" },
+        { "field": "symptoms.decreased_urination", "operator": "is_true", "value": true }
+      ],
+      "disposition": "URGENT_CARE_TODAY",
+      "priority": "high",
+      "reason_codes": ["KIDNEY_DYSFUNCTION"],
+      "explanation_keys": ["creatinine_high"],
+      "safety_net_keys": ["monitor_symptoms", "return_if_worse"]
+    },
+    {
+      "id": "creatinine_high",
+      "label": "Elevated creatinine",
+      "join": "all",
+      "conditions": [
+        { "field": "derived.lab_status.creatinine", "operator": "eq", "value": "HIGH" }
+      ],
+      "disposition": "PRIMARY_CARE_24_72H",
+      "priority": "medium",
+      "reason_codes": ["ELEVATED_CREATININE"],
+      "explanation_keys": ["creatinine_high"],
+      "safety_net_keys": ["follow_up_primary_care"]
+    }
+  ]
+}

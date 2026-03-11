@@ -1,0 +1,86 @@
+{
+  "pathway_id": "nausea_vomiting",
+  "display_name": "Nausea/Vomiting",
+  "chief_complaint_aliases": ["nausea", "vomiting", "throwing_up", "sick_to_stomach", "queasy"],
+  "intake_fields": [
+    "symptoms.vomiting_blood",
+    "symptoms.severe_abdominal_pain",
+    "symptoms.inability_to_keep_fluids",
+    "symptoms.signs_of_dehydration",
+    "symptoms.headache",
+    "symptoms.stiff_neck",
+    "symptoms.fever",
+    "symptoms.diarrhea",
+    "symptoms.recent_head_injury"
+  ],
+  "rules": [
+    {
+      "id": "nv_gi_bleed",
+      "label": "Vomiting blood",
+      "join": "all",
+      "conditions": [
+        { "field": "symptoms.vomiting_blood", "operator": "is_true", "value": true }
+      ],
+      "disposition": "CALL_911",
+      "priority": "critical",
+      "reason_codes": ["GI_BLEEDING"],
+      "explanation_keys": ["nv_bleed_explanation"],
+      "safety_net_keys": ["call_911_immediately"]
+    },
+    {
+      "id": "nv_meningitis_signs",
+      "label": "Vomiting with meningitis signs",
+      "join": "all",
+      "conditions": [
+        { "field": "symptoms.headache", "operator": "is_true", "value": true },
+        { "field": "symptoms.stiff_neck", "operator": "is_true", "value": true }
+      ],
+      "disposition": "ER_NOW",
+      "priority": "critical",
+      "reason_codes": ["POSSIBLE_MENINGITIS"],
+      "explanation_keys": ["nv_meningitis_explanation"],
+      "safety_net_keys": ["seek_immediate_evaluation"]
+    },
+    {
+      "id": "nv_severe_dehydration",
+      "label": "Severe dehydration risk",
+      "join": "any",
+      "conditions": [
+        { "field": "symptoms.inability_to_keep_fluids", "operator": "is_true", "value": true },
+        { "field": "symptoms.signs_of_dehydration", "operator": "is_true", "value": true }
+      ],
+      "disposition": "URGENT_CARE_TODAY",
+      "priority": "high",
+      "reason_codes": ["DEHYDRATION_RISK"],
+      "explanation_keys": ["nv_dehydration_explanation"],
+      "safety_net_keys": ["monitor_symptoms", "seek_immediate_evaluation"]
+    },
+    {
+      "id": "nv_head_injury",
+      "label": "Vomiting after head injury",
+      "join": "all",
+      "conditions": [
+        { "field": "symptoms.recent_head_injury", "operator": "is_true", "value": true }
+      ],
+      "disposition": "URGENT_CARE_TODAY",
+      "priority": "high",
+      "reason_codes": ["POST_CONCUSSION"],
+      "explanation_keys": ["nv_head_injury_explanation"],
+      "safety_net_keys": ["monitor_symptoms", "return_if_worse"]
+    },
+    {
+      "id": "nv_viral_gastro",
+      "label": "Likely viral gastroenteritis",
+      "join": "all",
+      "conditions": [
+        { "field": "symptoms.diarrhea", "operator": "is_true", "value": true },
+        { "field": "symptoms.vomiting_blood", "operator": "is_false", "value": false }
+      ],
+      "disposition": "SELF_CARE",
+      "priority": "low",
+      "reason_codes": ["VIRAL_GASTRO"],
+      "explanation_keys": ["nv_viral_explanation"],
+      "safety_net_keys": ["self_care_instructions", "return_if_worse"]
+    }
+  ]
+}

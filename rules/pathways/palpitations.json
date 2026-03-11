@@ -1,0 +1,86 @@
+{
+  "pathway_id": "palpitations",
+  "display_name": "Heart Palpitations",
+  "chief_complaint_aliases": ["palpitations", "heart_racing", "heart_fluttering", "skipped_beats", "irregular_heartbeat"],
+  "intake_fields": [
+    "symptoms.chest_pain",
+    "symptoms.shortness_of_breath",
+    "symptoms.fainting",
+    "symptoms.dizziness",
+    "symptoms.prolonged_episode",
+    "symptoms.at_rest",
+    "symptoms.caffeine_use",
+    "symptoms.anxiety",
+    "symptoms.known_heart_condition"
+  ],
+  "rules": [
+    {
+      "id": "palp_with_syncope",
+      "label": "Palpitations with fainting",
+      "join": "all",
+      "conditions": [
+        { "field": "symptoms.fainting", "operator": "is_true", "value": true }
+      ],
+      "disposition": "CALL_911",
+      "priority": "critical",
+      "reason_codes": ["SYNCOPE_ARRHYTHMIA"],
+      "explanation_keys": ["palp_syncope_explanation"],
+      "safety_net_keys": ["call_911_immediately"]
+    },
+    {
+      "id": "palp_cardiac_symptoms",
+      "label": "Palpitations with cardiac symptoms",
+      "join": "any",
+      "conditions": [
+        { "field": "symptoms.chest_pain", "operator": "is_true", "value": true },
+        { "field": "symptoms.shortness_of_breath", "operator": "is_true", "value": true }
+      ],
+      "disposition": "ER_NOW",
+      "priority": "critical",
+      "reason_codes": ["PALPITATIONS_CARDIAC"],
+      "explanation_keys": ["palp_cardiac_explanation"],
+      "safety_net_keys": ["seek_immediate_evaluation"]
+    },
+    {
+      "id": "palp_prolonged",
+      "label": "Prolonged palpitation episode",
+      "join": "all",
+      "conditions": [
+        { "field": "symptoms.prolonged_episode", "operator": "is_true", "value": true },
+        { "field": "symptoms.at_rest", "operator": "is_true", "value": true }
+      ],
+      "disposition": "URGENT_CARE_TODAY",
+      "priority": "high",
+      "reason_codes": ["PROLONGED_ARRHYTHMIA"],
+      "explanation_keys": ["palp_prolonged_explanation"],
+      "safety_net_keys": ["monitor_symptoms", "return_if_worse"]
+    },
+    {
+      "id": "palp_known_condition",
+      "label": "Palpitations in known heart patient",
+      "join": "all",
+      "conditions": [
+        { "field": "symptoms.known_heart_condition", "operator": "is_true", "value": true }
+      ],
+      "disposition": "URGENT_CARE_TODAY",
+      "priority": "medium",
+      "reason_codes": ["PALPITATIONS_KNOWN_CARDIAC"],
+      "explanation_keys": ["palp_known_explanation"],
+      "safety_net_keys": ["follow_up_primary_care", "return_if_worse"]
+    },
+    {
+      "id": "palp_benign",
+      "label": "Likely benign palpitations",
+      "join": "all",
+      "conditions": [
+        { "field": "symptoms.caffeine_use", "operator": "is_true", "value": true },
+        { "field": "symptoms.chest_pain", "operator": "is_false", "value": false }
+      ],
+      "disposition": "PRIMARY_CARE_24_72H",
+      "priority": "low",
+      "reason_codes": ["BENIGN_PALPITATIONS"],
+      "explanation_keys": ["palp_benign_explanation"],
+      "safety_net_keys": ["follow_up_primary_care", "return_if_worse"]
+    }
+  ]
+}

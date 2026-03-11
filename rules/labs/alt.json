@@ -1,0 +1,62 @@
+{
+  "test_code": "alt",
+  "display_name": "ALT (SGPT)",
+  "category": "liver",
+  "description_key": "alt_description",
+  "units": ["U/L", "IU/L"],
+  "range_strategy": "lab_reference_preferred",
+  "status_logic": {
+    "method": "flag_first_then_reference_range",
+    "critical_low": null,
+    "low": null,
+    "high": { "use_reference_high": true },
+    "critical_high": { "multiplier_of_reference_high": 10 }
+  },
+  "interpretation": {
+    "normal_key": "alt_normal",
+    "high_key": "alt_high",
+    "critical_high_key": "alt_critical_high"
+  },
+  "urgency_rules": [
+    {
+      "id": "alt_critical_high",
+      "label": "Severely elevated ALT",
+      "join": "all",
+      "conditions": [
+        { "field": "derived.lab_status.alt", "operator": "eq", "value": "CRITICAL_HIGH" }
+      ],
+      "disposition": "ER_NOW",
+      "priority": "high",
+      "reason_codes": ["SEVERE_LIVER_INJURY"],
+      "explanation_keys": ["alt_critical_high"],
+      "safety_net_keys": ["seek_immediate_evaluation"]
+    },
+    {
+      "id": "alt_high_symptomatic",
+      "label": "Elevated ALT with symptoms",
+      "join": "all",
+      "conditions": [
+        { "field": "derived.lab_status.alt", "operator": "eq", "value": "HIGH" },
+        { "field": "symptoms.abdominal_pain", "operator": "is_true", "value": true }
+      ],
+      "disposition": "URGENT_CARE_TODAY",
+      "priority": "high",
+      "reason_codes": ["LIVER_DYSFUNCTION"],
+      "explanation_keys": ["alt_high"],
+      "safety_net_keys": ["monitor_symptoms", "return_if_worse"]
+    },
+    {
+      "id": "alt_high",
+      "label": "Elevated ALT",
+      "join": "all",
+      "conditions": [
+        { "field": "derived.lab_status.alt", "operator": "eq", "value": "HIGH" }
+      ],
+      "disposition": "PRIMARY_CARE_24_72H",
+      "priority": "medium",
+      "reason_codes": ["ELEVATED_ALT"],
+      "explanation_keys": ["alt_high"],
+      "safety_net_keys": ["follow_up_primary_care"]
+    }
+  ]
+}

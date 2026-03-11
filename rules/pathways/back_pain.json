@@ -1,0 +1,88 @@
+{
+  "pathway_id": "back_pain",
+  "display_name": "Back Pain",
+  "chief_complaint_aliases": ["back_pain", "backache", "lower_back_pain", "spine_pain"],
+  "intake_fields": [
+    "symptoms.severe_pain",
+    "symptoms.sudden_onset",
+    "symptoms.leg_weakness",
+    "symptoms.bowel_bladder_changes",
+    "symptoms.numbness_legs",
+    "symptoms.fever",
+    "symptoms.recent_trauma",
+    "symptoms.pain_radiating_leg",
+    "symptoms.worse_at_night"
+  ],
+  "rules": [
+    {
+      "id": "back_cauda_equina",
+      "label": "Possible cauda equina syndrome",
+      "join": "any",
+      "conditions": [
+        { "field": "symptoms.bowel_bladder_changes", "operator": "is_true", "value": true },
+        { "field": "symptoms.leg_weakness", "operator": "is_true", "value": true }
+      ],
+      "disposition": "ER_NOW",
+      "priority": "critical",
+      "reason_codes": ["CAUDA_EQUINA_SIGNS"],
+      "explanation_keys": ["back_cauda_explanation"],
+      "safety_net_keys": ["seek_immediate_evaluation"]
+    },
+    {
+      "id": "back_infection_signs",
+      "label": "Back pain with infection signs",
+      "join": "all",
+      "conditions": [
+        { "field": "symptoms.fever", "operator": "is_true", "value": true },
+        { "field": "symptoms.severe_pain", "operator": "is_true", "value": true }
+      ],
+      "disposition": "ER_NOW",
+      "priority": "high",
+      "reason_codes": ["BACK_INFECTION_CONCERN"],
+      "explanation_keys": ["back_infection_explanation"],
+      "safety_net_keys": ["seek_immediate_evaluation"]
+    },
+    {
+      "id": "back_trauma",
+      "label": "Back pain after trauma",
+      "join": "all",
+      "conditions": [
+        { "field": "symptoms.recent_trauma", "operator": "is_true", "value": true },
+        { "field": "symptoms.severe_pain", "operator": "is_true", "value": true }
+      ],
+      "disposition": "URGENT_CARE_TODAY",
+      "priority": "medium",
+      "reason_codes": ["BACK_TRAUMA"],
+      "explanation_keys": ["back_trauma_explanation"],
+      "safety_net_keys": ["monitor_symptoms", "return_if_worse"]
+    },
+    {
+      "id": "back_radiculopathy",
+      "label": "Back pain with nerve symptoms",
+      "join": "any",
+      "conditions": [
+        { "field": "symptoms.pain_radiating_leg", "operator": "is_true", "value": true },
+        { "field": "symptoms.numbness_legs", "operator": "is_true", "value": true }
+      ],
+      "disposition": "PRIMARY_CARE_24_72H",
+      "priority": "medium",
+      "reason_codes": ["RADICULOPATHY"],
+      "explanation_keys": ["back_radiculopathy_explanation"],
+      "safety_net_keys": ["follow_up_primary_care", "return_if_worse"]
+    },
+    {
+      "id": "back_mechanical",
+      "label": "Mechanical back pain",
+      "join": "all",
+      "conditions": [
+        { "field": "symptoms.severe_pain", "operator": "is_false", "value": false },
+        { "field": "symptoms.fever", "operator": "is_false", "value": false }
+      ],
+      "disposition": "SELF_CARE",
+      "priority": "low",
+      "reason_codes": ["MECHANICAL_BACK_PAIN"],
+      "explanation_keys": ["back_mechanical_explanation"],
+      "safety_net_keys": ["self_care_instructions", "return_if_worse"]
+    }
+  ]
+}

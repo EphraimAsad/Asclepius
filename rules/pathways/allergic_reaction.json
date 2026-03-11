@@ -1,0 +1,89 @@
+{
+  "pathway_id": "allergic_reaction",
+  "display_name": "Allergic Reaction",
+  "chief_complaint_aliases": ["allergic_reaction", "allergy", "hives", "swelling", "anaphylaxis"],
+  "intake_fields": [
+    "symptoms.difficulty_breathing",
+    "symptoms.throat_tightness",
+    "symptoms.tongue_swelling",
+    "symptoms.face_swelling",
+    "symptoms.widespread_hives",
+    "symptoms.dizziness",
+    "symptoms.nausea_vomiting",
+    "symptoms.known_allergen",
+    "symptoms.has_epipen"
+  ],
+  "rules": [
+    {
+      "id": "allergy_anaphylaxis",
+      "label": "Anaphylaxis",
+      "join": "any",
+      "conditions": [
+        { "field": "symptoms.difficulty_breathing", "operator": "is_true", "value": true },
+        { "field": "symptoms.throat_tightness", "operator": "is_true", "value": true },
+        { "field": "symptoms.tongue_swelling", "operator": "is_true", "value": true }
+      ],
+      "disposition": "CALL_911",
+      "priority": "critical",
+      "reason_codes": ["ANAPHYLAXIS"],
+      "explanation_keys": ["allergy_anaphylaxis_explanation"],
+      "safety_net_keys": ["call_911_immediately", "use_epipen"]
+    },
+    {
+      "id": "allergy_severe",
+      "label": "Severe allergic reaction",
+      "join": "any",
+      "conditions": [
+        { "field": "symptoms.face_swelling", "operator": "is_true", "value": true },
+        { "field": "symptoms.dizziness", "operator": "is_true", "value": true }
+      ],
+      "disposition": "ER_NOW",
+      "priority": "critical",
+      "reason_codes": ["SEVERE_ALLERGY"],
+      "explanation_keys": ["allergy_severe_explanation"],
+      "safety_net_keys": ["seek_immediate_evaluation"]
+    },
+    {
+      "id": "allergy_progressive",
+      "label": "Progressive allergic reaction",
+      "join": "all",
+      "conditions": [
+        { "field": "symptoms.widespread_hives", "operator": "is_true", "value": true },
+        { "field": "symptoms.nausea_vomiting", "operator": "is_true", "value": true }
+      ],
+      "disposition": "URGENT_CARE_TODAY",
+      "priority": "high",
+      "reason_codes": ["PROGRESSIVE_ALLERGY"],
+      "explanation_keys": ["allergy_progressive_explanation"],
+      "safety_net_keys": ["monitor_symptoms", "return_if_worse"]
+    },
+    {
+      "id": "allergy_hives",
+      "label": "Hives without systemic symptoms",
+      "join": "all",
+      "conditions": [
+        { "field": "symptoms.widespread_hives", "operator": "is_true", "value": true },
+        { "field": "symptoms.difficulty_breathing", "operator": "is_false", "value": false }
+      ],
+      "disposition": "PRIMARY_CARE_24_72H",
+      "priority": "medium",
+      "reason_codes": ["URTICARIA"],
+      "explanation_keys": ["allergy_hives_explanation"],
+      "safety_net_keys": ["follow_up_primary_care", "return_if_worse"]
+    },
+    {
+      "id": "allergy_mild",
+      "label": "Mild allergic reaction",
+      "join": "all",
+      "conditions": [
+        { "field": "symptoms.known_allergen", "operator": "is_true", "value": true },
+        { "field": "symptoms.difficulty_breathing", "operator": "is_false", "value": false }
+      ],
+      "disposition": "SELF_CARE",
+      "priority": "low",
+      "reason_codes": ["MILD_ALLERGY"],
+      "explanation_keys": ["allergy_mild_explanation"],
+      "safety_net_keys": ["self_care_instructions", "return_if_worse"]
+    }
+  ]
+}

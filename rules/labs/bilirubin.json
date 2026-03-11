@@ -1,0 +1,62 @@
+{
+  "test_code": "bilirubin",
+  "display_name": "Total Bilirubin",
+  "category": "liver",
+  "description_key": "bilirubin_description",
+  "units": ["mg/dL", "umol/L"],
+  "range_strategy": "lab_reference_preferred",
+  "status_logic": {
+    "method": "flag_first_then_reference_range",
+    "critical_low": null,
+    "low": null,
+    "high": { "value": 1.2 },
+    "critical_high": { "value": 10.0 }
+  },
+  "interpretation": {
+    "normal_key": "bilirubin_normal",
+    "high_key": "bilirubin_high",
+    "critical_high_key": "bilirubin_critical_high"
+  },
+  "urgency_rules": [
+    {
+      "id": "bilirubin_critical_high",
+      "label": "Severe hyperbilirubinemia",
+      "join": "all",
+      "conditions": [
+        { "field": "derived.lab_status.bilirubin", "operator": "eq", "value": "CRITICAL_HIGH" }
+      ],
+      "disposition": "ER_NOW",
+      "priority": "high",
+      "reason_codes": ["SEVERE_JAUNDICE"],
+      "explanation_keys": ["bilirubin_critical_high"],
+      "safety_net_keys": ["seek_immediate_evaluation"]
+    },
+    {
+      "id": "bilirubin_high_symptomatic",
+      "label": "Elevated bilirubin with symptoms",
+      "join": "all",
+      "conditions": [
+        { "field": "derived.lab_status.bilirubin", "operator": "eq", "value": "HIGH" },
+        { "field": "symptoms.abdominal_pain", "operator": "is_true", "value": true }
+      ],
+      "disposition": "URGENT_CARE_TODAY",
+      "priority": "high",
+      "reason_codes": ["JAUNDICE_SYMPTOMATIC"],
+      "explanation_keys": ["bilirubin_high"],
+      "safety_net_keys": ["monitor_symptoms", "return_if_worse"]
+    },
+    {
+      "id": "bilirubin_high",
+      "label": "Elevated bilirubin",
+      "join": "all",
+      "conditions": [
+        { "field": "derived.lab_status.bilirubin", "operator": "eq", "value": "HIGH" }
+      ],
+      "disposition": "PRIMARY_CARE_24_72H",
+      "priority": "medium",
+      "reason_codes": ["ELEVATED_BILIRUBIN"],
+      "explanation_keys": ["bilirubin_high"],
+      "safety_net_keys": ["follow_up_primary_care"]
+    }
+  ]
+}

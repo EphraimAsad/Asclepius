@@ -1,0 +1,89 @@
+{
+  "pathway_id": "joint_pain",
+  "display_name": "Joint Pain",
+  "chief_complaint_aliases": ["joint_pain", "arthritis", "knee_pain", "shoulder_pain", "swollen_joint"],
+  "intake_fields": [
+    "symptoms.fever",
+    "symptoms.single_joint_swelling",
+    "symptoms.redness_warmth",
+    "symptoms.recent_injury",
+    "symptoms.multiple_joints",
+    "symptoms.morning_stiffness",
+    "symptoms.rash",
+    "symptoms.unable_to_bear_weight",
+    "symptoms.recent_infection"
+  ],
+  "rules": [
+    {
+      "id": "joint_septic",
+      "label": "Possible septic joint",
+      "join": "all",
+      "conditions": [
+        { "field": "symptoms.fever", "operator": "is_true", "value": true },
+        { "field": "symptoms.single_joint_swelling", "operator": "is_true", "value": true },
+        { "field": "symptoms.redness_warmth", "operator": "is_true", "value": true }
+      ],
+      "disposition": "ER_NOW",
+      "priority": "critical",
+      "reason_codes": ["SEPTIC_JOINT"],
+      "explanation_keys": ["joint_septic_explanation"],
+      "safety_net_keys": ["seek_immediate_evaluation"]
+    },
+    {
+      "id": "joint_fracture_concern",
+      "label": "Joint injury with inability to bear weight",
+      "join": "all",
+      "conditions": [
+        { "field": "symptoms.recent_injury", "operator": "is_true", "value": true },
+        { "field": "symptoms.unable_to_bear_weight", "operator": "is_true", "value": true }
+      ],
+      "disposition": "URGENT_CARE_TODAY",
+      "priority": "high",
+      "reason_codes": ["POSSIBLE_FRACTURE"],
+      "explanation_keys": ["joint_fracture_explanation"],
+      "safety_net_keys": ["monitor_symptoms", "return_if_worse"]
+    },
+    {
+      "id": "joint_gout_flare",
+      "label": "Acute joint inflammation",
+      "join": "all",
+      "conditions": [
+        { "field": "symptoms.single_joint_swelling", "operator": "is_true", "value": true },
+        { "field": "symptoms.redness_warmth", "operator": "is_true", "value": true }
+      ],
+      "disposition": "URGENT_CARE_TODAY",
+      "priority": "medium",
+      "reason_codes": ["ACUTE_ARTHRITIS"],
+      "explanation_keys": ["joint_gout_explanation"],
+      "safety_net_keys": ["monitor_symptoms", "return_if_worse"]
+    },
+    {
+      "id": "joint_inflammatory",
+      "label": "Inflammatory arthritis pattern",
+      "join": "all",
+      "conditions": [
+        { "field": "symptoms.multiple_joints", "operator": "is_true", "value": true },
+        { "field": "symptoms.morning_stiffness", "operator": "is_true", "value": true }
+      ],
+      "disposition": "PRIMARY_CARE_24_72H",
+      "priority": "medium",
+      "reason_codes": ["INFLAMMATORY_ARTHRITIS"],
+      "explanation_keys": ["joint_inflammatory_explanation"],
+      "safety_net_keys": ["follow_up_primary_care"]
+    },
+    {
+      "id": "joint_mechanical",
+      "label": "Mechanical joint pain",
+      "join": "all",
+      "conditions": [
+        { "field": "symptoms.fever", "operator": "is_false", "value": false },
+        { "field": "symptoms.single_joint_swelling", "operator": "is_false", "value": false }
+      ],
+      "disposition": "SELF_CARE",
+      "priority": "low",
+      "reason_codes": ["MECHANICAL_JOINT_PAIN"],
+      "explanation_keys": ["joint_mechanical_explanation"],
+      "safety_net_keys": ["self_care_instructions", "return_if_worse"]
+    }
+  ]
+}

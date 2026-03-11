@@ -1,0 +1,88 @@
+{
+  "pathway_id": "skin_rash",
+  "display_name": "Skin Rash",
+  "chief_complaint_aliases": ["skin_rash", "rash", "hives", "itching", "skin_lesion"],
+  "intake_fields": [
+    "symptoms.difficulty_breathing",
+    "symptoms.swelling_face_throat",
+    "symptoms.fever",
+    "symptoms.spreading_rapidly",
+    "symptoms.painful_rash",
+    "symptoms.blistering",
+    "symptoms.petechiae",
+    "symptoms.itching",
+    "symptoms.recent_new_medication"
+  ],
+  "rules": [
+    {
+      "id": "rash_anaphylaxis",
+      "label": "Rash with anaphylaxis signs",
+      "join": "any",
+      "conditions": [
+        { "field": "symptoms.difficulty_breathing", "operator": "is_true", "value": true },
+        { "field": "symptoms.swelling_face_throat", "operator": "is_true", "value": true }
+      ],
+      "disposition": "CALL_911",
+      "priority": "critical",
+      "reason_codes": ["ANAPHYLAXIS"],
+      "explanation_keys": ["rash_anaphylaxis_explanation"],
+      "safety_net_keys": ["call_911_immediately", "use_epipen"]
+    },
+    {
+      "id": "rash_meningococcal",
+      "label": "Rash with meningitis concern",
+      "join": "all",
+      "conditions": [
+        { "field": "symptoms.fever", "operator": "is_true", "value": true },
+        { "field": "symptoms.petechiae", "operator": "is_true", "value": true }
+      ],
+      "disposition": "CALL_911",
+      "priority": "critical",
+      "reason_codes": ["MENINGOCOCCAL_CONCERN"],
+      "explanation_keys": ["rash_meningococcal_explanation"],
+      "safety_net_keys": ["call_911_immediately"]
+    },
+    {
+      "id": "rash_severe_reaction",
+      "label": "Severe skin reaction",
+      "join": "any",
+      "conditions": [
+        { "field": "symptoms.blistering", "operator": "is_true", "value": true },
+        { "field": "symptoms.painful_rash", "operator": "is_true", "value": true }
+      ],
+      "disposition": "ER_NOW",
+      "priority": "high",
+      "reason_codes": ["SEVERE_SKIN_REACTION"],
+      "explanation_keys": ["rash_severe_explanation"],
+      "safety_net_keys": ["seek_immediate_evaluation"]
+    },
+    {
+      "id": "rash_spreading_fever",
+      "label": "Spreading rash with fever",
+      "join": "all",
+      "conditions": [
+        { "field": "symptoms.spreading_rapidly", "operator": "is_true", "value": true },
+        { "field": "symptoms.fever", "operator": "is_true", "value": true }
+      ],
+      "disposition": "URGENT_CARE_TODAY",
+      "priority": "medium",
+      "reason_codes": ["SPREADING_RASH"],
+      "explanation_keys": ["rash_spreading_explanation"],
+      "safety_net_keys": ["monitor_symptoms", "return_if_worse"]
+    },
+    {
+      "id": "rash_mild",
+      "label": "Mild rash without systemic symptoms",
+      "join": "all",
+      "conditions": [
+        { "field": "symptoms.itching", "operator": "is_true", "value": true },
+        { "field": "symptoms.fever", "operator": "is_false", "value": false }
+      ],
+      "disposition": "PRIMARY_CARE_24_72H",
+      "priority": "low",
+      "reason_codes": ["MILD_RASH"],
+      "explanation_keys": ["rash_mild_explanation"],
+      "safety_net_keys": ["follow_up_primary_care", "return_if_worse"]
+    }
+  ]
+}

@@ -1,0 +1,86 @@
+{
+  "pathway_id": "fatigue",
+  "display_name": "Fatigue/Weakness",
+  "chief_complaint_aliases": ["fatigue", "tired", "weakness", "exhausted", "no_energy", "lethargy"],
+  "intake_fields": [
+    "symptoms.sudden_onset",
+    "symptoms.chest_pain",
+    "symptoms.shortness_of_breath",
+    "symptoms.one_sided_weakness",
+    "symptoms.slurred_speech",
+    "symptoms.weight_loss",
+    "symptoms.fever",
+    "symptoms.depression_symptoms",
+    "symptoms.duration_weeks"
+  ],
+  "rules": [
+    {
+      "id": "fatigue_stroke_signs",
+      "label": "Weakness with stroke signs",
+      "join": "any",
+      "conditions": [
+        { "field": "symptoms.one_sided_weakness", "operator": "is_true", "value": true },
+        { "field": "symptoms.slurred_speech", "operator": "is_true", "value": true }
+      ],
+      "disposition": "CALL_911",
+      "priority": "critical",
+      "reason_codes": ["STROKE_SIGNS"],
+      "explanation_keys": ["fatigue_stroke_explanation"],
+      "safety_net_keys": ["call_911_immediately"]
+    },
+    {
+      "id": "fatigue_cardiac_symptoms",
+      "label": "Fatigue with cardiac symptoms",
+      "join": "any",
+      "conditions": [
+        { "field": "symptoms.chest_pain", "operator": "is_true", "value": true },
+        { "field": "symptoms.shortness_of_breath", "operator": "is_true", "value": true }
+      ],
+      "disposition": "ER_NOW",
+      "priority": "critical",
+      "reason_codes": ["CARDIAC_CONCERN"],
+      "explanation_keys": ["fatigue_cardiac_explanation"],
+      "safety_net_keys": ["seek_immediate_evaluation"]
+    },
+    {
+      "id": "fatigue_infection",
+      "label": "Fatigue with fever",
+      "join": "all",
+      "conditions": [
+        { "field": "symptoms.fever", "operator": "is_true", "value": true }
+      ],
+      "disposition": "URGENT_CARE_TODAY",
+      "priority": "medium",
+      "reason_codes": ["FATIGUE_INFECTION"],
+      "explanation_keys": ["fatigue_infection_explanation"],
+      "safety_net_keys": ["monitor_symptoms", "return_if_worse"]
+    },
+    {
+      "id": "fatigue_weight_loss",
+      "label": "Fatigue with unintentional weight loss",
+      "join": "all",
+      "conditions": [
+        { "field": "symptoms.weight_loss", "operator": "is_true", "value": true }
+      ],
+      "disposition": "PRIMARY_CARE_24_72H",
+      "priority": "medium",
+      "reason_codes": ["UNEXPLAINED_WEIGHT_LOSS"],
+      "explanation_keys": ["fatigue_weight_loss_explanation"],
+      "safety_net_keys": ["follow_up_primary_care"]
+    },
+    {
+      "id": "fatigue_chronic",
+      "label": "Chronic fatigue",
+      "join": "all",
+      "conditions": [
+        { "field": "symptoms.duration_weeks", "operator": "is_true", "value": true },
+        { "field": "symptoms.fever", "operator": "is_false", "value": false }
+      ],
+      "disposition": "PRIMARY_CARE_24_72H",
+      "priority": "low",
+      "reason_codes": ["CHRONIC_FATIGUE"],
+      "explanation_keys": ["fatigue_chronic_explanation"],
+      "safety_net_keys": ["follow_up_primary_care", "return_if_worse"]
+    }
+  ]
+}

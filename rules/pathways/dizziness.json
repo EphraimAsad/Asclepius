@@ -1,0 +1,87 @@
+{
+  "pathway_id": "dizziness",
+  "display_name": "Dizziness/Vertigo",
+  "chief_complaint_aliases": ["dizziness", "vertigo", "lightheaded", "room_spinning", "dizzy"],
+  "intake_fields": [
+    "symptoms.room_spinning",
+    "symptoms.fainting",
+    "symptoms.chest_pain",
+    "symptoms.shortness_of_breath",
+    "symptoms.slurred_speech",
+    "symptoms.weakness_one_side",
+    "symptoms.hearing_loss",
+    "symptoms.nausea",
+    "symptoms.worse_with_position"
+  ],
+  "rules": [
+    {
+      "id": "diz_stroke_signs",
+      "label": "Dizziness with stroke signs",
+      "join": "any",
+      "conditions": [
+        { "field": "symptoms.slurred_speech", "operator": "is_true", "value": true },
+        { "field": "symptoms.weakness_one_side", "operator": "is_true", "value": true }
+      ],
+      "disposition": "CALL_911",
+      "priority": "critical",
+      "reason_codes": ["DIZZINESS_STROKE_SIGNS"],
+      "explanation_keys": ["diz_stroke_explanation"],
+      "safety_net_keys": ["call_911_immediately", "stroke_warning"]
+    },
+    {
+      "id": "diz_cardiac_symptoms",
+      "label": "Dizziness with cardiac symptoms",
+      "join": "any",
+      "conditions": [
+        { "field": "symptoms.chest_pain", "operator": "is_true", "value": true },
+        { "field": "symptoms.shortness_of_breath", "operator": "is_true", "value": true }
+      ],
+      "disposition": "ER_NOW",
+      "priority": "critical",
+      "reason_codes": ["DIZZINESS_CARDIAC"],
+      "explanation_keys": ["diz_cardiac_explanation"],
+      "safety_net_keys": ["seek_immediate_evaluation"]
+    },
+    {
+      "id": "diz_syncope",
+      "label": "Dizziness with fainting",
+      "join": "all",
+      "conditions": [
+        { "field": "symptoms.fainting", "operator": "is_true", "value": true }
+      ],
+      "disposition": "ER_NOW",
+      "priority": "high",
+      "reason_codes": ["SYNCOPE"],
+      "explanation_keys": ["diz_syncope_explanation"],
+      "safety_net_keys": ["seek_immediate_evaluation"]
+    },
+    {
+      "id": "diz_vertigo_hearing",
+      "label": "Vertigo with hearing changes",
+      "join": "all",
+      "conditions": [
+        { "field": "symptoms.room_spinning", "operator": "is_true", "value": true },
+        { "field": "symptoms.hearing_loss", "operator": "is_true", "value": true }
+      ],
+      "disposition": "URGENT_CARE_TODAY",
+      "priority": "medium",
+      "reason_codes": ["VERTIGO_HEARING"],
+      "explanation_keys": ["diz_vertigo_explanation"],
+      "safety_net_keys": ["monitor_symptoms", "return_if_worse"]
+    },
+    {
+      "id": "diz_positional",
+      "label": "Positional dizziness",
+      "join": "all",
+      "conditions": [
+        { "field": "symptoms.worse_with_position", "operator": "is_true", "value": true },
+        { "field": "symptoms.room_spinning", "operator": "is_true", "value": true }
+      ],
+      "disposition": "PRIMARY_CARE_24_72H",
+      "priority": "low",
+      "reason_codes": ["POSITIONAL_VERTIGO"],
+      "explanation_keys": ["diz_positional_explanation"],
+      "safety_net_keys": ["follow_up_primary_care"]
+    }
+  ]
+}

@@ -1,0 +1,88 @@
+{
+  "pathway_id": "shortness_of_breath",
+  "display_name": "Shortness of Breath",
+  "chief_complaint_aliases": ["shortness_of_breath", "difficulty_breathing", "cant_breathe", "breathless", "dyspnea"],
+  "intake_fields": [
+    "symptoms.sob_at_rest",
+    "symptoms.sob_with_exertion",
+    "symptoms.sudden_onset",
+    "symptoms.chest_pain",
+    "symptoms.wheezing",
+    "symptoms.cough",
+    "symptoms.fever",
+    "symptoms.leg_swelling"
+  ],
+  "rules": [
+    {
+      "id": "sob_severe_distress",
+      "label": "Severe respiratory distress",
+      "join": "any",
+      "conditions": [
+        { "field": "symptoms.cant_speak_sentences", "operator": "is_true", "value": true },
+        { "field": "symptoms.blue_lips", "operator": "is_true", "value": true },
+        { "field": "symptoms.confused", "operator": "is_true", "value": true }
+      ],
+      "disposition": "CALL_911",
+      "priority": "critical",
+      "reason_codes": ["SEVERE_RESPIRATORY_DISTRESS"],
+      "explanation_keys": ["sob_severe_explanation"],
+      "safety_net_keys": ["call_911_immediately"]
+    },
+    {
+      "id": "sob_with_chest_pain",
+      "label": "Shortness of breath with chest pain",
+      "join": "all",
+      "conditions": [
+        { "field": "symptoms.sob_at_rest", "operator": "is_true", "value": true },
+        { "field": "symptoms.chest_pain", "operator": "is_true", "value": true }
+      ],
+      "disposition": "ER_NOW",
+      "priority": "critical",
+      "reason_codes": ["SOB_CHEST_PAIN"],
+      "explanation_keys": ["sob_chest_pain_explanation"],
+      "safety_net_keys": ["seek_immediate_evaluation"]
+    },
+    {
+      "id": "sob_sudden_onset",
+      "label": "Sudden onset shortness of breath",
+      "join": "all",
+      "conditions": [
+        { "field": "symptoms.sudden_onset", "operator": "is_true", "value": true },
+        { "field": "symptoms.sob_at_rest", "operator": "is_true", "value": true }
+      ],
+      "disposition": "ER_NOW",
+      "priority": "high",
+      "reason_codes": ["SUDDEN_SOB"],
+      "explanation_keys": ["sob_sudden_explanation"],
+      "safety_net_keys": ["seek_immediate_evaluation"]
+    },
+    {
+      "id": "sob_with_fever",
+      "label": "Shortness of breath with fever",
+      "join": "all",
+      "conditions": [
+        { "field": "symptoms.sob_with_exertion", "operator": "is_true", "value": true },
+        { "field": "symptoms.fever", "operator": "is_true", "value": true }
+      ],
+      "disposition": "URGENT_CARE_TODAY",
+      "priority": "medium",
+      "reason_codes": ["SOB_FEVER"],
+      "explanation_keys": ["sob_fever_explanation"],
+      "safety_net_keys": ["monitor_symptoms", "return_if_worse"]
+    },
+    {
+      "id": "sob_mild_exertional",
+      "label": "Mild exertional shortness of breath",
+      "join": "all",
+      "conditions": [
+        { "field": "symptoms.sob_with_exertion", "operator": "is_true", "value": true },
+        { "field": "symptoms.sob_at_rest", "operator": "is_false", "value": false }
+      ],
+      "disposition": "PRIMARY_CARE_24_72H",
+      "priority": "low",
+      "reason_codes": ["MILD_SOB"],
+      "explanation_keys": ["sob_mild_explanation"],
+      "safety_net_keys": ["follow_up_primary_care", "return_if_worse"]
+    }
+  ]
+}

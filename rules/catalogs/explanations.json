@@ -54,5 +54,925 @@
   "troponin_with_symptoms_explanation": {
     "title": "Elevated Troponin with Symptoms",
     "body": "The combination of elevated troponin and your current symptoms is concerning for a cardiac event. This requires immediate emergency evaluation."
+  },
+
+  "sob_severe_explanation": {
+    "title": "Severe Respiratory Distress",
+    "body": "Your symptoms indicate severe difficulty breathing. This is a medical emergency that requires immediate attention. Severe respiratory distress can rapidly become life-threatening."
+  },
+  "sob_chest_pain_explanation": {
+    "title": "Shortness of Breath with Chest Pain",
+    "body": "The combination of shortness of breath and chest pain requires urgent evaluation. This can indicate serious cardiac or pulmonary conditions including heart attack or pulmonary embolism."
+  },
+  "sob_sudden_explanation": {
+    "title": "Sudden Onset Breathing Difficulty",
+    "body": "Sudden difficulty breathing that occurs at rest is concerning and requires prompt evaluation. This can indicate conditions like blood clots in the lungs, heart problems, or asthma attacks."
+  },
+  "sob_fever_explanation": {
+    "title": "Breathing Difficulty with Fever",
+    "body": "Shortness of breath combined with fever suggests a possible respiratory infection such as pneumonia. Medical evaluation is recommended to determine if treatment is needed."
+  },
+  "sob_mild_explanation": {
+    "title": "Mild Exertional Shortness of Breath",
+    "body": "Shortness of breath with activity but not at rest is common and often due to deconditioning, but should be evaluated to rule out underlying heart or lung conditions."
+  },
+
+  "abd_emergency_explanation": {
+    "title": "Abdominal Emergency Signs",
+    "body": "Your symptoms suggest a possible surgical emergency. A rigid abdomen, vomiting blood, or blood in stool can indicate serious conditions requiring immediate surgery. Do not delay seeking care."
+  },
+  "abd_severe_explanation": {
+    "title": "Severe Sudden Abdominal Pain",
+    "body": "Sudden, severe abdominal pain requires urgent evaluation. This can indicate conditions like appendicitis, ruptured organ, or bowel obstruction that may need emergency treatment."
+  },
+  "abd_appendicitis_explanation": {
+    "title": "Possible Appendicitis",
+    "body": "Pain in the right lower abdomen with fever is concerning for appendicitis. This condition requires medical evaluation and often surgical treatment if confirmed."
+  },
+  "abd_gallbladder_explanation": {
+    "title": "Possible Gallbladder Issue",
+    "body": "Right upper abdominal pain with nausea may indicate gallbladder problems such as gallstones. Medical evaluation can confirm the diagnosis and determine appropriate treatment."
+  },
+  "abd_mild_explanation": {
+    "title": "Mild Gastrointestinal Symptoms",
+    "body": "Your symptoms suggest a mild gastrointestinal issue that should be monitored. Follow up with your doctor if symptoms persist or worsen."
+  },
+
+  "ha_thunderclap_explanation": {
+    "title": "Thunderclap Headache Warning",
+    "body": "A sudden, severe headache reaching maximum intensity within seconds (thunderclap headache) can indicate bleeding in the brain. This is a medical emergency requiring immediate evaluation."
+  },
+  "ha_meningitis_explanation": {
+    "title": "Possible Meningitis",
+    "body": "Headache with stiff neck and fever can indicate meningitis, an infection of the membranes around the brain. This requires urgent medical evaluation and treatment."
+  },
+  "ha_neuro_explanation": {
+    "title": "Headache with Neurological Symptoms",
+    "body": "Headache accompanied by confusion, weakness, or vision changes requires urgent evaluation. These symptoms can indicate serious conditions affecting the brain."
+  },
+  "ha_trauma_explanation": {
+    "title": "Post-Traumatic Headache",
+    "body": "Headache following a head injury should be evaluated to rule out concussion or more serious brain injury. Watch for worsening symptoms."
+  },
+  "ha_migraine_explanation": {
+    "title": "Migraine-Like Headache",
+    "body": "Your headache symptoms are consistent with migraine. While not immediately dangerous, you should follow up with your doctor for proper diagnosis and treatment options."
+  },
+
+  "diz_stroke_explanation": {
+    "title": "Dizziness with Stroke Signs",
+    "body": "Dizziness combined with slurred speech or one-sided weakness can indicate a stroke. Time is critical - call 911 immediately. Remember FAST: Face, Arms, Speech, Time."
+  },
+  "diz_cardiac_explanation": {
+    "title": "Dizziness with Cardiac Symptoms",
+    "body": "Dizziness combined with chest pain or shortness of breath may indicate a heart problem. Urgent evaluation is needed to rule out cardiac causes."
+  },
+  "diz_syncope_explanation": {
+    "title": "Fainting Episode",
+    "body": "Fainting (syncope) requires medical evaluation to determine the cause. Fainting can be caused by heart rhythm problems, low blood pressure, or neurological conditions."
+  },
+  "diz_vertigo_explanation": {
+    "title": "Vertigo with Hearing Changes",
+    "body": "Room-spinning dizziness with hearing loss or ringing in the ears may indicate an inner ear condition such as Meniere's disease. Medical evaluation is recommended."
+  },
+  "diz_positional_explanation": {
+    "title": "Positional Vertigo",
+    "body": "Dizziness triggered by position changes is often benign positional vertigo (BPPV). This is treatable and your doctor can perform specific maneuvers to help."
+  },
+
+  "fever_meningitis_explanation": {
+    "title": "Fever with Meningitis Signs",
+    "body": "High fever with stiff neck is a warning sign for meningitis, a serious infection requiring immediate treatment. Do not delay seeking emergency care."
+  },
+  "fever_sepsis_explanation": {
+    "title": "Possible Sepsis",
+    "body": "Fever with confusion or altered mental status can indicate sepsis, a life-threatening response to infection. Immediate medical treatment is critical."
+  },
+  "fever_immuno_explanation": {
+    "title": "Fever in Immunocompromised Patient",
+    "body": "Fever in people with weakened immune systems requires urgent evaluation. Your body may not be able to fight infection normally, making prompt treatment essential."
+  },
+  "fever_rash_explanation": {
+    "title": "Fever with Rash",
+    "body": "Fever accompanied by rash should be evaluated promptly. While many causes are not serious, some rashes with fever indicate conditions requiring treatment."
+  },
+  "fever_viral_explanation": {
+    "title": "Likely Viral Illness",
+    "body": "Your symptoms suggest a viral infection. Most viral illnesses resolve on their own with rest and fluids. Monitor symptoms and follow up if not improving."
+  },
+
+  "back_cauda_explanation": {
+    "title": "Cauda Equina Syndrome Warning",
+    "body": "Back pain with leg weakness or bowel/bladder changes can indicate cauda equina syndrome, compression of nerves at the base of the spine. This requires emergency evaluation to prevent permanent damage."
+  },
+  "back_infection_explanation": {
+    "title": "Possible Spinal Infection",
+    "body": "Severe back pain with fever may indicate a spinal infection. Prompt evaluation and treatment are needed to prevent serious complications."
+  },
+  "back_trauma_explanation": {
+    "title": "Post-Traumatic Back Pain",
+    "body": "Severe back pain following injury should be evaluated to rule out fracture or other serious injury. Avoid moving if you suspect spinal injury."
+  },
+  "back_radiculopathy_explanation": {
+    "title": "Nerve Compression Symptoms",
+    "body": "Back pain radiating to the leg or causing numbness suggests nerve compression, often from a herniated disc. Medical evaluation can determine the best treatment approach."
+  },
+  "back_mechanical_explanation": {
+    "title": "Mechanical Back Pain",
+    "body": "Your symptoms suggest common mechanical back pain from muscles or joints. Rest, over-the-counter pain relief, and gentle stretching often help. See your doctor if not improving."
+  },
+
+  "nv_bleed_explanation": {
+    "title": "Vomiting Blood",
+    "body": "Vomiting blood is a medical emergency indicating bleeding in the upper digestive tract. Call 911 immediately. This requires urgent evaluation and treatment."
+  },
+  "nv_meningitis_explanation": {
+    "title": "Vomiting with Meningitis Signs",
+    "body": "Vomiting with headache and stiff neck can indicate meningitis. This serious infection requires immediate medical evaluation and treatment."
+  },
+  "nv_dehydration_explanation": {
+    "title": "Dehydration Risk",
+    "body": "Inability to keep fluids down or signs of dehydration require medical attention. Severe dehydration can affect organ function and may need IV fluid replacement."
+  },
+  "nv_head_injury_explanation": {
+    "title": "Vomiting After Head Injury",
+    "body": "Vomiting following a head injury can indicate a concussion or more serious brain injury. Medical evaluation is recommended."
+  },
+  "nv_viral_explanation": {
+    "title": "Viral Gastroenteritis",
+    "body": "Your symptoms suggest a viral stomach bug. Focus on staying hydrated with small, frequent sips of clear fluids. Most cases resolve within a few days."
+  },
+
+  "fatigue_stroke_explanation": {
+    "title": "Weakness with Stroke Signs",
+    "body": "Sudden weakness on one side of the body with speech difficulties indicates a possible stroke. Call 911 immediately - time is critical for stroke treatment."
+  },
+  "fatigue_cardiac_explanation": {
+    "title": "Fatigue with Cardiac Symptoms",
+    "body": "Fatigue combined with chest pain or shortness of breath requires urgent cardiac evaluation. These symptoms can indicate heart problems."
+  },
+  "fatigue_infection_explanation": {
+    "title": "Fatigue with Fever",
+    "body": "Fatigue accompanied by fever suggests your body is fighting an infection. Medical evaluation can determine if treatment is needed."
+  },
+  "fatigue_weight_loss_explanation": {
+    "title": "Fatigue with Unexplained Weight Loss",
+    "body": "Persistent fatigue with unintentional weight loss warrants medical evaluation to rule out underlying conditions that may need treatment."
+  },
+  "fatigue_chronic_explanation": {
+    "title": "Chronic Fatigue",
+    "body": "Persistent fatigue lasting several weeks should be evaluated. Many conditions can cause prolonged fatigue, and proper diagnosis leads to appropriate treatment."
+  },
+
+  "cough_blood_explanation": {
+    "title": "Coughing Up Blood",
+    "body": "Coughing up blood (hemoptysis) requires urgent medical evaluation. While sometimes caused by minor issues, it can indicate serious lung conditions."
+  },
+  "cough_distress_explanation": {
+    "title": "Severe Cough with Respiratory Distress",
+    "body": "Cough with significant shortness of breath and wheezing indicates respiratory distress requiring urgent evaluation. This may indicate asthma, COPD exacerbation, or other serious conditions."
+  },
+  "cough_pneumonia_explanation": {
+    "title": "Possible Pneumonia",
+    "body": "Cough with fever and chest pain suggests possible pneumonia. Medical evaluation is needed to confirm diagnosis and determine if antibiotics are necessary."
+  },
+  "cough_chronic_explanation": {
+    "title": "Chronic Cough",
+    "body": "A cough lasting several weeks with night sweats should be evaluated. Various conditions can cause chronic cough and proper diagnosis guides treatment."
+  },
+  "cough_viral_explanation": {
+    "title": "Viral Upper Respiratory Infection",
+    "body": "Your cough with sore throat suggests a viral infection. Rest, fluids, and symptom relief are the main treatments. See your doctor if not improving after 7-10 days."
+  },
+
+  "throat_airway_explanation": {
+    "title": "Airway Compromise Warning",
+    "body": "Difficulty breathing or drooling with sore throat suggests possible airway obstruction. This is a medical emergency - call 911 immediately."
+  },
+  "throat_abscess_explanation": {
+    "title": "Possible Peritonsillar Abscess",
+    "body": "Severe sore throat with difficulty swallowing and muffled voice may indicate a peritonsillar abscess. This infection requires urgent medical treatment."
+  },
+  "throat_strep_explanation": {
+    "title": "Possible Strep Throat",
+    "body": "Sore throat with fever and swollen lymph nodes may be strep throat. A quick test can confirm, and antibiotics are needed if positive to prevent complications."
+  },
+  "throat_scarlet_explanation": {
+    "title": "Sore Throat with Rash",
+    "body": "Fever with sore throat and rash can indicate scarlet fever or other conditions requiring evaluation and treatment."
+  },
+  "throat_viral_explanation": {
+    "title": "Viral Pharyngitis",
+    "body": "Your sore throat with cough suggests a viral infection. Rest and symptom relief are the main treatments. Most viral sore throats improve within a week."
+  },
+
+  "uri_retention_explanation": {
+    "title": "Urinary Retention",
+    "body": "Inability to urinate is a medical emergency. The bladder must be drained to prevent damage. Seek immediate medical care."
+  },
+  "uri_kidney_explanation": {
+    "title": "Possible Kidney Infection",
+    "body": "Fever with flank pain suggests a kidney infection (pyelonephritis). This requires prompt antibiotic treatment to prevent serious complications."
+  },
+  "uri_stone_explanation": {
+    "title": "Possible Kidney Stone",
+    "body": "Severe flank pain with blood in urine is typical of a kidney stone. Medical evaluation can confirm diagnosis and provide pain management."
+  },
+  "uri_uti_fever_explanation": {
+    "title": "UTI with Fever",
+    "body": "Urinary symptoms with fever may indicate the infection has spread beyond the bladder. Prompt medical evaluation and treatment are needed."
+  },
+  "uri_simple_explanation": {
+    "title": "Simple Urinary Tract Infection",
+    "body": "Your symptoms suggest a bladder infection. Antibiotics are typically needed for treatment. Drink plenty of fluids and see your doctor."
+  },
+
+  "rash_anaphylaxis_explanation": {
+    "title": "Rash with Anaphylaxis Signs",
+    "body": "Rash with breathing difficulty or throat/face swelling indicates anaphylaxis. This is a life-threatening emergency. Use an EpiPen if available and call 911."
+  },
+  "rash_meningococcal_explanation": {
+    "title": "Concerning Rash with Fever",
+    "body": "Fever with a petechial rash (tiny non-blanching spots) can indicate meningococcal disease. This is a medical emergency requiring immediate treatment."
+  },
+  "rash_severe_explanation": {
+    "title": "Severe Skin Reaction",
+    "body": "Painful or blistering rash requires urgent evaluation. Some skin reactions can be serious and need prompt medical treatment."
+  },
+  "rash_spreading_explanation": {
+    "title": "Spreading Rash with Fever",
+    "body": "A rapidly spreading rash with fever should be evaluated promptly. This can indicate infections or conditions requiring treatment."
+  },
+  "rash_mild_explanation": {
+    "title": "Mild Rash",
+    "body": "Your rash without fever or systemic symptoms is likely not urgent. However, follow up with your doctor for proper diagnosis and treatment if it persists."
+  },
+
+  "joint_septic_explanation": {
+    "title": "Possible Septic Joint",
+    "body": "A hot, swollen joint with fever may indicate a joint infection. This is a medical emergency that can cause permanent joint damage if not treated promptly."
+  },
+  "joint_fracture_explanation": {
+    "title": "Possible Fracture",
+    "body": "Inability to bear weight after injury suggests possible fracture. X-rays are needed to evaluate and determine appropriate treatment."
+  },
+  "joint_gout_explanation": {
+    "title": "Acute Joint Inflammation",
+    "body": "A red, swollen, painful joint may indicate gout or another inflammatory condition. Medical evaluation can confirm diagnosis and provide treatment."
+  },
+  "joint_inflammatory_explanation": {
+    "title": "Inflammatory Arthritis Pattern",
+    "body": "Multiple joint pain with morning stiffness suggests an inflammatory arthritis. Your doctor can evaluate and discuss treatment options."
+  },
+  "joint_mechanical_explanation": {
+    "title": "Mechanical Joint Pain",
+    "body": "Your joint pain without signs of infection or inflammation is likely mechanical. Rest, over-the-counter pain relief, and gentle exercise often help."
+  },
+
+  "anx_suicidal_explanation": {
+    "title": "Crisis Support Needed",
+    "body": "Thoughts of suicide or self-harm require immediate support. You are not alone. Call 988 (Suicide & Crisis Lifeline) or go to your nearest emergency room. Help is available."
+  },
+  "anx_cardiac_explanation": {
+    "title": "First-Time Chest Pain with Anxiety",
+    "body": "First-time chest pain, even with anxiety, should be evaluated to rule out cardiac causes. Anxiety and heart conditions can have similar symptoms."
+  },
+  "anx_first_panic_explanation": {
+    "title": "First Panic Attack",
+    "body": "If this is your first panic attack, medical evaluation is recommended to rule out other conditions and discuss management strategies."
+  },
+  "anx_panic_explanation": {
+    "title": "Panic Attack Symptoms",
+    "body": "Your symptoms are consistent with a panic attack. While frightening, panic attacks are not dangerous. Follow up with your doctor to discuss treatment options."
+  },
+  "anx_mild_explanation": {
+    "title": "Anxiety Symptoms",
+    "body": "Your anxiety symptoms should be discussed with your doctor. Effective treatments are available including therapy and medication."
+  },
+
+  "palp_syncope_explanation": {
+    "title": "Palpitations with Fainting",
+    "body": "Palpitations that cause fainting can indicate a serious heart rhythm problem. This is an emergency requiring immediate evaluation."
+  },
+  "palp_cardiac_explanation": {
+    "title": "Palpitations with Cardiac Symptoms",
+    "body": "Palpitations with chest pain or shortness of breath need urgent evaluation to rule out dangerous heart rhythm problems."
+  },
+  "palp_prolonged_explanation": {
+    "title": "Prolonged Palpitation Episode",
+    "body": "A prolonged episode of racing heart at rest should be evaluated. Some arrhythmias need medical intervention to convert to normal rhythm."
+  },
+  "palp_known_explanation": {
+    "title": "Palpitations in Heart Patient",
+    "body": "People with known heart conditions should have new or changing palpitations evaluated promptly to ensure appropriate management."
+  },
+  "palp_benign_explanation": {
+    "title": "Likely Benign Palpitations",
+    "body": "Palpitations triggered by caffeine or stimulants are often benign. Reducing caffeine may help. See your doctor if symptoms persist."
+  },
+
+  "numb_stroke_explanation": {
+    "title": "Numbness with Stroke Signs",
+    "body": "Sudden numbness with face drooping, arm weakness, or speech difficulty indicates a possible stroke. Call 911 immediately - time is critical."
+  },
+  "numb_sudden_explanation": {
+    "title": "Sudden One-Sided Numbness",
+    "body": "Sudden numbness affecting one side of the body is a stroke warning sign. Call 911 immediately for evaluation."
+  },
+  "numb_spinal_explanation": {
+    "title": "Spinal Cord Compression Warning",
+    "body": "Numbness with back pain and bowel/bladder changes may indicate spinal cord compression. This requires urgent evaluation to prevent permanent damage."
+  },
+  "numb_compression_explanation": {
+    "title": "Nerve Compression",
+    "body": "Numbness after injury may indicate nerve compression. Medical evaluation can determine the cause and appropriate treatment."
+  },
+  "numb_peripheral_explanation": {
+    "title": "Peripheral Neuropathy",
+    "body": "Numbness in both hands and feet developing gradually suggests peripheral neuropathy. See your doctor to identify the cause and treatment options."
+  },
+
+  "vis_sudden_explanation": {
+    "title": "Sudden Vision Loss",
+    "body": "Sudden vision loss is a medical emergency. This can indicate stroke, retinal artery blockage, or other conditions requiring immediate treatment to preserve vision."
+  },
+  "vis_retinal_explanation": {
+    "title": "Possible Retinal Detachment",
+    "body": "Flashing lights with a curtain-like shadow in your vision suggests retinal detachment. This requires emergency eye evaluation to prevent permanent vision loss."
+  },
+  "vis_glaucoma_explanation": {
+    "title": "Possible Acute Glaucoma",
+    "body": "Eye pain with headache and vision changes can indicate acute angle-closure glaucoma. This is an emergency requiring immediate treatment to preserve vision."
+  },
+  "vis_diplopia_explanation": {
+    "title": "New Double Vision",
+    "body": "New double vision should be evaluated promptly. It can indicate problems with eye muscles, nerves, or brain that require diagnosis."
+  },
+  "vis_floaters_explanation": {
+    "title": "New Floaters",
+    "body": "New floaters without flashing lights should be evaluated by an eye doctor, though usually not urgently. They can sometimes indicate retinal problems."
+  },
+
+  "ear_mastoid_explanation": {
+    "title": "Possible Mastoiditis",
+    "body": "Swelling and pain behind the ear with fever can indicate mastoiditis, a serious infection of the bone behind the ear. Urgent treatment is needed."
+  },
+  "ear_facial_explanation": {
+    "title": "Ear Infection with Facial Nerve Involvement",
+    "body": "Facial weakness with ear infection suggests the infection may be affecting the facial nerve. Urgent evaluation and treatment are needed."
+  },
+  "ear_severe_explanation": {
+    "title": "Severe Ear Infection",
+    "body": "Severe ear pain with fever indicates a significant infection requiring medical evaluation and likely antibiotic treatment."
+  },
+  "ear_swimmers_explanation": {
+    "title": "Swimmer's Ear",
+    "body": "Ear pain after swimming with drainage suggests swimmer's ear (outer ear infection). Antibiotic ear drops are typically needed for treatment."
+  },
+  "ear_mild_explanation": {
+    "title": "Mild Ear Infection",
+    "body": "Ear pain with recent cold symptoms may indicate a mild middle ear infection. See your doctor to determine if antibiotics are needed."
+  },
+
+  "allergy_anaphylaxis_explanation": {
+    "title": "Anaphylaxis",
+    "body": "Breathing difficulty, throat swelling, or tongue swelling after allergen exposure indicates anaphylaxis. Use an EpiPen if available and call 911 immediately."
+  },
+  "allergy_severe_explanation": {
+    "title": "Severe Allergic Reaction",
+    "body": "Facial swelling or dizziness during an allergic reaction indicates a severe response requiring emergency evaluation."
+  },
+  "allergy_progressive_explanation": {
+    "title": "Progressive Allergic Reaction",
+    "body": "Widespread hives with vomiting suggest the allergic reaction is progressing. Medical evaluation is needed to prevent worsening."
+  },
+  "allergy_hives_explanation": {
+    "title": "Hives",
+    "body": "Hives (urticaria) without breathing symptoms are usually not dangerous but should be evaluated. Antihistamines may provide relief."
+  },
+  "allergy_mild_explanation": {
+    "title": "Mild Allergic Reaction",
+    "body": "Mild allergic reactions without breathing symptoms can often be managed with antihistamines. See your doctor if symptoms persist or for future prevention."
+  },
+
+  "leg_pe_explanation": {
+    "title": "Possible Pulmonary Embolism",
+    "body": "Leg swelling with sudden shortness of breath or chest pain may indicate a blood clot has traveled to the lungs. This is a life-threatening emergency - call 911."
+  },
+  "leg_dvt_explanation": {
+    "title": "High Risk for Blood Clot",
+    "body": "A swollen, painful, warm leg strongly suggests a deep vein thrombosis (blood clot). Urgent evaluation is needed to prevent the clot from traveling to the lungs."
+  },
+  "leg_dvt_risk_explanation": {
+    "title": "DVT Risk with Risk Factors",
+    "body": "Leg swelling after surgery or prolonged immobility increases blood clot risk. Medical evaluation is recommended."
+  },
+  "leg_unilateral_explanation": {
+    "title": "One-Sided Leg Swelling",
+    "body": "Sudden swelling in one leg should be evaluated for possible blood clot. Ultrasound can determine if a clot is present."
+  },
+  "leg_bilateral_explanation": {
+    "title": "Both Legs Swollen",
+    "body": "Swelling in both legs that develops gradually may indicate heart, kidney, or liver problems. See your doctor for evaluation."
+  },
+
+  "glucose_description": {
+    "title": "About Blood Glucose",
+    "body": "Blood glucose measures sugar in your blood. Your body uses glucose for energy. Levels that are too high or too low can cause symptoms and health problems."
+  },
+  "glucose_critical_low": {
+    "title": "Dangerously Low Blood Sugar",
+    "body": "Your blood sugar is critically low. This requires immediate treatment with fast-acting sugar (juice, glucose tablets) and emergency care if you cannot treat yourself."
+  },
+  "glucose_low": {
+    "title": "Low Blood Sugar",
+    "body": "Your blood sugar is below normal. Eat or drink something with sugar and monitor your levels. See your doctor to discuss prevention."
+  },
+  "glucose_normal": {
+    "title": "Normal Blood Glucose",
+    "body": "Your blood glucose is within the normal range, suggesting normal glucose metabolism at the time of testing."
+  },
+  "glucose_high": {
+    "title": "Elevated Blood Sugar",
+    "body": "Your blood sugar is above normal. This may indicate prediabetes or diabetes. Follow up with your doctor for further evaluation."
+  },
+  "glucose_critical_high": {
+    "title": "Dangerously High Blood Sugar",
+    "body": "Your blood sugar is dangerously elevated. This can lead to serious complications and requires immediate medical attention."
+  },
+
+  "hemoglobin_description": {
+    "title": "About Hemoglobin",
+    "body": "Hemoglobin is a protein in red blood cells that carries oxygen throughout your body. Low hemoglobin indicates anemia, while high levels may indicate other conditions."
+  },
+  "hemoglobin_critical_low": {
+    "title": "Severely Low Hemoglobin",
+    "body": "Your hemoglobin is critically low, indicating severe anemia. This may require blood transfusion and requires immediate medical evaluation."
+  },
+  "hemoglobin_low": {
+    "title": "Low Hemoglobin",
+    "body": "Your hemoglobin is below normal, indicating anemia. Common causes include iron deficiency, blood loss, or chronic disease. Further testing is needed."
+  },
+  "hemoglobin_normal": {
+    "title": "Normal Hemoglobin",
+    "body": "Your hemoglobin is within the normal range, suggesting adequate oxygen-carrying capacity of your blood."
+  },
+  "hemoglobin_high": {
+    "title": "Elevated Hemoglobin",
+    "body": "Your hemoglobin is above normal. This can occur with dehydration, smoking, or conditions causing overproduction of red blood cells."
+  },
+  "hemoglobin_critical_high": {
+    "title": "Critically High Hemoglobin",
+    "body": "Your hemoglobin is significantly elevated. This increases blood clot risk and requires evaluation."
+  },
+
+  "hematocrit_description": {
+    "title": "About Hematocrit",
+    "body": "Hematocrit measures the percentage of your blood that is red blood cells. It helps evaluate anemia and other blood conditions."
+  },
+  "hematocrit_critical_low": {
+    "title": "Critically Low Hematocrit",
+    "body": "Your hematocrit is dangerously low, indicating severe anemia. Immediate medical evaluation is needed."
+  },
+  "hematocrit_low": {
+    "title": "Low Hematocrit",
+    "body": "Your hematocrit is below normal, suggesting anemia. Follow up with your doctor to determine the cause."
+  },
+  "hematocrit_normal": {
+    "title": "Normal Hematocrit",
+    "body": "Your hematocrit is within normal range."
+  },
+  "hematocrit_high": {
+    "title": "Elevated Hematocrit",
+    "body": "Your hematocrit is above normal. This can indicate dehydration or conditions causing increased red blood cell production."
+  },
+  "hematocrit_critical_high": {
+    "title": "Critically High Hematocrit",
+    "body": "Your hematocrit is significantly elevated, increasing blood clot risk. Medical evaluation is needed."
+  },
+  "hematocrit_abnormal": {
+    "title": "Abnormal Hematocrit",
+    "body": "Your hematocrit is outside the normal range. Follow up with your doctor for further evaluation."
+  },
+
+  "wbc_description": {
+    "title": "About White Blood Cell Count",
+    "body": "White blood cells fight infection. High counts often indicate infection or inflammation, while low counts may indicate immune system problems."
+  },
+  "wbc_critical_low": {
+    "title": "Severely Low White Blood Cells",
+    "body": "Your white blood cell count is dangerously low, making you vulnerable to infections. Avoid sick contacts and seek medical care for any fever."
+  },
+  "wbc_low": {
+    "title": "Low White Blood Cells",
+    "body": "Your white blood cell count is below normal. This can be caused by medications, infections, or bone marrow problems."
+  },
+  "wbc_normal": {
+    "title": "Normal White Blood Cell Count",
+    "body": "Your white blood cell count is within the normal range."
+  },
+  "wbc_high": {
+    "title": "Elevated White Blood Cells",
+    "body": "Your white blood cell count is elevated, often indicating your body is fighting an infection or inflammation."
+  },
+  "wbc_critical_high": {
+    "title": "Severely Elevated White Blood Cells",
+    "body": "Your white blood cell count is markedly elevated. This requires evaluation to determine the cause."
+  },
+  "wbc_abnormal": {
+    "title": "Abnormal White Blood Cell Count",
+    "body": "Your white blood cell count is outside the normal range. Follow up with your doctor for evaluation."
+  },
+
+  "platelet_description": {
+    "title": "About Platelet Count",
+    "body": "Platelets help your blood clot. Low platelet counts increase bleeding risk, while high counts may increase clotting risk."
+  },
+  "platelet_critical_low": {
+    "title": "Critically Low Platelets",
+    "body": "Your platelet count is dangerously low, increasing your risk of serious bleeding. Avoid activities that could cause injury and seek immediate medical care."
+  },
+  "platelet_low": {
+    "title": "Low Platelets",
+    "body": "Your platelet count is below normal. This may increase bruising and bleeding risk. Further evaluation is needed."
+  },
+  "platelet_normal": {
+    "title": "Normal Platelet Count",
+    "body": "Your platelet count is within the normal range."
+  },
+  "platelet_high": {
+    "title": "Elevated Platelets",
+    "body": "Your platelet count is above normal. This can occur with infection, inflammation, or other conditions."
+  },
+  "platelet_critical_high": {
+    "title": "Very High Platelets",
+    "body": "Your platelet count is significantly elevated. This may increase clotting risk and requires evaluation."
+  },
+
+  "creatinine_description": {
+    "title": "About Creatinine",
+    "body": "Creatinine is a waste product filtered by your kidneys. High levels may indicate reduced kidney function."
+  },
+  "creatinine_low": {
+    "title": "Low Creatinine",
+    "body": "Low creatinine is usually not concerning and may relate to low muscle mass or diet."
+  },
+  "creatinine_normal": {
+    "title": "Normal Creatinine",
+    "body": "Your creatinine level is normal, suggesting your kidneys are filtering properly."
+  },
+  "creatinine_high": {
+    "title": "Elevated Creatinine",
+    "body": "Your creatinine is elevated, which may indicate reduced kidney function. Further evaluation is recommended."
+  },
+  "creatinine_critical_high": {
+    "title": "Severely Elevated Creatinine",
+    "body": "Your creatinine is severely elevated, indicating significant kidney dysfunction. Immediate medical evaluation is needed."
+  },
+
+  "bun_description": {
+    "title": "About BUN",
+    "body": "Blood Urea Nitrogen (BUN) is a waste product filtered by your kidneys. Elevated levels can indicate kidney problems or dehydration."
+  },
+  "bun_low": {
+    "title": "Low BUN",
+    "body": "Low BUN is usually not concerning and may indicate low protein intake or liver issues."
+  },
+  "bun_normal": {
+    "title": "Normal BUN",
+    "body": "Your BUN level is within the normal range."
+  },
+  "bun_high": {
+    "title": "Elevated BUN",
+    "body": "Your BUN is elevated. This can indicate dehydration, kidney problems, or high protein intake."
+  },
+  "bun_critical_high": {
+    "title": "Severely Elevated BUN",
+    "body": "Your BUN is severely elevated, indicating significant kidney dysfunction or severe dehydration. Medical evaluation is needed."
+  },
+
+  "sodium_description": {
+    "title": "About Sodium",
+    "body": "Sodium is an electrolyte essential for nerve and muscle function. Both high and low levels can cause serious symptoms."
+  },
+  "sodium_critical_low": {
+    "title": "Critically Low Sodium",
+    "body": "Your sodium is dangerously low. This can cause confusion, seizures, and requires immediate medical treatment."
+  },
+  "sodium_low": {
+    "title": "Low Sodium",
+    "body": "Your sodium is below normal. This may cause symptoms like nausea, headache, or confusion."
+  },
+  "sodium_normal": {
+    "title": "Normal Sodium",
+    "body": "Your sodium level is within the normal range."
+  },
+  "sodium_high": {
+    "title": "Elevated Sodium",
+    "body": "Your sodium is above normal, often indicating dehydration. Increased fluid intake may help."
+  },
+  "sodium_critical_high": {
+    "title": "Critically High Sodium",
+    "body": "Your sodium is dangerously elevated. This requires immediate medical treatment."
+  },
+  "sodium_critical": {
+    "title": "Critical Sodium Level",
+    "body": "Your sodium level is critically abnormal and requires immediate medical attention."
+  },
+  "sodium_abnormal": {
+    "title": "Abnormal Sodium",
+    "body": "Your sodium is outside the normal range. Follow up with your doctor for evaluation."
+  },
+
+  "potassium_description": {
+    "title": "About Potassium",
+    "body": "Potassium is essential for heart and muscle function. Both high and low levels can cause dangerous heart rhythm problems."
+  },
+  "potassium_critical_low": {
+    "title": "Critically Low Potassium",
+    "body": "Your potassium is dangerously low. This can cause dangerous heart rhythms and requires immediate treatment."
+  },
+  "potassium_low": {
+    "title": "Low Potassium",
+    "body": "Your potassium is below normal. This may cause muscle weakness, cramps, or irregular heartbeat."
+  },
+  "potassium_normal": {
+    "title": "Normal Potassium",
+    "body": "Your potassium level is within the normal range."
+  },
+  "potassium_high": {
+    "title": "Elevated Potassium",
+    "body": "Your potassium is above normal. High potassium can affect heart rhythm and should be monitored."
+  },
+  "potassium_critical_high": {
+    "title": "Critically High Potassium",
+    "body": "Your potassium is dangerously elevated. This can cause life-threatening heart rhythm problems and requires immediate treatment."
+  },
+  "potassium_critical": {
+    "title": "Critical Potassium Level",
+    "body": "Your potassium is at a critical level that can cause dangerous heart rhythm problems. Immediate medical attention is required."
+  },
+  "potassium_abnormal": {
+    "title": "Abnormal Potassium",
+    "body": "Your potassium is outside the normal range and should be evaluated promptly."
+  },
+
+  "chloride_description": {
+    "title": "About Chloride",
+    "body": "Chloride is an electrolyte that helps maintain fluid balance and acid-base balance in your body."
+  },
+  "chloride_critical_low": {
+    "title": "Critically Low Chloride",
+    "body": "Your chloride is critically low, which may indicate metabolic problems requiring medical evaluation."
+  },
+  "chloride_low": {
+    "title": "Low Chloride",
+    "body": "Your chloride is below normal. This is often associated with other electrolyte imbalances."
+  },
+  "chloride_normal": {
+    "title": "Normal Chloride",
+    "body": "Your chloride level is within the normal range."
+  },
+  "chloride_high": {
+    "title": "Elevated Chloride",
+    "body": "Your chloride is above normal. This may indicate dehydration or acid-base imbalance."
+  },
+  "chloride_critical_high": {
+    "title": "Critically High Chloride",
+    "body": "Your chloride is critically elevated, requiring medical evaluation."
+  },
+  "chloride_critical": {
+    "title": "Critical Chloride Level",
+    "body": "Your chloride level is critically abnormal and requires evaluation."
+  },
+  "chloride_abnormal": {
+    "title": "Abnormal Chloride",
+    "body": "Your chloride is outside the normal range. Follow up with your doctor."
+  },
+
+  "co2_description": {
+    "title": "About CO2/Bicarbonate",
+    "body": "CO2 (bicarbonate) reflects your body's acid-base balance. Abnormal levels can indicate kidney, lung, or metabolic problems."
+  },
+  "co2_critical_low": {
+    "title": "Critically Low CO2",
+    "body": "Your CO2 is critically low, indicating severe metabolic acidosis. This requires immediate medical attention."
+  },
+  "co2_low": {
+    "title": "Low CO2",
+    "body": "Your CO2 is below normal, which may indicate mild acidosis or rapid breathing."
+  },
+  "co2_normal": {
+    "title": "Normal CO2",
+    "body": "Your CO2 level is within the normal range."
+  },
+  "co2_high": {
+    "title": "Elevated CO2",
+    "body": "Your CO2 is above normal, which may indicate metabolic alkalosis or compensation for respiratory issues."
+  },
+  "co2_critical_high": {
+    "title": "Critically High CO2",
+    "body": "Your CO2 is critically elevated, requiring medical evaluation."
+  },
+  "co2_abnormal": {
+    "title": "Abnormal CO2",
+    "body": "Your CO2 is outside the normal range. Follow up with your doctor."
+  },
+
+  "calcium_description": {
+    "title": "About Calcium",
+    "body": "Calcium is essential for bones, muscles, nerves, and heart function. Both high and low levels can cause significant symptoms."
+  },
+  "calcium_critical_low": {
+    "title": "Critically Low Calcium",
+    "body": "Your calcium is dangerously low. This can cause muscle spasms, numbness, and irregular heartbeat. Immediate treatment is needed."
+  },
+  "calcium_low": {
+    "title": "Low Calcium",
+    "body": "Your calcium is below normal. This may cause muscle cramps, numbness, or fatigue."
+  },
+  "calcium_normal": {
+    "title": "Normal Calcium",
+    "body": "Your calcium level is within the normal range."
+  },
+  "calcium_high": {
+    "title": "Elevated Calcium",
+    "body": "Your calcium is above normal. This may cause fatigue, constipation, or confusion."
+  },
+  "calcium_critical_high": {
+    "title": "Critically High Calcium",
+    "body": "Your calcium is dangerously elevated. This can affect heart rhythm and kidney function. Immediate medical attention is needed."
+  },
+  "calcium_abnormal": {
+    "title": "Abnormal Calcium",
+    "body": "Your calcium is outside the normal range. Follow up with your doctor."
+  },
+
+  "magnesium_description": {
+    "title": "About Magnesium",
+    "body": "Magnesium is essential for muscle, nerve, and heart function. Both high and low levels can cause significant symptoms."
+  },
+  "magnesium_critical_low": {
+    "title": "Critically Low Magnesium",
+    "body": "Your magnesium is dangerously low. This can cause muscle spasms, irregular heartbeat, and seizures."
+  },
+  "magnesium_low": {
+    "title": "Low Magnesium",
+    "body": "Your magnesium is below normal. This may cause muscle cramps, fatigue, or irregular heartbeat."
+  },
+  "magnesium_normal": {
+    "title": "Normal Magnesium",
+    "body": "Your magnesium level is within the normal range."
+  },
+  "magnesium_high": {
+    "title": "Elevated Magnesium",
+    "body": "Your magnesium is above normal. High magnesium can cause weakness or slow heart rate."
+  },
+  "magnesium_critical_high": {
+    "title": "Critically High Magnesium",
+    "body": "Your magnesium is dangerously elevated. This can cause dangerous heart rhythm problems."
+  },
+  "magnesium_critical": {
+    "title": "Critical Magnesium Level",
+    "body": "Your magnesium is at a critical level requiring medical attention."
+  },
+  "magnesium_abnormal": {
+    "title": "Abnormal Magnesium",
+    "body": "Your magnesium is outside the normal range. Follow up with your doctor."
+  },
+
+  "ast_description": {
+    "title": "About AST",
+    "body": "AST (SGOT) is an enzyme found in the liver and other tissues. Elevated levels may indicate liver damage, but can also come from heart or muscle injury."
+  },
+  "ast_normal": {
+    "title": "Normal AST",
+    "body": "Your AST level is within the normal range."
+  },
+  "ast_high": {
+    "title": "Elevated AST",
+    "body": "Your AST is above normal, which may indicate liver stress or injury. Further evaluation is recommended."
+  },
+  "ast_critical_high": {
+    "title": "Severely Elevated AST",
+    "body": "Your AST is markedly elevated, indicating significant liver or tissue injury. Urgent medical evaluation is needed."
+  },
+
+  "alt_description": {
+    "title": "About ALT",
+    "body": "ALT (SGPT) is a liver enzyme. Elevated levels are more specific to liver damage than AST."
+  },
+  "alt_normal": {
+    "title": "Normal ALT",
+    "body": "Your ALT level is within the normal range."
+  },
+  "alt_high": {
+    "title": "Elevated ALT",
+    "body": "Your ALT is above normal, suggesting possible liver inflammation or injury. Further evaluation is recommended."
+  },
+  "alt_critical_high": {
+    "title": "Severely Elevated ALT",
+    "body": "Your ALT is markedly elevated, indicating significant liver injury. Urgent medical evaluation is needed."
+  },
+
+  "bilirubin_description": {
+    "title": "About Bilirubin",
+    "body": "Bilirubin is a yellow pigment processed by the liver. High levels can cause yellowing of the skin (jaundice) and indicate liver or bile duct problems."
+  },
+  "bilirubin_normal": {
+    "title": "Normal Bilirubin",
+    "body": "Your bilirubin level is within the normal range."
+  },
+  "bilirubin_high": {
+    "title": "Elevated Bilirubin",
+    "body": "Your bilirubin is elevated. This may cause yellowing of the skin or eyes and warrants evaluation."
+  },
+  "bilirubin_critical_high": {
+    "title": "Severely Elevated Bilirubin",
+    "body": "Your bilirubin is markedly elevated, indicating significant liver or bile duct problems. Urgent evaluation is needed."
+  },
+
+  "alkaline_phosphatase_description": {
+    "title": "About Alkaline Phosphatase",
+    "body": "Alkaline phosphatase is an enzyme found in liver, bone, and other tissues. Elevated levels may indicate liver, bone, or bile duct problems."
+  },
+  "alk_phos_low": {
+    "title": "Low Alkaline Phosphatase",
+    "body": "Low alkaline phosphatase is uncommon and may indicate nutritional deficiencies."
+  },
+  "alk_phos_normal": {
+    "title": "Normal Alkaline Phosphatase",
+    "body": "Your alkaline phosphatase level is within the normal range."
+  },
+  "alk_phos_high": {
+    "title": "Elevated Alkaline Phosphatase",
+    "body": "Your alkaline phosphatase is elevated. This may indicate liver or bone conditions."
+  },
+  "alk_phos_critical_high": {
+    "title": "Markedly Elevated Alkaline Phosphatase",
+    "body": "Your alkaline phosphatase is markedly elevated, which may indicate bile duct obstruction or bone disease."
+  },
+
+  "tsh_description": {
+    "title": "About TSH",
+    "body": "TSH (thyroid stimulating hormone) reflects thyroid function. High TSH suggests underactive thyroid, while low TSH suggests overactive thyroid."
+  },
+  "tsh_critical_low": {
+    "title": "Critically Low TSH",
+    "body": "Your TSH is very low, indicating possible hyperthyroidism (overactive thyroid). This can cause rapid heart rate, anxiety, and weight loss."
+  },
+  "tsh_low": {
+    "title": "Low TSH",
+    "body": "Your TSH is below normal, suggesting possible overactive thyroid. Follow up with your doctor."
+  },
+  "tsh_normal": {
+    "title": "Normal TSH",
+    "body": "Your TSH level is within the normal range, suggesting normal thyroid function."
+  },
+  "tsh_high": {
+    "title": "Elevated TSH",
+    "body": "Your TSH is elevated, suggesting possible underactive thyroid. This can cause fatigue, weight gain, and cold intolerance."
+  },
+  "tsh_critical_high": {
+    "title": "Severely Elevated TSH",
+    "body": "Your TSH is markedly elevated, indicating significant hypothyroidism that requires treatment."
+  },
+  "tsh_abnormal": {
+    "title": "Abnormal TSH",
+    "body": "Your TSH is outside the normal range. Follow up with your doctor for thyroid evaluation."
+  },
+
+  "hba1c_description": {
+    "title": "About Hemoglobin A1c",
+    "body": "HbA1c reflects your average blood sugar over the past 2-3 months. It's used to diagnose and monitor diabetes."
+  },
+  "hba1c_normal": {
+    "title": "Normal HbA1c",
+    "body": "Your HbA1c is in the normal range, suggesting good blood sugar control over recent months."
+  },
+  "hba1c_high": {
+    "title": "Elevated HbA1c",
+    "body": "Your HbA1c is elevated, indicating higher than normal average blood sugar. This may indicate prediabetes or diabetes."
+  },
+  "hba1c_critical_high": {
+    "title": "Very High HbA1c",
+    "body": "Your HbA1c is significantly elevated, indicating poorly controlled diabetes. This increases risk of complications and requires medical attention."
+  },
+
+  "d_dimer_description": {
+    "title": "About D-Dimer",
+    "body": "D-dimer is a protein fragment produced when blood clots dissolve. Elevated levels may indicate abnormal clotting activity."
+  },
+  "d_dimer_normal": {
+    "title": "Normal D-Dimer",
+    "body": "Your D-dimer is within the normal range. A normal result helps rule out active blood clots."
+  },
+  "d_dimer_high": {
+    "title": "Elevated D-Dimer",
+    "body": "Your D-dimer is elevated. While this doesn't confirm a blood clot, it may warrant further testing to rule out DVT or pulmonary embolism."
+  },
+  "d_dimer_critical_high": {
+    "title": "Markedly Elevated D-Dimer",
+    "body": "Your D-dimer is significantly elevated. Combined with your symptoms, this raises concern for blood clots and requires evaluation."
   }
 }

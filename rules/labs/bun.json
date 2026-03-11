@@ -1,0 +1,49 @@
+{
+  "test_code": "bun",
+  "display_name": "Blood Urea Nitrogen (BUN)",
+  "category": "renal",
+  "description_key": "bun_description",
+  "units": ["mg/dL", "mmol/L"],
+  "range_strategy": "lab_reference_preferred",
+  "status_logic": {
+    "method": "flag_first_then_reference_range",
+    "critical_low": null,
+    "low": { "value": 6 },
+    "high": { "value": 20 },
+    "critical_high": { "value": 100 }
+  },
+  "interpretation": {
+    "low_key": "bun_low",
+    "normal_key": "bun_normal",
+    "high_key": "bun_high",
+    "critical_high_key": "bun_critical_high"
+  },
+  "urgency_rules": [
+    {
+      "id": "bun_critical_high",
+      "label": "Severely elevated BUN",
+      "join": "all",
+      "conditions": [
+        { "field": "derived.lab_status.bun", "operator": "eq", "value": "CRITICAL_HIGH" }
+      ],
+      "disposition": "ER_NOW",
+      "priority": "critical",
+      "reason_codes": ["UREMIA"],
+      "explanation_keys": ["bun_critical_high"],
+      "safety_net_keys": ["seek_immediate_evaluation"]
+    },
+    {
+      "id": "bun_high",
+      "label": "Elevated BUN",
+      "join": "all",
+      "conditions": [
+        { "field": "derived.lab_status.bun", "operator": "eq", "value": "HIGH" }
+      ],
+      "disposition": "PRIMARY_CARE_24_72H",
+      "priority": "medium",
+      "reason_codes": ["ELEVATED_BUN"],
+      "explanation_keys": ["bun_high"],
+      "safety_net_keys": ["follow_up_primary_care"]
+    }
+  ]
+}

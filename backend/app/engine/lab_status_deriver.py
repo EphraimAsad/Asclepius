@@ -63,6 +63,11 @@ class LabStatusDeriver:
         if threshold is None:
             return False
 
+        # Check simple value threshold first
+        if threshold.value is not None:
+            if value >= threshold.value:
+                return True
+
         # Check multiplier of reference high
         if threshold.multiplier_of_reference_high is not None:
             if lab_input.reference_high is not None:
@@ -95,6 +100,11 @@ class LabStatusDeriver:
         """Check if value falls below a low threshold."""
         if threshold is None:
             return False
+
+        # Check simple value threshold first
+        if threshold.value is not None:
+            if value <= threshold.value:
+                return True
 
         # Check multiplier of reference low
         if threshold.multiplier_of_reference_low is not None:

@@ -1,0 +1,64 @@
+{
+  "test_code": "calcium",
+  "display_name": "Calcium",
+  "category": "electrolytes",
+  "description_key": "calcium_description",
+  "units": ["mg/dL", "mmol/L"],
+  "range_strategy": "lab_reference_preferred",
+  "status_logic": {
+    "method": "flag_first_then_reference_range",
+    "critical_low": { "value": 6.0 },
+    "low": { "value": 8.5 },
+    "high": { "value": 10.5 },
+    "critical_high": { "value": 14.0 }
+  },
+  "interpretation": {
+    "critical_low_key": "calcium_critical_low",
+    "low_key": "calcium_low",
+    "normal_key": "calcium_normal",
+    "high_key": "calcium_high",
+    "critical_high_key": "calcium_critical_high"
+  },
+  "urgency_rules": [
+    {
+      "id": "calcium_critical_high",
+      "label": "Severe hypercalcemia",
+      "join": "all",
+      "conditions": [
+        { "field": "derived.lab_status.calcium", "operator": "eq", "value": "CRITICAL_HIGH" }
+      ],
+      "disposition": "ER_NOW",
+      "priority": "critical",
+      "reason_codes": ["SEVERE_HYPERCALCEMIA"],
+      "explanation_keys": ["calcium_critical_high"],
+      "safety_net_keys": ["seek_immediate_evaluation"]
+    },
+    {
+      "id": "calcium_critical_low",
+      "label": "Severe hypocalcemia",
+      "join": "all",
+      "conditions": [
+        { "field": "derived.lab_status.calcium", "operator": "eq", "value": "CRITICAL_LOW" }
+      ],
+      "disposition": "ER_NOW",
+      "priority": "critical",
+      "reason_codes": ["SEVERE_HYPOCALCEMIA"],
+      "explanation_keys": ["calcium_critical_low"],
+      "safety_net_keys": ["seek_immediate_evaluation"]
+    },
+    {
+      "id": "calcium_abnormal",
+      "label": "Abnormal calcium",
+      "join": "any",
+      "conditions": [
+        { "field": "derived.lab_status.calcium", "operator": "eq", "value": "LOW" },
+        { "field": "derived.lab_status.calcium", "operator": "eq", "value": "HIGH" }
+      ],
+      "disposition": "PRIMARY_CARE_24_72H",
+      "priority": "medium",
+      "reason_codes": ["ABNORMAL_CALCIUM"],
+      "explanation_keys": ["calcium_abnormal"],
+      "safety_net_keys": ["follow_up_primary_care"]
+    }
+  ]
+}

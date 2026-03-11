@@ -1,0 +1,66 @@
+{
+  "test_code": "magnesium",
+  "display_name": "Magnesium",
+  "category": "electrolytes",
+  "description_key": "magnesium_description",
+  "units": ["mg/dL", "mEq/L", "mmol/L"],
+  "range_strategy": "lab_reference_preferred",
+  "status_logic": {
+    "method": "flag_first_then_reference_range",
+    "critical_low": { "value": 1.0 },
+    "low": { "value": 1.7 },
+    "high": { "value": 2.4 },
+    "critical_high": { "value": 4.0 }
+  },
+  "interpretation": {
+    "critical_low_key": "magnesium_critical_low",
+    "low_key": "magnesium_low",
+    "normal_key": "magnesium_normal",
+    "high_key": "magnesium_high",
+    "critical_high_key": "magnesium_critical_high"
+  },
+  "urgency_rules": [
+    {
+      "id": "magnesium_critical",
+      "label": "Critical magnesium level",
+      "join": "any",
+      "conditions": [
+        { "field": "derived.lab_status.magnesium", "operator": "eq", "value": "CRITICAL_LOW" },
+        { "field": "derived.lab_status.magnesium", "operator": "eq", "value": "CRITICAL_HIGH" }
+      ],
+      "disposition": "ER_NOW",
+      "priority": "high",
+      "reason_codes": ["CRITICAL_MAGNESIUM"],
+      "explanation_keys": ["magnesium_critical"],
+      "safety_net_keys": ["seek_immediate_evaluation"]
+    },
+    {
+      "id": "magnesium_low_cardiac",
+      "label": "Low magnesium with cardiac symptoms",
+      "join": "all",
+      "conditions": [
+        { "field": "derived.lab_status.magnesium", "operator": "eq", "value": "LOW" },
+        { "field": "symptoms.palpitations", "operator": "is_true", "value": true }
+      ],
+      "disposition": "URGENT_CARE_TODAY",
+      "priority": "high",
+      "reason_codes": ["HYPOMAGNESEMIA_CARDIAC"],
+      "explanation_keys": ["magnesium_low"],
+      "safety_net_keys": ["monitor_symptoms", "return_if_worse"]
+    },
+    {
+      "id": "magnesium_abnormal",
+      "label": "Abnormal magnesium",
+      "join": "any",
+      "conditions": [
+        { "field": "derived.lab_status.magnesium", "operator": "eq", "value": "LOW" },
+        { "field": "derived.lab_status.magnesium", "operator": "eq", "value": "HIGH" }
+      ],
+      "disposition": "PRIMARY_CARE_24_72H",
+      "priority": "medium",
+      "reason_codes": ["ABNORMAL_MAGNESIUM"],
+      "explanation_keys": ["magnesium_abnormal"],
+      "safety_net_keys": ["follow_up_primary_care"]
+    }
+  ]
+}

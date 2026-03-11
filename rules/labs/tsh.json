@@ -1,0 +1,78 @@
+{
+  "test_code": "tsh",
+  "display_name": "TSH",
+  "category": "thyroid",
+  "description_key": "tsh_description",
+  "units": ["mIU/L", "uIU/mL"],
+  "range_strategy": "lab_reference_preferred",
+  "status_logic": {
+    "method": "flag_first_then_reference_range",
+    "critical_low": { "value": 0.01 },
+    "low": { "value": 0.4 },
+    "high": { "value": 4.5 },
+    "critical_high": { "value": 50 }
+  },
+  "interpretation": {
+    "critical_low_key": "tsh_critical_low",
+    "low_key": "tsh_low",
+    "normal_key": "tsh_normal",
+    "high_key": "tsh_high",
+    "critical_high_key": "tsh_critical_high"
+  },
+  "urgency_rules": [
+    {
+      "id": "tsh_critical_low_symptomatic",
+      "label": "Thyroid storm concern",
+      "join": "all",
+      "conditions": [
+        { "field": "derived.lab_status.tsh", "operator": "eq", "value": "CRITICAL_LOW" },
+        { "field": "symptoms.fever", "operator": "is_true", "value": true }
+      ],
+      "disposition": "ER_NOW",
+      "priority": "critical",
+      "reason_codes": ["THYROID_STORM"],
+      "explanation_keys": ["tsh_critical_low"],
+      "safety_net_keys": ["seek_immediate_evaluation"]
+    },
+    {
+      "id": "tsh_critical_high",
+      "label": "Severe hypothyroidism",
+      "join": "all",
+      "conditions": [
+        { "field": "derived.lab_status.tsh", "operator": "eq", "value": "CRITICAL_HIGH" }
+      ],
+      "disposition": "URGENT_CARE_TODAY",
+      "priority": "high",
+      "reason_codes": ["SEVERE_HYPOTHYROIDISM"],
+      "explanation_keys": ["tsh_critical_high"],
+      "safety_net_keys": ["monitor_symptoms", "return_if_worse"]
+    },
+    {
+      "id": "tsh_critical_low",
+      "label": "Suppressed TSH",
+      "join": "all",
+      "conditions": [
+        { "field": "derived.lab_status.tsh", "operator": "eq", "value": "CRITICAL_LOW" }
+      ],
+      "disposition": "URGENT_CARE_TODAY",
+      "priority": "high",
+      "reason_codes": ["HYPERTHYROIDISM"],
+      "explanation_keys": ["tsh_critical_low"],
+      "safety_net_keys": ["monitor_symptoms"]
+    },
+    {
+      "id": "tsh_abnormal",
+      "label": "Abnormal TSH",
+      "join": "any",
+      "conditions": [
+        { "field": "derived.lab_status.tsh", "operator": "eq", "value": "LOW" },
+        { "field": "derived.lab_status.tsh", "operator": "eq", "value": "HIGH" }
+      ],
+      "disposition": "PRIMARY_CARE_24_72H",
+      "priority": "medium",
+      "reason_codes": ["THYROID_ABNORMALITY"],
+      "explanation_keys": ["tsh_abnormal"],
+      "safety_net_keys": ["follow_up_primary_care"]
+    }
+  ]
+}

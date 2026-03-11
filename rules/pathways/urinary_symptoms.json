@@ -1,0 +1,87 @@
+{
+  "pathway_id": "urinary_symptoms",
+  "display_name": "Urinary Symptoms",
+  "chief_complaint_aliases": ["urinary_symptoms", "painful_urination", "frequent_urination", "uti", "blood_in_urine"],
+  "intake_fields": [
+    "symptoms.blood_in_urine",
+    "symptoms.severe_flank_pain",
+    "symptoms.fever",
+    "symptoms.inability_to_urinate",
+    "symptoms.painful_urination",
+    "symptoms.frequency",
+    "symptoms.urgency",
+    "symptoms.lower_abdominal_pain",
+    "symptoms.back_pain"
+  ],
+  "rules": [
+    {
+      "id": "uri_retention",
+      "label": "Urinary retention",
+      "join": "all",
+      "conditions": [
+        { "field": "symptoms.inability_to_urinate", "operator": "is_true", "value": true }
+      ],
+      "disposition": "ER_NOW",
+      "priority": "critical",
+      "reason_codes": ["URINARY_RETENTION"],
+      "explanation_keys": ["uri_retention_explanation"],
+      "safety_net_keys": ["seek_immediate_evaluation"]
+    },
+    {
+      "id": "uri_pyelonephritis",
+      "label": "Possible kidney infection",
+      "join": "all",
+      "conditions": [
+        { "field": "symptoms.fever", "operator": "is_true", "value": true },
+        { "field": "symptoms.severe_flank_pain", "operator": "is_true", "value": true }
+      ],
+      "disposition": "ER_NOW",
+      "priority": "high",
+      "reason_codes": ["PYELONEPHRITIS"],
+      "explanation_keys": ["uri_kidney_explanation"],
+      "safety_net_keys": ["seek_immediate_evaluation"]
+    },
+    {
+      "id": "uri_kidney_stone",
+      "label": "Possible kidney stone",
+      "join": "all",
+      "conditions": [
+        { "field": "symptoms.severe_flank_pain", "operator": "is_true", "value": true },
+        { "field": "symptoms.blood_in_urine", "operator": "is_true", "value": true }
+      ],
+      "disposition": "URGENT_CARE_TODAY",
+      "priority": "high",
+      "reason_codes": ["KIDNEY_STONE"],
+      "explanation_keys": ["uri_stone_explanation"],
+      "safety_net_keys": ["monitor_symptoms", "return_if_worse"]
+    },
+    {
+      "id": "uri_uti_fever",
+      "label": "UTI with fever",
+      "join": "all",
+      "conditions": [
+        { "field": "symptoms.painful_urination", "operator": "is_true", "value": true },
+        { "field": "symptoms.fever", "operator": "is_true", "value": true }
+      ],
+      "disposition": "URGENT_CARE_TODAY",
+      "priority": "medium",
+      "reason_codes": ["UTI_WITH_FEVER"],
+      "explanation_keys": ["uri_uti_fever_explanation"],
+      "safety_net_keys": ["monitor_symptoms", "return_if_worse"]
+    },
+    {
+      "id": "uri_simple_uti",
+      "label": "Simple urinary tract infection",
+      "join": "all",
+      "conditions": [
+        { "field": "symptoms.painful_urination", "operator": "is_true", "value": true },
+        { "field": "symptoms.fever", "operator": "is_false", "value": false }
+      ],
+      "disposition": "PRIMARY_CARE_24_72H",
+      "priority": "low",
+      "reason_codes": ["SIMPLE_UTI"],
+      "explanation_keys": ["uri_simple_explanation"],
+      "safety_net_keys": ["follow_up_primary_care", "return_if_worse"]
+    }
+  ]
+}

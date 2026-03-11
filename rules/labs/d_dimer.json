@@ -1,0 +1,76 @@
+{
+  "test_code": "d_dimer",
+  "display_name": "D-Dimer",
+  "category": "coagulation",
+  "description_key": "d_dimer_description",
+  "units": ["ng/mL", "ug/L", "mg/L FEU"],
+  "range_strategy": "lab_reference_preferred",
+  "status_logic": {
+    "method": "flag_first_then_reference_range",
+    "critical_low": null,
+    "low": null,
+    "high": { "use_reference_high": true },
+    "critical_high": { "multiplier_of_reference_high": 5 }
+  },
+  "interpretation": {
+    "normal_key": "d_dimer_normal",
+    "high_key": "d_dimer_high",
+    "critical_high_key": "d_dimer_critical_high"
+  },
+  "urgency_rules": [
+    {
+      "id": "d_dimer_high_dvt_symptoms",
+      "label": "Elevated D-dimer with DVT symptoms",
+      "join": "all",
+      "conditions": [
+        { "field": "derived.lab_status.d_dimer", "operator": "in", "value": ["HIGH", "CRITICAL_HIGH"] },
+        { "field": "symptoms.leg_swelling", "operator": "is_true", "value": true }
+      ],
+      "disposition": "ER_NOW",
+      "priority": "critical",
+      "reason_codes": ["DVT_CONCERN"],
+      "explanation_keys": ["d_dimer_high"],
+      "safety_net_keys": ["seek_immediate_evaluation"]
+    },
+    {
+      "id": "d_dimer_high_pe_symptoms",
+      "label": "Elevated D-dimer with PE symptoms",
+      "join": "all",
+      "conditions": [
+        { "field": "derived.lab_status.d_dimer", "operator": "in", "value": ["HIGH", "CRITICAL_HIGH"] },
+        { "field": "symptoms.shortness_of_breath", "operator": "is_true", "value": true }
+      ],
+      "disposition": "ER_NOW",
+      "priority": "critical",
+      "reason_codes": ["PE_CONCERN"],
+      "explanation_keys": ["d_dimer_high"],
+      "safety_net_keys": ["seek_immediate_evaluation"]
+    },
+    {
+      "id": "d_dimer_critical_high",
+      "label": "Severely elevated D-dimer",
+      "join": "all",
+      "conditions": [
+        { "field": "derived.lab_status.d_dimer", "operator": "eq", "value": "CRITICAL_HIGH" }
+      ],
+      "disposition": "URGENT_CARE_TODAY",
+      "priority": "high",
+      "reason_codes": ["ELEVATED_D_DIMER"],
+      "explanation_keys": ["d_dimer_critical_high"],
+      "safety_net_keys": ["monitor_symptoms", "return_if_worse"]
+    },
+    {
+      "id": "d_dimer_high",
+      "label": "Elevated D-dimer",
+      "join": "all",
+      "conditions": [
+        { "field": "derived.lab_status.d_dimer", "operator": "eq", "value": "HIGH" }
+      ],
+      "disposition": "PRIMARY_CARE_24_72H",
+      "priority": "medium",
+      "reason_codes": ["ELEVATED_D_DIMER"],
+      "explanation_keys": ["d_dimer_high"],
+      "safety_net_keys": ["follow_up_primary_care"]
+    }
+  ]
+}

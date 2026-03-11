@@ -25,7 +25,9 @@ Asclepius is a care navigation and education tool that uses deterministic rules 
 | Backend | FastAPI / Python 3.11+ / Pydantic v2 |
 | Database | PostgreSQL (for audit logging) |
 | Rules | JSON-based with JSON Schema validation |
+| Testing | pytest (backend), Vitest (frontend), Playwright (E2E) |
 | Containers | Docker + docker-compose |
+| CI/CD | GitHub Actions |
 
 ## Quick Start
 
@@ -83,7 +85,11 @@ C:\Asclepius\
 │   │   │   └── labs/        # Lab interpretation flow
 │   │   ├── components/      # React components
 │   │   ├── hooks/           # Custom React hooks
-│   │   └── lib/             # API client, schemas
+│   │   ├── lib/             # API client, schemas
+│   │   └── __tests__/       # Vitest unit tests
+│   ├── e2e/                 # Playwright E2E tests
+│   ├── vitest.config.ts
+│   ├── playwright.config.ts
 │   ├── package.json
 │   └── Dockerfile
 │
@@ -100,8 +106,8 @@ C:\Asclepius\
 ├── rules/                    # All triage rules (JSON)
 │   ├── schema/              # JSON Schema for validation
 │   ├── core/                # Global emergency rules, risk modifiers
-│   ├── pathways/            # Symptom pathways (chest_pain, etc.)
-│   ├── labs/                # Lab test definitions
+│   ├── pathways/            # 21 symptom pathways
+│   ├── labs/                # 21 lab test definitions
 │   ├── catalogs/            # Explanations, safety warnings
 │   └── compiled/            # Compiled master rulebook
 │
@@ -109,10 +115,12 @@ C:\Asclepius\
 │   ├── compile_rules.py     # Compiles rules into single JSON
 │   └── validate_rules.py    # Validates against schema
 │
+├── .github/workflows/       # CI/CD configuration
+│   └── ci.yml
+│
 ├── docker-compose.yml
 ├── README.md
-├── Context.md               # Project status for collaboration
-└── currentplan.txt          # Implementation plan
+└── Context.md               # Project status for collaboration
 ```
 
 ## API Endpoints
@@ -130,9 +138,8 @@ C:\Asclepius\
 curl -X POST http://localhost:8000/api/v1/triage/evaluate \
   -H "Content-Type: application/json" \
   -d '{
-    "patient": {"age": 55, "sex": "male", "comorbidities": ["diabetes"], "medications": []},
+    "patient": {"age": 55, "sex": "male", "medical_history": {"diabetes": true}},
     "symptoms": {"chief_complaint": "chest_pain", "symptoms": {"chest_pressure": true, "shortness_of_breath": true}},
-    "labs": [],
     "session_id": "test123"
   }'
 ```
@@ -143,7 +150,7 @@ curl -X POST http://localhost:8000/api/v1/triage/evaluate \
   "disposition": "ER_NOW",
   "priority": "critical",
   "matched_rule_ids": ["cp_high_acuity"],
-  "reason_codes": ["POSSIBLE_ACS", "DIABETES_CARDIAC_RISK"],
+  "reason_codes": ["POSSIBLE_ACS"],
   "explanation": "Your symptoms include chest pressure combined with shortness of breath...",
   "safety_warnings": ["If your symptoms worsen...seek emergency care immediately."],
   "disclaimer": "This is not a medical diagnosis..."
@@ -169,46 +176,91 @@ The triage engine follows an **8-step deterministic evaluation**:
 |-------|-------------|-------|
 | CALL_911 | Medical emergency - call 911 immediately | Red |
 | ER_NOW | Go to emergency room now | Orange |
-| URGENT_CARE_TODAY | Seek urgent care today | Amber |
-| PRIMARY_CARE_24_72H | See primary care within 1-3 days | Yellow |
+| URGENT_CARE_TODAY | Seek urgent care today | Yellow |
+| PRIMARY_CARE_24_72H | See primary care within 1-3 days | Blue |
 | SELF_CARE | Manage at home with monitoring | Green |
 
 ## Current Rules
 
-### Global Emergency Rules (7 rules)
-- Cardiac arrest signs → CALL_911
-- Stroke (FAST criteria) → CALL_911
-- Severe breathing difficulty → CALL_911
-- Anaphylaxis → CALL_911
-- Uncontrolled bleeding → CALL_911
-- Loss of consciousness → CALL_911
-- Classic heart attack (chest pain + radiation + sweating) → CALL_911
+### Compiled Rulebook Stats
+- **Global emergency rules**: 7
+- **Risk modifiers**: 4
+- **Triage pathways**: 21
+- **Lab tests**: 21
+- **Symptom-lab escalation rules**: 2
+- **Explanation catalog entries**: 234
+- **Safety net entries**: 14
+- **Reason codes**: 162
 
-### Risk Modifiers (4 rules)
-- Diabetes → Escalate by one level (max ER_NOW)
-- Prior heart attack → Escalate by one level
-- Age 65+ with cardiac symptoms → Minimum URGENT_CARE_TODAY
-- Hypertension with chest pain → Add reason code
+### Triage Pathways (21)
 
-### Triage Pathways (1 pathway)
-- **Chest Pain**: Evaluates pressure, shortness of breath, radiation, sweating, etc.
+| Pathway | Description |
+|---------|-------------|
+| Chest Pain | Cardiac and pulmonary symptoms |
+| Shortness of Breath | Respiratory distress evaluation |
+| Abdominal Pain | GI and surgical emergencies |
+| Headache | Neurological symptoms |
+| Dizziness | Vertigo and syncope |
+| Fever | Infection and sepsis signs |
+| Back Pain | Spinal emergencies |
+| Nausea/Vomiting | GI symptoms and dehydration |
+| Fatigue | Weakness and systemic illness |
+| Cough | Respiratory conditions |
+| Sore Throat | Airway and infection |
+| Urinary Symptoms | UTI and kidney issues |
+| Skin Rash | Allergic and infectious rashes |
+| Joint Pain | Arthritis and septic joints |
+| Anxiety/Panic | Mental health crisis |
+| Palpitations | Cardiac arrhythmias |
+| Numbness/Tingling | Neurological symptoms |
+| Vision Changes | Eye emergencies |
+| Ear Pain | Ear infections |
+| Allergic Reaction | Anaphylaxis screening |
+| Leg Swelling | DVT and PE concerns |
 
-### Lab Tests (1 test)
-- **Troponin**: Derives NORMAL/HIGH/CRITICAL_HIGH status, with urgency rules
+### Lab Tests (21)
+
+| Category | Tests |
+|----------|-------|
+| Cardiac | Troponin |
+| Metabolic | Glucose, HbA1c |
+| Hematology | Hemoglobin, Hematocrit, WBC, Platelet |
+| Renal | Creatinine, BUN |
+| Electrolytes | Sodium, Potassium, Chloride, CO2, Calcium, Magnesium |
+| Liver | AST, ALT, Bilirubin, Alkaline Phosphatase |
+| Thyroid | TSH |
+| Coagulation | D-Dimer |
 
 ## Testing
 
-**Backend:**
+### Backend Tests
 ```bash
 cd backend
-pytest
+pytest -v
 ```
 
-**Frontend:**
+### Frontend Unit Tests
 ```bash
 cd frontend
-npm test
+npm test           # Watch mode
+npm run test:run   # Single run
 ```
+
+### Frontend E2E Tests
+```bash
+cd frontend
+npm run test:e2e      # Headless
+npm run test:e2e:ui   # Interactive UI
+```
+
+### CI/CD
+
+The project includes GitHub Actions CI that:
+- Runs backend tests (pytest)
+- Runs frontend unit tests (Vitest)
+- Runs frontend E2E tests (Playwright)
+- Validates the compiled rulebook
+- Builds Docker images
 
 ## Adding New Rules
 

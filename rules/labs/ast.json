@@ -1,0 +1,62 @@
+{
+  "test_code": "ast",
+  "display_name": "AST (SGOT)",
+  "category": "liver",
+  "description_key": "ast_description",
+  "units": ["U/L", "IU/L"],
+  "range_strategy": "lab_reference_preferred",
+  "status_logic": {
+    "method": "flag_first_then_reference_range",
+    "critical_low": null,
+    "low": null,
+    "high": { "use_reference_high": true },
+    "critical_high": { "multiplier_of_reference_high": 10 }
+  },
+  "interpretation": {
+    "normal_key": "ast_normal",
+    "high_key": "ast_high",
+    "critical_high_key": "ast_critical_high"
+  },
+  "urgency_rules": [
+    {
+      "id": "ast_critical_high",
+      "label": "Severely elevated AST",
+      "join": "all",
+      "conditions": [
+        { "field": "derived.lab_status.ast", "operator": "eq", "value": "CRITICAL_HIGH" }
+      ],
+      "disposition": "ER_NOW",
+      "priority": "high",
+      "reason_codes": ["SEVERE_LIVER_INJURY"],
+      "explanation_keys": ["ast_critical_high"],
+      "safety_net_keys": ["seek_immediate_evaluation"]
+    },
+    {
+      "id": "ast_high_symptomatic",
+      "label": "Elevated AST with symptoms",
+      "join": "all",
+      "conditions": [
+        { "field": "derived.lab_status.ast", "operator": "eq", "value": "HIGH" },
+        { "field": "symptoms.jaundice", "operator": "is_true", "value": true }
+      ],
+      "disposition": "URGENT_CARE_TODAY",
+      "priority": "high",
+      "reason_codes": ["LIVER_DYSFUNCTION"],
+      "explanation_keys": ["ast_high"],
+      "safety_net_keys": ["monitor_symptoms", "return_if_worse"]
+    },
+    {
+      "id": "ast_high",
+      "label": "Elevated AST",
+      "join": "all",
+      "conditions": [
+        { "field": "derived.lab_status.ast", "operator": "eq", "value": "HIGH" }
+      ],
+      "disposition": "PRIMARY_CARE_24_72H",
+      "priority": "medium",
+      "reason_codes": ["ELEVATED_AST"],
+      "explanation_keys": ["ast_high"],
+      "safety_net_keys": ["follow_up_primary_care"]
+    }
+  ]
+}

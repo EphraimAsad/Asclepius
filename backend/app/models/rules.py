@@ -63,6 +63,7 @@ class TriagePathway(BaseModel):
 
 class StatusThreshold(BaseModel):
     """Threshold configuration for lab status determination."""
+    value: Optional[float | int] = None
     use_reference_low: Optional[bool] = None
     use_reference_high: Optional[bool] = None
     absolute_threshold_by_unit: Optional[dict[str, float | int]] = None

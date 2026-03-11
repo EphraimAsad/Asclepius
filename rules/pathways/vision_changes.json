@@ -1,0 +1,86 @@
+{
+  "pathway_id": "vision_changes",
+  "display_name": "Vision Changes",
+  "chief_complaint_aliases": ["vision_changes", "blurry_vision", "vision_loss", "double_vision", "eye_problems"],
+  "intake_fields": [
+    "symptoms.sudden_vision_loss",
+    "symptoms.one_eye",
+    "symptoms.headache",
+    "symptoms.eye_pain",
+    "symptoms.flashing_lights",
+    "symptoms.floaters",
+    "symptoms.curtain_effect",
+    "symptoms.double_vision",
+    "symptoms.recent_trauma"
+  ],
+  "rules": [
+    {
+      "id": "vis_sudden_loss",
+      "label": "Sudden vision loss",
+      "join": "all",
+      "conditions": [
+        { "field": "symptoms.sudden_vision_loss", "operator": "is_true", "value": true }
+      ],
+      "disposition": "CALL_911",
+      "priority": "critical",
+      "reason_codes": ["SUDDEN_VISION_LOSS"],
+      "explanation_keys": ["vis_sudden_explanation"],
+      "safety_net_keys": ["call_911_immediately"]
+    },
+    {
+      "id": "vis_retinal_detachment",
+      "label": "Possible retinal detachment",
+      "join": "all",
+      "conditions": [
+        { "field": "symptoms.flashing_lights", "operator": "is_true", "value": true },
+        { "field": "symptoms.curtain_effect", "operator": "is_true", "value": true }
+      ],
+      "disposition": "ER_NOW",
+      "priority": "critical",
+      "reason_codes": ["RETINAL_DETACHMENT"],
+      "explanation_keys": ["vis_retinal_explanation"],
+      "safety_net_keys": ["seek_immediate_evaluation"]
+    },
+    {
+      "id": "vis_acute_glaucoma",
+      "label": "Possible acute glaucoma",
+      "join": "all",
+      "conditions": [
+        { "field": "symptoms.eye_pain", "operator": "is_true", "value": true },
+        { "field": "symptoms.headache", "operator": "is_true", "value": true }
+      ],
+      "disposition": "ER_NOW",
+      "priority": "high",
+      "reason_codes": ["ACUTE_GLAUCOMA"],
+      "explanation_keys": ["vis_glaucoma_explanation"],
+      "safety_net_keys": ["seek_immediate_evaluation"]
+    },
+    {
+      "id": "vis_double_vision",
+      "label": "New double vision",
+      "join": "all",
+      "conditions": [
+        { "field": "symptoms.double_vision", "operator": "is_true", "value": true }
+      ],
+      "disposition": "URGENT_CARE_TODAY",
+      "priority": "medium",
+      "reason_codes": ["DIPLOPIA"],
+      "explanation_keys": ["vis_diplopia_explanation"],
+      "safety_net_keys": ["monitor_symptoms", "return_if_worse"]
+    },
+    {
+      "id": "vis_floaters_mild",
+      "label": "New floaters without other symptoms",
+      "join": "all",
+      "conditions": [
+        { "field": "symptoms.floaters", "operator": "is_true", "value": true },
+        { "field": "symptoms.flashing_lights", "operator": "is_false", "value": false }
+      ],
+      "disposition": "PRIMARY_CARE_24_72H",
+      "priority": "low",
+      "reason_codes": ["NEW_FLOATERS"],
+      "explanation_keys": ["vis_floaters_explanation"],
+      "safety_net_keys": ["follow_up_primary_care", "return_if_worse"]
+    }
+  ]
+}

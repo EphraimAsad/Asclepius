@@ -1,0 +1,62 @@
+{
+  "test_code": "hba1c",
+  "display_name": "Hemoglobin A1c",
+  "category": "metabolic",
+  "description_key": "hba1c_description",
+  "units": ["%"],
+  "range_strategy": "lab_reference_preferred",
+  "status_logic": {
+    "method": "flag_first_then_reference_range",
+    "critical_low": null,
+    "low": null,
+    "high": { "value": 6.5 },
+    "critical_high": { "value": 14.0 }
+  },
+  "interpretation": {
+    "normal_key": "hba1c_normal",
+    "high_key": "hba1c_high",
+    "critical_high_key": "hba1c_critical_high"
+  },
+  "urgency_rules": [
+    {
+      "id": "hba1c_critical_high_symptomatic",
+      "label": "Severe uncontrolled diabetes with symptoms",
+      "join": "all",
+      "conditions": [
+        { "field": "derived.lab_status.hba1c", "operator": "eq", "value": "CRITICAL_HIGH" },
+        { "field": "symptoms.excessive_thirst", "operator": "is_true", "value": true }
+      ],
+      "disposition": "ER_NOW",
+      "priority": "high",
+      "reason_codes": ["UNCONTROLLED_DIABETES"],
+      "explanation_keys": ["hba1c_critical_high"],
+      "safety_net_keys": ["seek_immediate_evaluation"]
+    },
+    {
+      "id": "hba1c_critical_high",
+      "label": "Severely elevated HbA1c",
+      "join": "all",
+      "conditions": [
+        { "field": "derived.lab_status.hba1c", "operator": "eq", "value": "CRITICAL_HIGH" }
+      ],
+      "disposition": "URGENT_CARE_TODAY",
+      "priority": "high",
+      "reason_codes": ["SEVERE_HYPERGLYCEMIA"],
+      "explanation_keys": ["hba1c_critical_high"],
+      "safety_net_keys": ["monitor_symptoms", "return_if_worse"]
+    },
+    {
+      "id": "hba1c_high",
+      "label": "Elevated HbA1c",
+      "join": "all",
+      "conditions": [
+        { "field": "derived.lab_status.hba1c", "operator": "eq", "value": "HIGH" }
+      ],
+      "disposition": "PRIMARY_CARE_24_72H",
+      "priority": "medium",
+      "reason_codes": ["DIABETES_POOR_CONTROL"],
+      "explanation_keys": ["hba1c_high"],
+      "safety_net_keys": ["follow_up_primary_care"]
+    }
+  ]
+}

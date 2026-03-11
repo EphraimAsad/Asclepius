@@ -1,0 +1,89 @@
+{
+  "pathway_id": "anxiety_panic",
+  "display_name": "Anxiety/Panic",
+  "chief_complaint_aliases": ["anxiety", "panic", "panic_attack", "nervous", "anxious"],
+  "intake_fields": [
+    "symptoms.chest_pain",
+    "symptoms.shortness_of_breath",
+    "symptoms.suicidal_thoughts",
+    "symptoms.self_harm_thoughts",
+    "symptoms.palpitations",
+    "symptoms.numbness_tingling",
+    "symptoms.sweating",
+    "symptoms.trembling",
+    "symptoms.first_episode"
+  ],
+  "rules": [
+    {
+      "id": "anx_suicidal",
+      "label": "Suicidal or self-harm thoughts",
+      "join": "any",
+      "conditions": [
+        { "field": "symptoms.suicidal_thoughts", "operator": "is_true", "value": true },
+        { "field": "symptoms.self_harm_thoughts", "operator": "is_true", "value": true }
+      ],
+      "disposition": "CALL_911",
+      "priority": "critical",
+      "reason_codes": ["SUICIDE_RISK"],
+      "explanation_keys": ["anx_suicidal_explanation"],
+      "safety_net_keys": ["call_911_immediately", "crisis_hotline"]
+    },
+    {
+      "id": "anx_cardiac_concern",
+      "label": "Anxiety with cardiac concern",
+      "join": "all",
+      "conditions": [
+        { "field": "symptoms.chest_pain", "operator": "is_true", "value": true },
+        { "field": "symptoms.first_episode", "operator": "is_true", "value": true }
+      ],
+      "disposition": "ER_NOW",
+      "priority": "high",
+      "reason_codes": ["CARDIAC_RULE_OUT"],
+      "explanation_keys": ["anx_cardiac_explanation"],
+      "safety_net_keys": ["seek_immediate_evaluation"]
+    },
+    {
+      "id": "anx_first_panic",
+      "label": "First panic attack",
+      "join": "all",
+      "conditions": [
+        { "field": "symptoms.first_episode", "operator": "is_true", "value": true },
+        { "field": "symptoms.palpitations", "operator": "is_true", "value": true }
+      ],
+      "disposition": "URGENT_CARE_TODAY",
+      "priority": "medium",
+      "reason_codes": ["FIRST_PANIC"],
+      "explanation_keys": ["anx_first_panic_explanation"],
+      "safety_net_keys": ["monitor_symptoms", "return_if_worse"]
+    },
+    {
+      "id": "anx_panic_attack",
+      "label": "Panic attack symptoms",
+      "join": "any",
+      "conditions": [
+        { "field": "symptoms.palpitations", "operator": "is_true", "value": true },
+        { "field": "symptoms.shortness_of_breath", "operator": "is_true", "value": true },
+        { "field": "symptoms.trembling", "operator": "is_true", "value": true }
+      ],
+      "disposition": "PRIMARY_CARE_24_72H",
+      "priority": "medium",
+      "reason_codes": ["PANIC_ATTACK"],
+      "explanation_keys": ["anx_panic_explanation"],
+      "safety_net_keys": ["follow_up_primary_care", "mental_health_resources"]
+    },
+    {
+      "id": "anx_mild",
+      "label": "Mild anxiety symptoms",
+      "join": "all",
+      "conditions": [
+        { "field": "symptoms.sweating", "operator": "is_true", "value": true },
+        { "field": "symptoms.chest_pain", "operator": "is_false", "value": false }
+      ],
+      "disposition": "PRIMARY_CARE_24_72H",
+      "priority": "low",
+      "reason_codes": ["ANXIETY"],
+      "explanation_keys": ["anx_mild_explanation"],
+      "safety_net_keys": ["follow_up_primary_care", "mental_health_resources"]
+    }
+  ]
+}

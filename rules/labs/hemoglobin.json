@@ -1,0 +1,64 @@
+{
+  "test_code": "hemoglobin",
+  "display_name": "Hemoglobin",
+  "category": "hematology",
+  "description_key": "hemoglobin_description",
+  "units": ["g/dL", "g/L"],
+  "range_strategy": "lab_reference_preferred",
+  "status_logic": {
+    "method": "flag_first_then_reference_range",
+    "critical_low": { "value": 7.0 },
+    "low": { "use_reference_low": true },
+    "high": { "use_reference_high": true },
+    "critical_high": { "value": 20.0 }
+  },
+  "interpretation": {
+    "critical_low_key": "hemoglobin_critical_low",
+    "low_key": "hemoglobin_low",
+    "normal_key": "hemoglobin_normal",
+    "high_key": "hemoglobin_high",
+    "critical_high_key": "hemoglobin_critical_high"
+  },
+  "urgency_rules": [
+    {
+      "id": "hemoglobin_critical_low",
+      "label": "Severe anemia",
+      "join": "all",
+      "conditions": [
+        { "field": "derived.lab_status.hemoglobin", "operator": "eq", "value": "CRITICAL_LOW" }
+      ],
+      "disposition": "ER_NOW",
+      "priority": "critical",
+      "reason_codes": ["SEVERE_ANEMIA"],
+      "explanation_keys": ["hemoglobin_critical_low"],
+      "safety_net_keys": ["seek_immediate_evaluation"]
+    },
+    {
+      "id": "hemoglobin_low_symptomatic",
+      "label": "Anemia with symptoms",
+      "join": "all",
+      "conditions": [
+        { "field": "derived.lab_status.hemoglobin", "operator": "eq", "value": "LOW" },
+        { "field": "symptoms.shortness_of_breath", "operator": "is_true", "value": true }
+      ],
+      "disposition": "URGENT_CARE_TODAY",
+      "priority": "high",
+      "reason_codes": ["SYMPTOMATIC_ANEMIA"],
+      "explanation_keys": ["hemoglobin_low"],
+      "safety_net_keys": ["monitor_symptoms", "return_if_worse"]
+    },
+    {
+      "id": "hemoglobin_low",
+      "label": "Low hemoglobin",
+      "join": "all",
+      "conditions": [
+        { "field": "derived.lab_status.hemoglobin", "operator": "eq", "value": "LOW" }
+      ],
+      "disposition": "PRIMARY_CARE_24_72H",
+      "priority": "medium",
+      "reason_codes": ["ANEMIA"],
+      "explanation_keys": ["hemoglobin_low"],
+      "safety_net_keys": ["follow_up_primary_care"]
+    }
+  ]
+}

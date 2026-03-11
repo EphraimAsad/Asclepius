@@ -1,0 +1,87 @@
+{
+  "pathway_id": "ear_pain",
+  "display_name": "Ear Pain",
+  "chief_complaint_aliases": ["ear_pain", "earache", "ear_infection", "hearing_problem"],
+  "intake_fields": [
+    "symptoms.fever",
+    "symptoms.drainage",
+    "symptoms.hearing_loss",
+    "symptoms.dizziness",
+    "symptoms.facial_weakness",
+    "symptoms.swelling_behind_ear",
+    "symptoms.recent_swimming",
+    "symptoms.recent_cold",
+    "symptoms.severe_pain"
+  ],
+  "rules": [
+    {
+      "id": "ear_mastoiditis",
+      "label": "Possible mastoiditis",
+      "join": "all",
+      "conditions": [
+        { "field": "symptoms.swelling_behind_ear", "operator": "is_true", "value": true },
+        { "field": "symptoms.fever", "operator": "is_true", "value": true }
+      ],
+      "disposition": "ER_NOW",
+      "priority": "critical",
+      "reason_codes": ["MASTOIDITIS"],
+      "explanation_keys": ["ear_mastoid_explanation"],
+      "safety_net_keys": ["seek_immediate_evaluation"]
+    },
+    {
+      "id": "ear_facial_nerve",
+      "label": "Ear infection with facial weakness",
+      "join": "all",
+      "conditions": [
+        { "field": "symptoms.facial_weakness", "operator": "is_true", "value": true }
+      ],
+      "disposition": "ER_NOW",
+      "priority": "high",
+      "reason_codes": ["FACIAL_NERVE_INVOLVEMENT"],
+      "explanation_keys": ["ear_facial_explanation"],
+      "safety_net_keys": ["seek_immediate_evaluation"]
+    },
+    {
+      "id": "ear_severe_infection",
+      "label": "Severe ear infection",
+      "join": "all",
+      "conditions": [
+        { "field": "symptoms.fever", "operator": "is_true", "value": true },
+        { "field": "symptoms.severe_pain", "operator": "is_true", "value": true }
+      ],
+      "disposition": "URGENT_CARE_TODAY",
+      "priority": "high",
+      "reason_codes": ["SEVERE_OTITIS"],
+      "explanation_keys": ["ear_severe_explanation"],
+      "safety_net_keys": ["monitor_symptoms", "return_if_worse"]
+    },
+    {
+      "id": "ear_swimmers",
+      "label": "Swimmer's ear",
+      "join": "all",
+      "conditions": [
+        { "field": "symptoms.recent_swimming", "operator": "is_true", "value": true },
+        { "field": "symptoms.drainage", "operator": "is_true", "value": true }
+      ],
+      "disposition": "PRIMARY_CARE_24_72H",
+      "priority": "medium",
+      "reason_codes": ["OTITIS_EXTERNA"],
+      "explanation_keys": ["ear_swimmers_explanation"],
+      "safety_net_keys": ["follow_up_primary_care", "return_if_worse"]
+    },
+    {
+      "id": "ear_mild_infection",
+      "label": "Mild ear infection",
+      "join": "all",
+      "conditions": [
+        { "field": "symptoms.recent_cold", "operator": "is_true", "value": true },
+        { "field": "symptoms.fever", "operator": "is_false", "value": false }
+      ],
+      "disposition": "PRIMARY_CARE_24_72H",
+      "priority": "low",
+      "reason_codes": ["MILD_OTITIS"],
+      "explanation_keys": ["ear_mild_explanation"],
+      "safety_net_keys": ["follow_up_primary_care", "return_if_worse"]
+    }
+  ]
+}

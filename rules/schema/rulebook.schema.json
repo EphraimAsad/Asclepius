@@ -369,6 +369,7 @@
       "type": ["object", "null"],
       "additionalProperties": false,
       "properties": {
+        "value": { "type": ["number", "integer"] },
         "use_reference_low": { "type": "boolean" },
         "use_reference_high": { "type": "boolean" },
         "absolute_threshold_by_unit": {

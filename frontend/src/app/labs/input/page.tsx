@@ -6,13 +6,171 @@ import { useConsent } from '@/hooks/useConsent';
 import { api, generateSessionId, LabInput } from '@/lib/api';
 
 const AVAILABLE_LABS = [
+  // Cardiac
   {
     code: 'troponin',
     name: 'Troponin',
+    category: 'Cardiac',
     units: ['ng/L', 'ng/mL'],
     defaultUnit: 'ng/L',
   },
+  // Metabolic
+  {
+    code: 'glucose',
+    name: 'Glucose',
+    category: 'Metabolic',
+    units: ['mg/dL', 'mmol/L'],
+    defaultUnit: 'mg/dL',
+  },
+  {
+    code: 'hba1c',
+    name: 'Hemoglobin A1c',
+    category: 'Metabolic',
+    units: ['%'],
+    defaultUnit: '%',
+  },
+  // Hematology
+  {
+    code: 'hemoglobin',
+    name: 'Hemoglobin',
+    category: 'Hematology',
+    units: ['g/dL', 'g/L'],
+    defaultUnit: 'g/dL',
+  },
+  {
+    code: 'hematocrit',
+    name: 'Hematocrit',
+    category: 'Hematology',
+    units: ['%'],
+    defaultUnit: '%',
+  },
+  {
+    code: 'wbc',
+    name: 'White Blood Cell Count',
+    category: 'Hematology',
+    units: ['K/uL', '10^9/L'],
+    defaultUnit: 'K/uL',
+  },
+  {
+    code: 'platelet',
+    name: 'Platelet Count',
+    category: 'Hematology',
+    units: ['K/uL', '10^9/L'],
+    defaultUnit: 'K/uL',
+  },
+  // Renal
+  {
+    code: 'creatinine',
+    name: 'Creatinine',
+    category: 'Renal',
+    units: ['mg/dL', 'umol/L'],
+    defaultUnit: 'mg/dL',
+  },
+  {
+    code: 'bun',
+    name: 'BUN (Blood Urea Nitrogen)',
+    category: 'Renal',
+    units: ['mg/dL', 'mmol/L'],
+    defaultUnit: 'mg/dL',
+  },
+  // Electrolytes
+  {
+    code: 'sodium',
+    name: 'Sodium',
+    category: 'Electrolytes',
+    units: ['mEq/L', 'mmol/L'],
+    defaultUnit: 'mEq/L',
+  },
+  {
+    code: 'potassium',
+    name: 'Potassium',
+    category: 'Electrolytes',
+    units: ['mEq/L', 'mmol/L'],
+    defaultUnit: 'mEq/L',
+  },
+  {
+    code: 'chloride',
+    name: 'Chloride',
+    category: 'Electrolytes',
+    units: ['mEq/L', 'mmol/L'],
+    defaultUnit: 'mEq/L',
+  },
+  {
+    code: 'co2',
+    name: 'CO2 / Bicarbonate',
+    category: 'Electrolytes',
+    units: ['mEq/L', 'mmol/L'],
+    defaultUnit: 'mEq/L',
+  },
+  {
+    code: 'calcium',
+    name: 'Calcium',
+    category: 'Electrolytes',
+    units: ['mg/dL', 'mmol/L'],
+    defaultUnit: 'mg/dL',
+  },
+  {
+    code: 'magnesium',
+    name: 'Magnesium',
+    category: 'Electrolytes',
+    units: ['mg/dL', 'mEq/L', 'mmol/L'],
+    defaultUnit: 'mg/dL',
+  },
+  // Liver
+  {
+    code: 'ast',
+    name: 'AST (SGOT)',
+    category: 'Liver',
+    units: ['U/L', 'IU/L'],
+    defaultUnit: 'U/L',
+  },
+  {
+    code: 'alt',
+    name: 'ALT (SGPT)',
+    category: 'Liver',
+    units: ['U/L', 'IU/L'],
+    defaultUnit: 'U/L',
+  },
+  {
+    code: 'bilirubin',
+    name: 'Total Bilirubin',
+    category: 'Liver',
+    units: ['mg/dL', 'umol/L'],
+    defaultUnit: 'mg/dL',
+  },
+  {
+    code: 'alkaline_phosphatase',
+    name: 'Alkaline Phosphatase',
+    category: 'Liver',
+    units: ['U/L', 'IU/L'],
+    defaultUnit: 'U/L',
+  },
+  // Thyroid
+  {
+    code: 'tsh',
+    name: 'TSH',
+    category: 'Thyroid',
+    units: ['mIU/L', 'uIU/mL'],
+    defaultUnit: 'mIU/L',
+  },
+  // Coagulation
+  {
+    code: 'd_dimer',
+    name: 'D-Dimer',
+    category: 'Coagulation',
+    units: ['ng/mL', 'ug/L', 'mg/L FEU'],
+    defaultUnit: 'ng/mL',
+  },
 ];
+
+// Group labs by category
+const LAB_CATEGORIES = AVAILABLE_LABS.reduce((acc, lab) => {
+  if (!acc[lab.category]) {
+    acc[lab.category] = [];
+  }
+  acc[lab.category].push(lab);
+  return acc;
+}, {} as Record<string, typeof AVAILABLE_LABS>);
 
 export default function LabInputPage() {
   const router = useRouter();
@@ -128,10 +286,14 @@ export default function LabInputPage() {
               }}
               className="input"
             >
-              {AVAILABLE_LABS.map((lab) => (
-                <option key={lab.code} value={lab.code}>
-                  {lab.name}
-                </option>
+              {Object.entries(LAB_CATEGORIES).map(([category, categoryLabs]) => (
+                <optgroup key={category} label={category}>
+                  {categoryLabs.map((lab) => (
+                    <option key={lab.code} value={lab.code}>
+                      {lab.name}
+                    </option>
+                  ))}
+                </optgroup>
               ))}
             </select>
           </div>

@@ -6,5 +6,11 @@
   "return_if_worse": "Return to emergency care or call 911 if your symptoms worsen, you develop difficulty breathing, chest pain, or feel significantly worse.",
   "stroke_warning": "Remember FAST: Face drooping, Arm weakness, Speech difficulty, Time to call 911. Every minute matters in stroke treatment.",
   "bleeding_warning": "Continue to apply direct pressure. If bleeding does not stop or you feel faint, call 911 immediately.",
-  "allergy_warning": "If you have an epinephrine auto-injector (EpiPen), use it immediately. Even if symptoms improve, you still need emergency evaluation."
+  "allergy_warning": "If you have an epinephrine auto-injector (EpiPen), use it immediately. Even if symptoms improve, you still need emergency evaluation.",
+  "use_epipen": "If you have an epinephrine auto-injector (EpiPen), use it immediately. Call 911 even if symptoms improve after using the EpiPen.",
+  "crisis_hotline": "If you are in crisis, call or text 988 (Suicide & Crisis Lifeline) for immediate support. Help is available 24/7.",
+  "mental_health_resources": "Consider reaching out to a mental health professional. Many resources are available including therapy, support groups, and crisis lines.",
+  "self_care_instructions": "Rest, stay hydrated, and take over-the-counter medications as appropriate for symptom relief. Contact your doctor if symptoms persist or worsen.",
+  "avoid_injury": "Avoid activities that could cause injury or bleeding. Do not take aspirin or NSAIDs without consulting your doctor.",
+  "hydration_reminder": "Stay well hydrated by drinking plenty of clear fluids. Monitor for signs of dehydration such as dark urine or dizziness."
 }

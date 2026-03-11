@@ -1,0 +1,87 @@
+{
+  "pathway_id": "cough",
+  "display_name": "Cough",
+  "chief_complaint_aliases": ["cough", "coughing", "persistent_cough", "dry_cough", "wet_cough"],
+  "intake_fields": [
+    "symptoms.coughing_blood",
+    "symptoms.shortness_of_breath",
+    "symptoms.chest_pain",
+    "symptoms.fever",
+    "symptoms.wheezing",
+    "symptoms.duration_weeks",
+    "symptoms.weight_loss",
+    "symptoms.night_sweats",
+    "symptoms.sore_throat"
+  ],
+  "rules": [
+    {
+      "id": "cough_hemoptysis",
+      "label": "Coughing up blood",
+      "join": "all",
+      "conditions": [
+        { "field": "symptoms.coughing_blood", "operator": "is_true", "value": true }
+      ],
+      "disposition": "ER_NOW",
+      "priority": "critical",
+      "reason_codes": ["HEMOPTYSIS"],
+      "explanation_keys": ["cough_blood_explanation"],
+      "safety_net_keys": ["seek_immediate_evaluation"]
+    },
+    {
+      "id": "cough_respiratory_distress",
+      "label": "Cough with respiratory distress",
+      "join": "all",
+      "conditions": [
+        { "field": "symptoms.shortness_of_breath", "operator": "is_true", "value": true },
+        { "field": "symptoms.wheezing", "operator": "is_true", "value": true }
+      ],
+      "disposition": "ER_NOW",
+      "priority": "high",
+      "reason_codes": ["RESPIRATORY_DISTRESS"],
+      "explanation_keys": ["cough_distress_explanation"],
+      "safety_net_keys": ["seek_immediate_evaluation"]
+    },
+    {
+      "id": "cough_pneumonia_concern",
+      "label": "Possible pneumonia",
+      "join": "all",
+      "conditions": [
+        { "field": "symptoms.fever", "operator": "is_true", "value": true },
+        { "field": "symptoms.chest_pain", "operator": "is_true", "value": true }
+      ],
+      "disposition": "URGENT_CARE_TODAY",
+      "priority": "high",
+      "reason_codes": ["POSSIBLE_PNEUMONIA"],
+      "explanation_keys": ["cough_pneumonia_explanation"],
+      "safety_net_keys": ["monitor_symptoms", "return_if_worse"]
+    },
+    {
+      "id": "cough_tb_concern",
+      "label": "Chronic cough with concerning features",
+      "join": "all",
+      "conditions": [
+        { "field": "symptoms.duration_weeks", "operator": "is_true", "value": true },
+        { "field": "symptoms.night_sweats", "operator": "is_true", "value": true }
+      ],
+      "disposition": "PRIMARY_CARE_24_72H",
+      "priority": "medium",
+      "reason_codes": ["CHRONIC_COUGH_CONCERN"],
+      "explanation_keys": ["cough_chronic_explanation"],
+      "safety_net_keys": ["follow_up_primary_care"]
+    },
+    {
+      "id": "cough_viral",
+      "label": "Likely viral upper respiratory infection",
+      "join": "all",
+      "conditions": [
+        { "field": "symptoms.sore_throat", "operator": "is_true", "value": true },
+        { "field": "symptoms.coughing_blood", "operator": "is_false", "value": false }
+      ],
+      "disposition": "SELF_CARE",
+      "priority": "low",
+      "reason_codes": ["VIRAL_URI"],
+      "explanation_keys": ["cough_viral_explanation"],
+      "safety_net_keys": ["self_care_instructions", "return_if_worse"]
+    }
+  ]
+}

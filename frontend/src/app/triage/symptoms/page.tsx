@@ -4,8 +4,9 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useConsent } from '@/hooks/useConsent';
 import {
-  CHEST_PAIN_SYMPTOMS,
   EMERGENCY_SYMPTOMS,
+  SYMPTOM_SETS,
+  CHEST_PAIN_SYMPTOMS,
 } from '@/lib/schemas/symptoms';
 
 export default function SymptomsPage() {
@@ -42,12 +43,7 @@ export default function SymptomsPage() {
   };
 
   const getSymptomList = () => {
-    switch (chiefComplaint) {
-      case 'chest_pain':
-        return CHEST_PAIN_SYMPTOMS;
-      default:
-        return CHEST_PAIN_SYMPTOMS; // Fallback for MVP
-    }
+    return SYMPTOM_SETS[chiefComplaint] || CHEST_PAIN_SYMPTOMS;
   };
 
   const handleContinue = () => {

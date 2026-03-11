@@ -1,0 +1,89 @@
+{
+  "pathway_id": "leg_swelling",
+  "display_name": "Leg Swelling/Pain",
+  "chief_complaint_aliases": ["leg_swelling", "swollen_leg", "leg_pain", "calf_pain", "dvt"],
+  "intake_fields": [
+    "symptoms.one_leg_only",
+    "symptoms.calf_pain",
+    "symptoms.warmth_redness",
+    "symptoms.shortness_of_breath",
+    "symptoms.chest_pain",
+    "symptoms.recent_surgery",
+    "symptoms.recent_travel",
+    "symptoms.both_legs",
+    "symptoms.sudden_onset"
+  ],
+  "rules": [
+    {
+      "id": "leg_pe_signs",
+      "label": "Leg swelling with PE signs",
+      "join": "any",
+      "conditions": [
+        { "field": "symptoms.shortness_of_breath", "operator": "is_true", "value": true },
+        { "field": "symptoms.chest_pain", "operator": "is_true", "value": true }
+      ],
+      "disposition": "CALL_911",
+      "priority": "critical",
+      "reason_codes": ["PULMONARY_EMBOLISM"],
+      "explanation_keys": ["leg_pe_explanation"],
+      "safety_net_keys": ["call_911_immediately"]
+    },
+    {
+      "id": "leg_dvt_high_risk",
+      "label": "High risk for DVT",
+      "join": "all",
+      "conditions": [
+        { "field": "symptoms.one_leg_only", "operator": "is_true", "value": true },
+        { "field": "symptoms.calf_pain", "operator": "is_true", "value": true },
+        { "field": "symptoms.warmth_redness", "operator": "is_true", "value": true }
+      ],
+      "disposition": "ER_NOW",
+      "priority": "critical",
+      "reason_codes": ["DVT_HIGH_RISK"],
+      "explanation_keys": ["leg_dvt_explanation"],
+      "safety_net_keys": ["seek_immediate_evaluation"]
+    },
+    {
+      "id": "leg_dvt_risk_factors",
+      "label": "DVT risk with risk factors",
+      "join": "all",
+      "conditions": [
+        { "field": "symptoms.one_leg_only", "operator": "is_true", "value": true },
+        { "field": "symptoms.recent_surgery", "operator": "is_true", "value": true }
+      ],
+      "disposition": "URGENT_CARE_TODAY",
+      "priority": "high",
+      "reason_codes": ["DVT_RISK_FACTORS"],
+      "explanation_keys": ["leg_dvt_risk_explanation"],
+      "safety_net_keys": ["monitor_symptoms", "return_if_worse"]
+    },
+    {
+      "id": "leg_unilateral_swelling",
+      "label": "Unilateral leg swelling",
+      "join": "all",
+      "conditions": [
+        { "field": "symptoms.one_leg_only", "operator": "is_true", "value": true },
+        { "field": "symptoms.sudden_onset", "operator": "is_true", "value": true }
+      ],
+      "disposition": "URGENT_CARE_TODAY",
+      "priority": "medium",
+      "reason_codes": ["UNILATERAL_SWELLING"],
+      "explanation_keys": ["leg_unilateral_explanation"],
+      "safety_net_keys": ["monitor_symptoms", "return_if_worse"]
+    },
+    {
+      "id": "leg_bilateral_chronic",
+      "label": "Bilateral leg swelling",
+      "join": "all",
+      "conditions": [
+        { "field": "symptoms.both_legs", "operator": "is_true", "value": true },
+        { "field": "symptoms.sudden_onset", "operator": "is_false", "value": false }
+      ],
+      "disposition": "PRIMARY_CARE_24_72H",
+      "priority": "low",
+      "reason_codes": ["BILATERAL_EDEMA"],
+      "explanation_keys": ["leg_bilateral_explanation"],
+      "safety_net_keys": ["follow_up_primary_care"]
+    }
+  ]
+}

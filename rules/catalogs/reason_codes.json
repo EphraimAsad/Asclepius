@@ -11,5 +11,191 @@
   "DIABETES_CARDIAC_RISK": "Diabetes present - increases risk of cardiac events and warrants more urgent evaluation",
   "HYPERTENSION_RISK": "Hypertension present - increases cardiovascular risk",
   "ELDERLY_RISK": "Age over 65 - increased risk for serious cardiac and vascular events",
-  "PRIOR_MI_RISK": "History of prior heart attack - significantly increases risk of recurrent cardiac events"
+  "PRIOR_MI_RISK": "History of prior heart attack - significantly increases risk of recurrent cardiac events",
+
+  "SOB_CHEST_PAIN": "Shortness of breath with chest pain - concerning for cardiac or pulmonary emergency",
+  "SUDDEN_SOB": "Sudden onset shortness of breath at rest - requires urgent evaluation",
+  "SOB_FEVER": "Shortness of breath with fever - possible respiratory infection",
+  "MILD_SOB": "Mild exertional shortness of breath - routine evaluation recommended",
+
+  "SURGICAL_ABDOMEN": "Signs of surgical emergency - rigid abdomen, GI bleeding",
+  "SEVERE_ABD_PAIN": "Severe sudden abdominal pain - possible surgical condition",
+  "POSSIBLE_APPENDICITIS": "Right lower quadrant pain with fever - concerning for appendicitis",
+  "POSSIBLE_GALLBLADDER": "Right upper quadrant pain - possible gallbladder disease",
+  "MILD_GI_SYMPTOMS": "Mild gastrointestinal symptoms",
+
+  "THUNDERCLAP_HEADACHE": "Sudden severe headache - possible intracranial hemorrhage",
+  "POSSIBLE_MENINGITIS": "Headache with stiff neck and fever - possible meningitis",
+  "HEADACHE_NEURO_SYMPTOMS": "Headache with neurological symptoms - requires urgent evaluation",
+  "POST_TRAUMA_HEADACHE": "Headache following head injury",
+  "MIGRAINE_FEATURES": "Headache with migraine features",
+
+  "DIZZINESS_STROKE_SIGNS": "Dizziness with stroke warning signs",
+  "DIZZINESS_CARDIAC": "Dizziness with cardiac symptoms",
+  "SYNCOPE": "Fainting episode requiring evaluation",
+  "VERTIGO_HEARING": "Vertigo with hearing changes - possible inner ear condition",
+  "POSITIONAL_VERTIGO": "Position-triggered vertigo - likely BPPV",
+
+  "FEVER_MENINGITIS_SIGNS": "Fever with meningitis warning signs",
+  "POSSIBLE_SEPSIS": "Fever with confusion - possible sepsis",
+  "FEVER_IMMUNOCOMPROMISED": "Fever in immunocompromised patient",
+  "FEVER_RASH": "Fever with rash",
+  "VIRAL_SYNDROME": "Symptoms consistent with viral illness",
+
+  "CAUDA_EQUINA_SIGNS": "Back pain with neurological warning signs - possible cauda equina syndrome",
+  "BACK_INFECTION_CONCERN": "Back pain with fever - possible spinal infection",
+  "BACK_TRAUMA": "Back pain following trauma",
+  "RADICULOPATHY": "Back pain with nerve symptoms",
+  "MECHANICAL_BACK_PAIN": "Mechanical back pain without red flags",
+
+  "GI_BLEEDING": "Vomiting blood - gastrointestinal bleeding",
+  "DEHYDRATION_RISK": "Unable to keep fluids down - dehydration risk",
+  "POST_CONCUSSION": "Vomiting after head injury",
+  "VIRAL_GASTRO": "Symptoms consistent with viral gastroenteritis",
+
+  "CARDIAC_CONCERN": "Symptoms concerning for cardiac condition",
+  "FATIGUE_INFECTION": "Fatigue with fever - possible infection",
+  "UNEXPLAINED_WEIGHT_LOSS": "Fatigue with unexplained weight loss",
+  "CHRONIC_FATIGUE": "Persistent fatigue requiring evaluation",
+
+  "HEMOPTYSIS": "Coughing up blood",
+  "RESPIRATORY_DISTRESS": "Severe respiratory symptoms",
+  "POSSIBLE_PNEUMONIA": "Symptoms concerning for pneumonia",
+  "CHRONIC_COUGH_CONCERN": "Chronic cough with concerning features",
+  "VIRAL_URI": "Symptoms consistent with viral upper respiratory infection",
+
+  "AIRWAY_COMPROMISE": "Signs of airway obstruction",
+  "PERITONSILLAR_ABSCESS": "Signs of peritonsillar abscess",
+  "POSSIBLE_STREP": "Symptoms concerning for strep throat",
+  "SCARLET_FEVER_CONCERN": "Sore throat with rash",
+  "VIRAL_PHARYNGITIS": "Symptoms consistent with viral pharyngitis",
+
+  "URINARY_RETENTION": "Inability to urinate - urinary retention",
+  "PYELONEPHRITIS": "Symptoms concerning for kidney infection",
+  "KIDNEY_STONE": "Symptoms consistent with kidney stone",
+  "UTI_WITH_FEVER": "Urinary tract infection with systemic symptoms",
+  "SIMPLE_UTI": "Symptoms consistent with bladder infection",
+
+  "MENINGOCOCCAL_CONCERN": "Petechial rash with fever - possible meningococcal disease",
+  "SEVERE_SKIN_REACTION": "Severe skin reaction",
+  "SPREADING_RASH": "Rapidly spreading rash",
+  "MILD_RASH": "Mild rash without systemic symptoms",
+
+  "SEPTIC_JOINT": "Hot swollen joint with fever - possible joint infection",
+  "POSSIBLE_FRACTURE": "Joint injury - possible fracture",
+  "ACUTE_ARTHRITIS": "Acute joint inflammation",
+  "INFLAMMATORY_ARTHRITIS": "Pattern suggesting inflammatory arthritis",
+  "MECHANICAL_JOINT_PAIN": "Mechanical joint pain",
+
+  "SUICIDE_RISK": "Suicidal or self-harm ideation - crisis intervention needed",
+  "CARDIAC_RULE_OUT": "First-time symptoms requiring cardiac evaluation",
+  "FIRST_PANIC": "First panic attack",
+  "PANIC_ATTACK": "Panic attack symptoms",
+  "ANXIETY": "Anxiety symptoms",
+
+  "SYNCOPE_ARRHYTHMIA": "Palpitations with syncope - possible dangerous arrhythmia",
+  "PALPITATIONS_CARDIAC": "Palpitations with cardiac symptoms",
+  "PROLONGED_ARRHYTHMIA": "Prolonged palpitation episode",
+  "PALPITATIONS_KNOWN_CARDIAC": "Palpitations in patient with known heart disease",
+  "BENIGN_PALPITATIONS": "Likely benign palpitations",
+
+  "POSSIBLE_STROKE": "Symptoms concerning for stroke",
+  "SPINAL_CORD_COMPRESSION": "Symptoms concerning for spinal cord compression",
+  "NERVE_COMPRESSION": "Symptoms suggesting nerve compression",
+  "PERIPHERAL_NEUROPATHY": "Pattern suggesting peripheral neuropathy",
+
+  "SUDDEN_VISION_LOSS": "Sudden vision loss - ophthalmologic emergency",
+  "RETINAL_DETACHMENT": "Symptoms concerning for retinal detachment",
+  "ACUTE_GLAUCOMA": "Symptoms concerning for acute glaucoma",
+  "DIPLOPIA": "New double vision",
+  "NEW_FLOATERS": "New floaters",
+
+  "MASTOIDITIS": "Signs of mastoiditis",
+  "FACIAL_NERVE_INVOLVEMENT": "Ear infection with facial nerve involvement",
+  "SEVERE_OTITIS": "Severe ear infection",
+  "OTITIS_EXTERNA": "Swimmer's ear",
+  "MILD_OTITIS": "Mild ear infection",
+
+  "SEVERE_ALLERGY": "Severe allergic reaction",
+  "PROGRESSIVE_ALLERGY": "Progressive allergic reaction",
+  "URTICARIA": "Hives without anaphylaxis",
+  "MILD_ALLERGY": "Mild allergic reaction",
+
+  "PULMONARY_EMBOLISM": "Symptoms concerning for pulmonary embolism",
+  "DVT_HIGH_RISK": "High clinical suspicion for deep vein thrombosis",
+  "DVT_RISK_FACTORS": "DVT symptoms with risk factors",
+  "UNILATERAL_SWELLING": "One-sided leg swelling",
+  "BILATERAL_EDEMA": "Both legs swollen",
+
+  "SEVERE_HYPOGLYCEMIA": "Dangerously low blood sugar",
+  "SEVERE_HYPERGLYCEMIA": "Dangerously high blood sugar",
+  "HYPOGLYCEMIA": "Low blood sugar",
+  "HYPERGLYCEMIA": "High blood sugar",
+
+  "SEVERE_ANEMIA": "Severely low hemoglobin/hematocrit",
+  "SYMPTOMATIC_ANEMIA": "Anemia with symptoms",
+  "ANEMIA": "Low hemoglobin",
+  "POLYCYTHEMIA": "Elevated hematocrit",
+  "ABNORMAL_HEMATOCRIT": "Abnormal hematocrit level",
+
+  "NEUTROPENIC_FEVER": "Fever with severely low white blood cells",
+  "SEVERE_LEUKOCYTOSIS": "Severely elevated white blood cells",
+  "LEUKOPENIA": "Low white blood cell count",
+  "ABNORMAL_WBC": "Abnormal white blood cell count",
+
+  "BLEEDING_THROMBOCYTOPENIA": "Low platelets with active bleeding",
+  "SEVERE_THROMBOCYTOPENIA": "Critically low platelet count",
+  "THROMBOCYTOPENIA": "Low platelet count",
+
+  "ACUTE_KIDNEY_INJURY": "Signs of acute kidney injury",
+  "KIDNEY_DYSFUNCTION": "Elevated kidney function tests with symptoms",
+  "ELEVATED_CREATININE": "Elevated creatinine level",
+  "UREMIA": "Severely elevated BUN",
+  "ELEVATED_BUN": "Elevated BUN level",
+
+  "SEVERE_HYPONATREMIA": "Critically low sodium with symptoms",
+  "CRITICAL_SODIUM": "Critical sodium level",
+  "ABNORMAL_SODIUM": "Abnormal sodium level",
+
+  "CRITICAL_POTASSIUM": "Critical potassium level - cardiac risk",
+  "HYPERKALEMIA_CARDIAC": "High potassium with cardiac symptoms",
+  "ABNORMAL_POTASSIUM": "Abnormal potassium level",
+
+  "CRITICAL_CHLORIDE": "Critical chloride level",
+  "ABNORMAL_CHLORIDE": "Abnormal chloride level",
+
+  "METABOLIC_ACIDOSIS": "Severely low bicarbonate - metabolic acidosis",
+  "ABNORMAL_CO2": "Abnormal CO2/bicarbonate level",
+
+  "SEVERE_HYPERCALCEMIA": "Critically high calcium",
+  "SEVERE_HYPOCALCEMIA": "Critically low calcium",
+  "ABNORMAL_CALCIUM": "Abnormal calcium level",
+
+  "CRITICAL_MAGNESIUM": "Critical magnesium level",
+  "HYPOMAGNESEMIA_CARDIAC": "Low magnesium with cardiac symptoms",
+  "ABNORMAL_MAGNESIUM": "Abnormal magnesium level",
+
+  "SEVERE_LIVER_INJURY": "Markedly elevated liver enzymes",
+  "LIVER_DYSFUNCTION": "Elevated liver enzymes with symptoms",
+  "ELEVATED_AST": "Elevated AST level",
+  "ELEVATED_ALT": "Elevated ALT level",
+
+  "SEVERE_JAUNDICE": "Severely elevated bilirubin",
+  "JAUNDICE_SYMPTOMATIC": "Elevated bilirubin with symptoms",
+  "ELEVATED_BILIRUBIN": "Elevated bilirubin level",
+
+  "BILIARY_OBSTRUCTION": "Markedly elevated alkaline phosphatase",
+  "ELEVATED_ALK_PHOS": "Elevated alkaline phosphatase",
+
+  "THYROID_STORM": "Signs of thyroid storm",
+  "SEVERE_HYPOTHYROIDISM": "Severely elevated TSH",
+  "HYPERTHYROIDISM": "Suppressed TSH - overactive thyroid",
+  "THYROID_ABNORMALITY": "Abnormal thyroid function",
+
+  "UNCONTROLLED_DIABETES": "Very high HbA1c with symptoms",
+  "DIABETES_POOR_CONTROL": "Elevated HbA1c",
+
+  "DVT_CONCERN": "Elevated D-dimer with DVT symptoms",
+  "PE_CONCERN": "Elevated D-dimer with PE symptoms",
+  "ELEVATED_D_DIMER": "Elevated D-dimer level"
 }

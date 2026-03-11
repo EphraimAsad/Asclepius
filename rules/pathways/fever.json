@@ -1,0 +1,89 @@
+{
+  "pathway_id": "fever",
+  "display_name": "Fever",
+  "chief_complaint_aliases": ["fever", "high_temperature", "chills", "feeling_hot"],
+  "intake_fields": [
+    "symptoms.high_fever",
+    "symptoms.stiff_neck",
+    "symptoms.confusion",
+    "symptoms.rash",
+    "symptoms.severe_headache",
+    "symptoms.difficulty_breathing",
+    "symptoms.immunocompromised",
+    "symptoms.recent_surgery",
+    "symptoms.cough",
+    "symptoms.sore_throat"
+  ],
+  "rules": [
+    {
+      "id": "fever_meningitis",
+      "label": "Fever with meningitis signs",
+      "join": "all",
+      "conditions": [
+        { "field": "symptoms.high_fever", "operator": "is_true", "value": true },
+        { "field": "symptoms.stiff_neck", "operator": "is_true", "value": true }
+      ],
+      "disposition": "CALL_911",
+      "priority": "critical",
+      "reason_codes": ["FEVER_MENINGITIS_SIGNS"],
+      "explanation_keys": ["fever_meningitis_explanation"],
+      "safety_net_keys": ["call_911_immediately"]
+    },
+    {
+      "id": "fever_sepsis_signs",
+      "label": "Fever with signs of sepsis",
+      "join": "all",
+      "conditions": [
+        { "field": "symptoms.high_fever", "operator": "is_true", "value": true },
+        { "field": "symptoms.confusion", "operator": "is_true", "value": true }
+      ],
+      "disposition": "CALL_911",
+      "priority": "critical",
+      "reason_codes": ["POSSIBLE_SEPSIS"],
+      "explanation_keys": ["fever_sepsis_explanation"],
+      "safety_net_keys": ["call_911_immediately"]
+    },
+    {
+      "id": "fever_immunocompromised",
+      "label": "Fever in immunocompromised patient",
+      "join": "all",
+      "conditions": [
+        { "field": "symptoms.high_fever", "operator": "is_true", "value": true },
+        { "field": "symptoms.immunocompromised", "operator": "is_true", "value": true }
+      ],
+      "disposition": "ER_NOW",
+      "priority": "critical",
+      "reason_codes": ["FEVER_IMMUNOCOMPROMISED"],
+      "explanation_keys": ["fever_immuno_explanation"],
+      "safety_net_keys": ["seek_immediate_evaluation"]
+    },
+    {
+      "id": "fever_with_rash",
+      "label": "Fever with rash",
+      "join": "all",
+      "conditions": [
+        { "field": "symptoms.high_fever", "operator": "is_true", "value": true },
+        { "field": "symptoms.rash", "operator": "is_true", "value": true }
+      ],
+      "disposition": "URGENT_CARE_TODAY",
+      "priority": "medium",
+      "reason_codes": ["FEVER_RASH"],
+      "explanation_keys": ["fever_rash_explanation"],
+      "safety_net_keys": ["monitor_symptoms", "return_if_worse"]
+    },
+    {
+      "id": "fever_viral",
+      "label": "Likely viral illness",
+      "join": "any",
+      "conditions": [
+        { "field": "symptoms.cough", "operator": "is_true", "value": true },
+        { "field": "symptoms.sore_throat", "operator": "is_true", "value": true }
+      ],
+      "disposition": "PRIMARY_CARE_24_72H",
+      "priority": "low",
+      "reason_codes": ["VIRAL_SYNDROME"],
+      "explanation_keys": ["fever_viral_explanation"],
+      "safety_net_keys": ["follow_up_primary_care", "return_if_worse"]
+    }
+  ]
+}

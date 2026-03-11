@@ -1,0 +1,88 @@
+{
+  "pathway_id": "sore_throat",
+  "display_name": "Sore Throat",
+  "chief_complaint_aliases": ["sore_throat", "throat_pain", "painful_swallowing", "pharyngitis"],
+  "intake_fields": [
+    "symptoms.difficulty_breathing",
+    "symptoms.difficulty_swallowing",
+    "symptoms.drooling",
+    "symptoms.muffled_voice",
+    "symptoms.fever",
+    "symptoms.swollen_lymph_nodes",
+    "symptoms.rash",
+    "symptoms.cough",
+    "symptoms.duration_days"
+  ],
+  "rules": [
+    {
+      "id": "throat_airway_concern",
+      "label": "Sore throat with airway compromise",
+      "join": "any",
+      "conditions": [
+        { "field": "symptoms.difficulty_breathing", "operator": "is_true", "value": true },
+        { "field": "symptoms.drooling", "operator": "is_true", "value": true }
+      ],
+      "disposition": "CALL_911",
+      "priority": "critical",
+      "reason_codes": ["AIRWAY_COMPROMISE"],
+      "explanation_keys": ["throat_airway_explanation"],
+      "safety_net_keys": ["call_911_immediately"]
+    },
+    {
+      "id": "throat_peritonsillar",
+      "label": "Possible peritonsillar abscess",
+      "join": "all",
+      "conditions": [
+        { "field": "symptoms.difficulty_swallowing", "operator": "is_true", "value": true },
+        { "field": "symptoms.muffled_voice", "operator": "is_true", "value": true }
+      ],
+      "disposition": "ER_NOW",
+      "priority": "high",
+      "reason_codes": ["PERITONSILLAR_ABSCESS"],
+      "explanation_keys": ["throat_abscess_explanation"],
+      "safety_net_keys": ["seek_immediate_evaluation"]
+    },
+    {
+      "id": "throat_strep_concern",
+      "label": "Possible strep throat",
+      "join": "all",
+      "conditions": [
+        { "field": "symptoms.fever", "operator": "is_true", "value": true },
+        { "field": "symptoms.swollen_lymph_nodes", "operator": "is_true", "value": true }
+      ],
+      "disposition": "URGENT_CARE_TODAY",
+      "priority": "medium",
+      "reason_codes": ["POSSIBLE_STREP"],
+      "explanation_keys": ["throat_strep_explanation"],
+      "safety_net_keys": ["monitor_symptoms", "return_if_worse"]
+    },
+    {
+      "id": "throat_scarlet_fever",
+      "label": "Sore throat with rash",
+      "join": "all",
+      "conditions": [
+        { "field": "symptoms.fever", "operator": "is_true", "value": true },
+        { "field": "symptoms.rash", "operator": "is_true", "value": true }
+      ],
+      "disposition": "URGENT_CARE_TODAY",
+      "priority": "medium",
+      "reason_codes": ["SCARLET_FEVER_CONCERN"],
+      "explanation_keys": ["throat_scarlet_explanation"],
+      "safety_net_keys": ["monitor_symptoms"]
+    },
+    {
+      "id": "throat_viral",
+      "label": "Likely viral pharyngitis",
+      "join": "all",
+      "conditions": [
+        { "field": "symptoms.cough", "operator": "is_true", "value": true },
+        { "field": "symptoms.difficulty_breathing", "operator": "is_false", "value": false }
+      ],
+      "disposition": "SELF_CARE",
+      "priority": "low",
+      "reason_codes": ["VIRAL_PHARYNGITIS"],
+      "explanation_keys": ["throat_viral_explanation"],
+      "safety_net_keys": ["self_care_instructions", "return_if_worse"]
+    }
+  ]
+}

@@ -1,0 +1,66 @@
+{
+  "test_code": "sodium",
+  "display_name": "Sodium",
+  "category": "electrolytes",
+  "description_key": "sodium_description",
+  "units": ["mEq/L", "mmol/L"],
+  "range_strategy": "lab_reference_preferred",
+  "status_logic": {
+    "method": "flag_first_then_reference_range",
+    "critical_low": { "value": 120 },
+    "low": { "value": 136 },
+    "high": { "value": 145 },
+    "critical_high": { "value": 160 }
+  },
+  "interpretation": {
+    "critical_low_key": "sodium_critical_low",
+    "low_key": "sodium_low",
+    "normal_key": "sodium_normal",
+    "high_key": "sodium_high",
+    "critical_high_key": "sodium_critical_high"
+  },
+  "urgency_rules": [
+    {
+      "id": "sodium_critical_low_neuro",
+      "label": "Severe hyponatremia with neurological symptoms",
+      "join": "all",
+      "conditions": [
+        { "field": "derived.lab_status.sodium", "operator": "eq", "value": "CRITICAL_LOW" },
+        { "field": "symptoms.confusion", "operator": "is_true", "value": true }
+      ],
+      "disposition": "CALL_911",
+      "priority": "critical",
+      "reason_codes": ["SEVERE_HYPONATREMIA"],
+      "explanation_keys": ["sodium_critical_low"],
+      "safety_net_keys": ["call_911_immediately"]
+    },
+    {
+      "id": "sodium_critical",
+      "label": "Critical sodium level",
+      "join": "any",
+      "conditions": [
+        { "field": "derived.lab_status.sodium", "operator": "eq", "value": "CRITICAL_LOW" },
+        { "field": "derived.lab_status.sodium", "operator": "eq", "value": "CRITICAL_HIGH" }
+      ],
+      "disposition": "ER_NOW",
+      "priority": "critical",
+      "reason_codes": ["CRITICAL_SODIUM"],
+      "explanation_keys": ["sodium_critical"],
+      "safety_net_keys": ["seek_immediate_evaluation"]
+    },
+    {
+      "id": "sodium_abnormal",
+      "label": "Abnormal sodium",
+      "join": "any",
+      "conditions": [
+        { "field": "derived.lab_status.sodium", "operator": "eq", "value": "LOW" },
+        { "field": "derived.lab_status.sodium", "operator": "eq", "value": "HIGH" }
+      ],
+      "disposition": "PRIMARY_CARE_24_72H",
+      "priority": "medium",
+      "reason_codes": ["ABNORMAL_SODIUM"],
+      "explanation_keys": ["sodium_abnormal"],
+      "safety_net_keys": ["follow_up_primary_care"]
+    }
+  ]
+}

@@ -1,0 +1,78 @@
+{
+  "test_code": "wbc",
+  "display_name": "White Blood Cell Count",
+  "category": "hematology",
+  "description_key": "wbc_description",
+  "units": ["K/uL", "10^9/L"],
+  "range_strategy": "lab_reference_preferred",
+  "status_logic": {
+    "method": "flag_first_then_reference_range",
+    "critical_low": { "value": 2.0 },
+    "low": { "value": 4.0 },
+    "high": { "value": 11.0 },
+    "critical_high": { "value": 30.0 }
+  },
+  "interpretation": {
+    "critical_low_key": "wbc_critical_low",
+    "low_key": "wbc_low",
+    "normal_key": "wbc_normal",
+    "high_key": "wbc_high",
+    "critical_high_key": "wbc_critical_high"
+  },
+  "urgency_rules": [
+    {
+      "id": "wbc_critical_low_fever",
+      "label": "Severe leukopenia with fever",
+      "join": "all",
+      "conditions": [
+        { "field": "derived.lab_status.wbc", "operator": "eq", "value": "CRITICAL_LOW" },
+        { "field": "symptoms.fever", "operator": "is_true", "value": true }
+      ],
+      "disposition": "ER_NOW",
+      "priority": "critical",
+      "reason_codes": ["NEUTROPENIC_FEVER"],
+      "explanation_keys": ["wbc_critical_low"],
+      "safety_net_keys": ["seek_immediate_evaluation"]
+    },
+    {
+      "id": "wbc_critical_high",
+      "label": "Severely elevated WBC",
+      "join": "all",
+      "conditions": [
+        { "field": "derived.lab_status.wbc", "operator": "eq", "value": "CRITICAL_HIGH" }
+      ],
+      "disposition": "ER_NOW",
+      "priority": "high",
+      "reason_codes": ["SEVERE_LEUKOCYTOSIS"],
+      "explanation_keys": ["wbc_critical_high"],
+      "safety_net_keys": ["seek_immediate_evaluation"]
+    },
+    {
+      "id": "wbc_critical_low",
+      "label": "Severe leukopenia",
+      "join": "all",
+      "conditions": [
+        { "field": "derived.lab_status.wbc", "operator": "eq", "value": "CRITICAL_LOW" }
+      ],
+      "disposition": "URGENT_CARE_TODAY",
+      "priority": "high",
+      "reason_codes": ["LEUKOPENIA"],
+      "explanation_keys": ["wbc_critical_low"],
+      "safety_net_keys": ["monitor_symptoms", "return_if_worse"]
+    },
+    {
+      "id": "wbc_abnormal",
+      "label": "Abnormal WBC",
+      "join": "any",
+      "conditions": [
+        { "field": "derived.lab_status.wbc", "operator": "eq", "value": "LOW" },
+        { "field": "derived.lab_status.wbc", "operator": "eq", "value": "HIGH" }
+      ],
+      "disposition": "PRIMARY_CARE_24_72H",
+      "priority": "medium",
+      "reason_codes": ["ABNORMAL_WBC"],
+      "explanation_keys": ["wbc_abnormal"],
+      "safety_net_keys": ["follow_up_primary_care"]
+    }
+  ]
+}

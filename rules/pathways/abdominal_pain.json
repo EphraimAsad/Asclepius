@@ -1,0 +1,90 @@
+{
+  "pathway_id": "abdominal_pain",
+  "display_name": "Abdominal Pain",
+  "chief_complaint_aliases": ["abdominal_pain", "stomach_pain", "belly_pain", "stomach_ache"],
+  "intake_fields": [
+    "symptoms.severe_pain",
+    "symptoms.sudden_onset",
+    "symptoms.rigid_abdomen",
+    "symptoms.bloody_stool",
+    "symptoms.vomiting_blood",
+    "symptoms.fever",
+    "symptoms.nausea",
+    "symptoms.diarrhea",
+    "symptoms.location_right_lower",
+    "symptoms.location_right_upper"
+  ],
+  "rules": [
+    {
+      "id": "abd_surgical_emergency",
+      "label": "Signs of surgical emergency",
+      "join": "any",
+      "conditions": [
+        { "field": "symptoms.rigid_abdomen", "operator": "is_true", "value": true },
+        { "field": "symptoms.vomiting_blood", "operator": "is_true", "value": true },
+        { "field": "symptoms.bloody_stool", "operator": "is_true", "value": true }
+      ],
+      "disposition": "CALL_911",
+      "priority": "critical",
+      "reason_codes": ["SURGICAL_ABDOMEN"],
+      "explanation_keys": ["abd_emergency_explanation"],
+      "safety_net_keys": ["call_911_immediately"]
+    },
+    {
+      "id": "abd_severe_sudden",
+      "label": "Severe sudden abdominal pain",
+      "join": "all",
+      "conditions": [
+        { "field": "symptoms.severe_pain", "operator": "is_true", "value": true },
+        { "field": "symptoms.sudden_onset", "operator": "is_true", "value": true }
+      ],
+      "disposition": "ER_NOW",
+      "priority": "critical",
+      "reason_codes": ["SEVERE_ABD_PAIN"],
+      "explanation_keys": ["abd_severe_explanation"],
+      "safety_net_keys": ["seek_immediate_evaluation"]
+    },
+    {
+      "id": "abd_appendicitis_concern",
+      "label": "Possible appendicitis",
+      "join": "all",
+      "conditions": [
+        { "field": "symptoms.location_right_lower", "operator": "is_true", "value": true },
+        { "field": "symptoms.fever", "operator": "is_true", "value": true }
+      ],
+      "disposition": "ER_NOW",
+      "priority": "high",
+      "reason_codes": ["POSSIBLE_APPENDICITIS"],
+      "explanation_keys": ["abd_appendicitis_explanation"],
+      "safety_net_keys": ["seek_immediate_evaluation"]
+    },
+    {
+      "id": "abd_gallbladder_concern",
+      "label": "Possible gallbladder issue",
+      "join": "all",
+      "conditions": [
+        { "field": "symptoms.location_right_upper", "operator": "is_true", "value": true },
+        { "field": "symptoms.nausea", "operator": "is_true", "value": true }
+      ],
+      "disposition": "URGENT_CARE_TODAY",
+      "priority": "medium",
+      "reason_codes": ["POSSIBLE_GALLBLADDER"],
+      "explanation_keys": ["abd_gallbladder_explanation"],
+      "safety_net_keys": ["monitor_symptoms", "return_if_worse"]
+    },
+    {
+      "id": "abd_mild_gastro",
+      "label": "Mild gastrointestinal symptoms",
+      "join": "all",
+      "conditions": [
+        { "field": "symptoms.nausea", "operator": "is_true", "value": true },
+        { "field": "symptoms.severe_pain", "operator": "is_false", "value": false }
+      ],
+      "disposition": "PRIMARY_CARE_24_72H",
+      "priority": "low",
+      "reason_codes": ["MILD_GI_SYMPTOMS"],
+      "explanation_keys": ["abd_mild_explanation"],
+      "safety_net_keys": ["follow_up_primary_care", "return_if_worse"]
+    }
+  ]
+}

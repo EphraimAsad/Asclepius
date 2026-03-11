@@ -198,7 +198,11 @@ playwright-report/
 *.tar.gz
 *.zip
 
+# Windows nul device artifacts
+nul
+
 # Planning
 Context.md
 currentplan.txt
 SystemDesign.md
+ollama_LLM.txt

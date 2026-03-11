@@ -1,0 +1,52 @@
+{
+  "test_code": "chloride",
+  "display_name": "Chloride",
+  "category": "electrolytes",
+  "description_key": "chloride_description",
+  "units": ["mEq/L", "mmol/L"],
+  "range_strategy": "lab_reference_preferred",
+  "status_logic": {
+    "method": "flag_first_then_reference_range",
+    "critical_low": { "value": 80 },
+    "low": { "value": 96 },
+    "high": { "value": 106 },
+    "critical_high": { "value": 120 }
+  },
+  "interpretation": {
+    "critical_low_key": "chloride_critical_low",
+    "low_key": "chloride_low",
+    "normal_key": "chloride_normal",
+    "high_key": "chloride_high",
+    "critical_high_key": "chloride_critical_high"
+  },
+  "urgency_rules": [
+    {
+      "id": "chloride_critical",
+      "label": "Critical chloride level",
+      "join": "any",
+      "conditions": [
+        { "field": "derived.lab_status.chloride", "operator": "eq", "value": "CRITICAL_LOW" },
+        { "field": "derived.lab_status.chloride", "operator": "eq", "value": "CRITICAL_HIGH" }
+      ],
+      "disposition": "ER_NOW",
+      "priority": "high",
+      "reason_codes": ["CRITICAL_CHLORIDE"],
+      "explanation_keys": ["chloride_critical"],
+      "safety_net_keys": ["seek_immediate_evaluation"]
+    },
+    {
+      "id": "chloride_abnormal",
+      "label": "Abnormal chloride",
+      "join": "any",
+      "conditions": [
+        { "field": "derived.lab_status.chloride", "operator": "eq", "value": "LOW" },
+        { "field": "derived.lab_status.chloride", "operator": "eq", "value": "HIGH" }
+      ],
+      "disposition": "PRIMARY_CARE_24_72H",
+      "priority": "medium",
+      "reason_codes": ["ABNORMAL_CHLORIDE"],
+      "explanation_keys": ["chloride_abnormal"],
+      "safety_net_keys": ["follow_up_primary_care"]
+    }
+  ]
+}

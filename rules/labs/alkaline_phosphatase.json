@@ -1,0 +1,49 @@
+{
+  "test_code": "alkaline_phosphatase",
+  "display_name": "Alkaline Phosphatase",
+  "category": "liver",
+  "description_key": "alkaline_phosphatase_description",
+  "units": ["U/L", "IU/L"],
+  "range_strategy": "lab_reference_preferred",
+  "status_logic": {
+    "method": "flag_first_then_reference_range",
+    "critical_low": null,
+    "low": { "value": 30 },
+    "high": { "use_reference_high": true },
+    "critical_high": { "multiplier_of_reference_high": 5 }
+  },
+  "interpretation": {
+    "low_key": "alk_phos_low",
+    "normal_key": "alk_phos_normal",
+    "high_key": "alk_phos_high",
+    "critical_high_key": "alk_phos_critical_high"
+  },
+  "urgency_rules": [
+    {
+      "id": "alk_phos_critical_high",
+      "label": "Severely elevated alkaline phosphatase",
+      "join": "all",
+      "conditions": [
+        { "field": "derived.lab_status.alkaline_phosphatase", "operator": "eq", "value": "CRITICAL_HIGH" }
+      ],
+      "disposition": "URGENT_CARE_TODAY",
+      "priority": "high",
+      "reason_codes": ["BILIARY_OBSTRUCTION"],
+      "explanation_keys": ["alk_phos_critical_high"],
+      "safety_net_keys": ["monitor_symptoms", "return_if_worse"]
+    },
+    {
+      "id": "alk_phos_high",
+      "label": "Elevated alkaline phosphatase",
+      "join": "all",
+      "conditions": [
+        { "field": "derived.lab_status.alkaline_phosphatase", "operator": "eq", "value": "HIGH" }
+      ],
+      "disposition": "PRIMARY_CARE_24_72H",
+      "priority": "medium",
+      "reason_codes": ["ELEVATED_ALK_PHOS"],
+      "explanation_keys": ["alk_phos_high"],
+      "safety_net_keys": ["follow_up_primary_care"]
+    }
+  ]
+}

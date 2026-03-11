@@ -1,0 +1,88 @@
+{
+  "pathway_id": "numbness_tingling",
+  "display_name": "Numbness/Tingling",
+  "chief_complaint_aliases": ["numbness", "tingling", "pins_needles", "paresthesia", "loss_of_sensation"],
+  "intake_fields": [
+    "symptoms.sudden_onset",
+    "symptoms.one_sided",
+    "symptoms.facial_drooping",
+    "symptoms.slurred_speech",
+    "symptoms.arm_weakness",
+    "symptoms.both_hands_feet",
+    "symptoms.back_pain",
+    "symptoms.bowel_bladder_changes",
+    "symptoms.recent_injury"
+  ],
+  "rules": [
+    {
+      "id": "numb_stroke_signs",
+      "label": "Numbness with stroke signs",
+      "join": "any",
+      "conditions": [
+        { "field": "symptoms.facial_drooping", "operator": "is_true", "value": true },
+        { "field": "symptoms.slurred_speech", "operator": "is_true", "value": true },
+        { "field": "symptoms.arm_weakness", "operator": "is_true", "value": true }
+      ],
+      "disposition": "CALL_911",
+      "priority": "critical",
+      "reason_codes": ["STROKE_SIGNS"],
+      "explanation_keys": ["numb_stroke_explanation"],
+      "safety_net_keys": ["call_911_immediately", "stroke_warning"]
+    },
+    {
+      "id": "numb_sudden_onesided",
+      "label": "Sudden one-sided numbness",
+      "join": "all",
+      "conditions": [
+        { "field": "symptoms.sudden_onset", "operator": "is_true", "value": true },
+        { "field": "symptoms.one_sided", "operator": "is_true", "value": true }
+      ],
+      "disposition": "CALL_911",
+      "priority": "critical",
+      "reason_codes": ["POSSIBLE_STROKE"],
+      "explanation_keys": ["numb_sudden_explanation"],
+      "safety_net_keys": ["call_911_immediately"]
+    },
+    {
+      "id": "numb_spinal_cord",
+      "label": "Numbness with spinal cord concern",
+      "join": "all",
+      "conditions": [
+        { "field": "symptoms.back_pain", "operator": "is_true", "value": true },
+        { "field": "symptoms.bowel_bladder_changes", "operator": "is_true", "value": true }
+      ],
+      "disposition": "ER_NOW",
+      "priority": "critical",
+      "reason_codes": ["SPINAL_CORD_COMPRESSION"],
+      "explanation_keys": ["numb_spinal_explanation"],
+      "safety_net_keys": ["seek_immediate_evaluation"]
+    },
+    {
+      "id": "numb_nerve_compression",
+      "label": "Nerve compression pattern",
+      "join": "all",
+      "conditions": [
+        { "field": "symptoms.recent_injury", "operator": "is_true", "value": true }
+      ],
+      "disposition": "URGENT_CARE_TODAY",
+      "priority": "medium",
+      "reason_codes": ["NERVE_COMPRESSION"],
+      "explanation_keys": ["numb_compression_explanation"],
+      "safety_net_keys": ["monitor_symptoms", "return_if_worse"]
+    },
+    {
+      "id": "numb_peripheral",
+      "label": "Peripheral neuropathy pattern",
+      "join": "all",
+      "conditions": [
+        { "field": "symptoms.both_hands_feet", "operator": "is_true", "value": true },
+        { "field": "symptoms.sudden_onset", "operator": "is_false", "value": false }
+      ],
+      "disposition": "PRIMARY_CARE_24_72H",
+      "priority": "low",
+      "reason_codes": ["PERIPHERAL_NEUROPATHY"],
+      "explanation_keys": ["numb_peripheral_explanation"],
+      "safety_net_keys": ["follow_up_primary_care"]
+    }
+  ]
+}

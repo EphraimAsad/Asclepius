@@ -1,0 +1,89 @@
+{
+  "pathway_id": "headache",
+  "display_name": "Headache",
+  "chief_complaint_aliases": ["headache", "head_pain", "migraine", "head_ache"],
+  "intake_fields": [
+    "symptoms.worst_headache_ever",
+    "symptoms.sudden_onset",
+    "symptoms.stiff_neck",
+    "symptoms.fever",
+    "symptoms.vision_changes",
+    "symptoms.confusion",
+    "symptoms.weakness",
+    "symptoms.nausea",
+    "symptoms.light_sensitivity",
+    "symptoms.recent_head_injury"
+  ],
+  "rules": [
+    {
+      "id": "ha_thunderclap",
+      "label": "Thunderclap headache - possible hemorrhage",
+      "join": "all",
+      "conditions": [
+        { "field": "symptoms.worst_headache_ever", "operator": "is_true", "value": true },
+        { "field": "symptoms.sudden_onset", "operator": "is_true", "value": true }
+      ],
+      "disposition": "CALL_911",
+      "priority": "critical",
+      "reason_codes": ["THUNDERCLAP_HEADACHE"],
+      "explanation_keys": ["ha_thunderclap_explanation"],
+      "safety_net_keys": ["call_911_immediately"]
+    },
+    {
+      "id": "ha_meningitis_signs",
+      "label": "Possible meningitis",
+      "join": "all",
+      "conditions": [
+        { "field": "symptoms.stiff_neck", "operator": "is_true", "value": true },
+        { "field": "symptoms.fever", "operator": "is_true", "value": true }
+      ],
+      "disposition": "ER_NOW",
+      "priority": "critical",
+      "reason_codes": ["POSSIBLE_MENINGITIS"],
+      "explanation_keys": ["ha_meningitis_explanation"],
+      "safety_net_keys": ["seek_immediate_evaluation"]
+    },
+    {
+      "id": "ha_with_neuro_symptoms",
+      "label": "Headache with neurological symptoms",
+      "join": "any",
+      "conditions": [
+        { "field": "symptoms.confusion", "operator": "is_true", "value": true },
+        { "field": "symptoms.weakness", "operator": "is_true", "value": true },
+        { "field": "symptoms.vision_changes", "operator": "is_true", "value": true }
+      ],
+      "disposition": "ER_NOW",
+      "priority": "high",
+      "reason_codes": ["HEADACHE_NEURO_SYMPTOMS"],
+      "explanation_keys": ["ha_neuro_explanation"],
+      "safety_net_keys": ["seek_immediate_evaluation"]
+    },
+    {
+      "id": "ha_post_trauma",
+      "label": "Post-traumatic headache",
+      "join": "all",
+      "conditions": [
+        { "field": "symptoms.recent_head_injury", "operator": "is_true", "value": true }
+      ],
+      "disposition": "URGENT_CARE_TODAY",
+      "priority": "medium",
+      "reason_codes": ["POST_TRAUMA_HEADACHE"],
+      "explanation_keys": ["ha_trauma_explanation"],
+      "safety_net_keys": ["monitor_symptoms", "return_if_worse"]
+    },
+    {
+      "id": "ha_migraine_features",
+      "label": "Migraine-like headache",
+      "join": "all",
+      "conditions": [
+        { "field": "symptoms.nausea", "operator": "is_true", "value": true },
+        { "field": "symptoms.light_sensitivity", "operator": "is_true", "value": true }
+      ],
+      "disposition": "PRIMARY_CARE_24_72H",
+      "priority": "low",
+      "reason_codes": ["MIGRAINE_FEATURES"],
+      "explanation_keys": ["ha_migraine_explanation"],
+      "safety_net_keys": ["follow_up_primary_care", "return_if_worse"]
+    }
+  ]
+}

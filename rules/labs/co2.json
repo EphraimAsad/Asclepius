@@ -1,0 +1,51 @@
+{
+  "test_code": "co2",
+  "display_name": "CO2/Bicarbonate",
+  "category": "electrolytes",
+  "description_key": "co2_description",
+  "units": ["mEq/L", "mmol/L"],
+  "range_strategy": "lab_reference_preferred",
+  "status_logic": {
+    "method": "flag_first_then_reference_range",
+    "critical_low": { "value": 10 },
+    "low": { "value": 22 },
+    "high": { "value": 29 },
+    "critical_high": { "value": 40 }
+  },
+  "interpretation": {
+    "critical_low_key": "co2_critical_low",
+    "low_key": "co2_low",
+    "normal_key": "co2_normal",
+    "high_key": "co2_high",
+    "critical_high_key": "co2_critical_high"
+  },
+  "urgency_rules": [
+    {
+      "id": "co2_critical_low",
+      "label": "Severe metabolic acidosis",
+      "join": "all",
+      "conditions": [
+        { "field": "derived.lab_status.co2", "operator": "eq", "value": "CRITICAL_LOW" }
+      ],
+      "disposition": "ER_NOW",
+      "priority": "critical",
+      "reason_codes": ["METABOLIC_ACIDOSIS"],
+      "explanation_keys": ["co2_critical_low"],
+      "safety_net_keys": ["seek_immediate_evaluation"]
+    },
+    {
+      "id": "co2_abnormal",
+      "label": "Abnormal CO2",
+      "join": "any",
+      "conditions": [
+        { "field": "derived.lab_status.co2", "operator": "eq", "value": "LOW" },
+        { "field": "derived.lab_status.co2", "operator": "eq", "value": "HIGH" }
+      ],
+      "disposition": "PRIMARY_CARE_24_72H",
+      "priority": "medium",
+      "reason_codes": ["ABNORMAL_CO2"],
+      "explanation_keys": ["co2_abnormal"],
+      "safety_net_keys": ["follow_up_primary_care"]
+    }
+  ]
+}

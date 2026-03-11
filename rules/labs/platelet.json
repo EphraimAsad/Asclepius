@@ -1,0 +1,64 @@
+{
+  "test_code": "platelet",
+  "display_name": "Platelet Count",
+  "category": "hematology",
+  "description_key": "platelet_description",
+  "units": ["K/uL", "10^9/L"],
+  "range_strategy": "lab_reference_preferred",
+  "status_logic": {
+    "method": "flag_first_then_reference_range",
+    "critical_low": { "value": 20 },
+    "low": { "value": 150 },
+    "high": { "value": 400 },
+    "critical_high": { "value": 1000 }
+  },
+  "interpretation": {
+    "critical_low_key": "platelet_critical_low",
+    "low_key": "platelet_low",
+    "normal_key": "platelet_normal",
+    "high_key": "platelet_high",
+    "critical_high_key": "platelet_critical_high"
+  },
+  "urgency_rules": [
+    {
+      "id": "platelet_critical_low_bleeding",
+      "label": "Severe thrombocytopenia with bleeding",
+      "join": "all",
+      "conditions": [
+        { "field": "derived.lab_status.platelet", "operator": "eq", "value": "CRITICAL_LOW" },
+        { "field": "symptoms.bleeding", "operator": "is_true", "value": true }
+      ],
+      "disposition": "CALL_911",
+      "priority": "critical",
+      "reason_codes": ["BLEEDING_THROMBOCYTOPENIA"],
+      "explanation_keys": ["platelet_critical_low"],
+      "safety_net_keys": ["call_911_immediately"]
+    },
+    {
+      "id": "platelet_critical_low",
+      "label": "Severe thrombocytopenia",
+      "join": "all",
+      "conditions": [
+        { "field": "derived.lab_status.platelet", "operator": "eq", "value": "CRITICAL_LOW" }
+      ],
+      "disposition": "ER_NOW",
+      "priority": "critical",
+      "reason_codes": ["SEVERE_THROMBOCYTOPENIA"],
+      "explanation_keys": ["platelet_critical_low"],
+      "safety_net_keys": ["seek_immediate_evaluation"]
+    },
+    {
+      "id": "platelet_low",
+      "label": "Low platelet count",
+      "join": "all",
+      "conditions": [
+        { "field": "derived.lab_status.platelet", "operator": "eq", "value": "LOW" }
+      ],
+      "disposition": "PRIMARY_CARE_24_72H",
+      "priority": "medium",
+      "reason_codes": ["THROMBOCYTOPENIA"],
+      "explanation_keys": ["platelet_low"],
+      "safety_net_keys": ["follow_up_primary_care", "avoid_injury"]
+    }
+  ]
+}

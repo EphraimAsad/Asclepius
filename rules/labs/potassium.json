@@ -1,0 +1,66 @@
+{
+  "test_code": "potassium",
+  "display_name": "Potassium",
+  "category": "electrolytes",
+  "description_key": "potassium_description",
+  "units": ["mEq/L", "mmol/L"],
+  "range_strategy": "lab_reference_preferred",
+  "status_logic": {
+    "method": "flag_first_then_reference_range",
+    "critical_low": { "value": 2.5 },
+    "low": { "value": 3.5 },
+    "high": { "value": 5.0 },
+    "critical_high": { "value": 6.5 }
+  },
+  "interpretation": {
+    "critical_low_key": "potassium_critical_low",
+    "low_key": "potassium_low",
+    "normal_key": "potassium_normal",
+    "high_key": "potassium_high",
+    "critical_high_key": "potassium_critical_high"
+  },
+  "urgency_rules": [
+    {
+      "id": "potassium_critical",
+      "label": "Critical potassium level",
+      "join": "any",
+      "conditions": [
+        { "field": "derived.lab_status.potassium", "operator": "eq", "value": "CRITICAL_LOW" },
+        { "field": "derived.lab_status.potassium", "operator": "eq", "value": "CRITICAL_HIGH" }
+      ],
+      "disposition": "CALL_911",
+      "priority": "critical",
+      "reason_codes": ["CRITICAL_POTASSIUM"],
+      "explanation_keys": ["potassium_critical"],
+      "safety_net_keys": ["call_911_immediately"]
+    },
+    {
+      "id": "potassium_high_cardiac",
+      "label": "High potassium with cardiac symptoms",
+      "join": "all",
+      "conditions": [
+        { "field": "derived.lab_status.potassium", "operator": "eq", "value": "HIGH" },
+        { "field": "symptoms.palpitations", "operator": "is_true", "value": true }
+      ],
+      "disposition": "ER_NOW",
+      "priority": "critical",
+      "reason_codes": ["HYPERKALEMIA_CARDIAC"],
+      "explanation_keys": ["potassium_high"],
+      "safety_net_keys": ["seek_immediate_evaluation"]
+    },
+    {
+      "id": "potassium_abnormal",
+      "label": "Abnormal potassium",
+      "join": "any",
+      "conditions": [
+        { "field": "derived.lab_status.potassium", "operator": "eq", "value": "LOW" },
+        { "field": "derived.lab_status.potassium", "operator": "eq", "value": "HIGH" }
+      ],
+      "disposition": "URGENT_CARE_TODAY",
+      "priority": "high",
+      "reason_codes": ["ABNORMAL_POTASSIUM"],
+      "explanation_keys": ["potassium_abnormal"],
+      "safety_net_keys": ["monitor_symptoms", "return_if_worse"]
+    }
+  ]
+}

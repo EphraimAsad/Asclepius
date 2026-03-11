@@ -1,0 +1,76 @@
+{
+  "test_code": "glucose",
+  "display_name": "Glucose",
+  "category": "metabolic",
+  "description_key": "glucose_description",
+  "units": ["mg/dL", "mmol/L"],
+  "range_strategy": "lab_reference_preferred",
+  "status_logic": {
+    "method": "flag_first_then_reference_range",
+    "critical_low": { "value": 50 },
+    "low": { "value": 70 },
+    "high": { "value": 126 },
+    "critical_high": { "value": 400 }
+  },
+  "interpretation": {
+    "critical_low_key": "glucose_critical_low",
+    "low_key": "glucose_low",
+    "normal_key": "glucose_normal",
+    "high_key": "glucose_high",
+    "critical_high_key": "glucose_critical_high"
+  },
+  "urgency_rules": [
+    {
+      "id": "glucose_hypoglycemia_severe",
+      "label": "Severe hypoglycemia",
+      "join": "all",
+      "conditions": [
+        { "field": "derived.lab_status.glucose", "operator": "eq", "value": "CRITICAL_LOW" }
+      ],
+      "disposition": "CALL_911",
+      "priority": "critical",
+      "reason_codes": ["SEVERE_HYPOGLYCEMIA"],
+      "explanation_keys": ["glucose_critical_low"],
+      "safety_net_keys": ["call_911_immediately"]
+    },
+    {
+      "id": "glucose_hyperglycemia_severe",
+      "label": "Severe hyperglycemia",
+      "join": "all",
+      "conditions": [
+        { "field": "derived.lab_status.glucose", "operator": "eq", "value": "CRITICAL_HIGH" }
+      ],
+      "disposition": "ER_NOW",
+      "priority": "critical",
+      "reason_codes": ["SEVERE_HYPERGLYCEMIA"],
+      "explanation_keys": ["glucose_critical_high"],
+      "safety_net_keys": ["seek_immediate_evaluation"]
+    },
+    {
+      "id": "glucose_low",
+      "label": "Low glucose",
+      "join": "all",
+      "conditions": [
+        { "field": "derived.lab_status.glucose", "operator": "eq", "value": "LOW" }
+      ],
+      "disposition": "URGENT_CARE_TODAY",
+      "priority": "medium",
+      "reason_codes": ["HYPOGLYCEMIA"],
+      "explanation_keys": ["glucose_low"],
+      "safety_net_keys": ["monitor_symptoms", "return_if_worse"]
+    },
+    {
+      "id": "glucose_high",
+      "label": "Elevated glucose",
+      "join": "all",
+      "conditions": [
+        { "field": "derived.lab_status.glucose", "operator": "eq", "value": "HIGH" }
+      ],
+      "disposition": "PRIMARY_CARE_24_72H",
+      "priority": "medium",
+      "reason_codes": ["HYPERGLYCEMIA"],
+      "explanation_keys": ["glucose_high"],
+      "safety_net_keys": ["follow_up_primary_care"]
+    }
+  ]
+}
