@@ -12,6 +12,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.config import settings
 from app.api.v1.router import router as api_v1_router
 from app.engine import RulebookLoader, TriageEngine
+from app.llm import get_llm_provider
 
 
 @asynccontextmanager
@@ -41,6 +42,14 @@ async def lifespan(app: FastAPI):
         print(f"  - Triage pathways: {len(rulebook.triage_pathways)}")
         print(f"  - Lab tests: {len(rulebook.lab_tests)}")
         print(f"  - Symptom-lab escalation rules: {len(rulebook.symptom_lab_escalation_rules)}")
+
+        # Initialize LLM provider
+        llm_provider = get_llm_provider(settings)
+        app.state.llm_provider = llm_provider
+        if llm_provider:
+            print(f"  - LLM provider: {llm_provider.provider_name} ({settings.llm_model})")
+        else:
+            print("  - LLM enhancement: disabled")
 
     except FileNotFoundError as e:
         print(f"ERROR: Rulebook not found: {e}")

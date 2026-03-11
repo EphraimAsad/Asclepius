@@ -46,6 +46,14 @@ class TriageResult(BaseModel):
         default_factory=list,
         description="Risk modifier IDs that were applied"
     )
+    follow_up_questions: list[str] = Field(
+        default_factory=list,
+        description="Questions patient should be prepared to answer when seeking care"
+    )
+    llm_enhanced: bool = Field(
+        default=False,
+        description="Whether the explanation was enhanced by LLM"
+    )
     disclaimer: str = Field(
         default="This is not a medical diagnosis. This tool provides educational "
         "information and care navigation guidance only. Always consult with a "
@@ -71,6 +79,14 @@ class LabInterpretResult(BaseModel):
     )
     reason_codes: list[str] = Field(default_factory=list)
     safety_warnings: list[str] = Field(default_factory=list)
+    follow_up_questions: list[str] = Field(
+        default_factory=list,
+        description="Questions patient should be prepared to answer when seeking care"
+    )
+    llm_enhanced: bool = Field(
+        default=False,
+        description="Whether the interpretation was enhanced by LLM"
+    )
     disclaimer: str = Field(
         default="This is not a medical diagnosis. Lab interpretation is for "
         "educational purposes only. Always consult with a healthcare "

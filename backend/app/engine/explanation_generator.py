@@ -2,9 +2,18 @@
 Explanation generator for the rules engine.
 
 Generates human-readable explanations and safety warnings from catalog entries.
+Optionally enhances explanations using LLM providers.
 """
 
+import logging
+from typing import TYPE_CHECKING
+
 from app.models.rules import Rulebook, DecisionRule, CatalogEntry
+
+if TYPE_CHECKING:
+    from app.llm import LLMProvider, EnhancementContext
+
+logger = logging.getLogger(__name__)
 
 
 class ExplanationGenerator:
@@ -133,3 +142,61 @@ class ExplanationGenerator:
     def _format_entry(self, entry: CatalogEntry) -> str:
         """Format a catalog entry for display."""
         return f"**{entry.title}**\n{entry.body}"
+
+    async def enhance_explanation(
+        self,
+        explanation: str,
+        disposition: str,
+        matched_rules: list[DecisionRule],
+        chief_complaint: str,
+        symptoms: dict,
+        patient_age: int,
+        patient_sex: str,
+        reason_codes: list[str],
+        llm_provider: "LLMProvider | None"
+    ) -> tuple[str, list[str], bool]:
+        """
+        Optionally enhance the explanation using an LLM provider.
+
+        Args:
+            explanation: Original rule-based explanation
+            disposition: Triage disposition string
+            matched_rules: Rules that matched
+            chief_complaint: Primary symptom category
+            symptoms: Active symptoms dict
+            patient_age: Patient age in years
+            patient_sex: Patient sex
+            reason_codes: Reason codes for the disposition
+            llm_provider: LLM provider instance, or None to skip enhancement
+
+        Returns:
+            Tuple of (enhanced_explanation, follow_up_questions, was_enhanced)
+        """
+        if llm_provider is None:
+            return explanation, [], False
+
+        try:
+            from app.llm import EnhancementContext
+
+            context = EnhancementContext(
+                explanation=explanation,
+                disposition=disposition,
+                matched_rules=[rule.label for rule in matched_rules],
+                chief_complaint=chief_complaint,
+                symptoms=symptoms,
+                patient_age=patient_age,
+                patient_sex=patient_sex,
+                reason_codes=reason_codes,
+            )
+
+            result = await llm_provider.enhance(context)
+
+            return (
+                result.enhanced_explanation,
+                result.follow_up_questions,
+                True
+            )
+
+        except Exception as e:
+            logger.error(f"LLM enhancement failed: {e}")
+            return explanation, [], False

@@ -2,15 +2,22 @@
 Lab interpretation endpoint.
 """
 
+import logging
+from typing import TYPE_CHECKING
+
 from fastapi import APIRouter, Depends, HTTPException
 
 from app.models.request import LabInterpretRequest
 from app.models.response import LabInterpretResult, LabStatusResult
 from app.models.enums import LabStatus
-from app.engine import LabStatusDeriver, RulebookLoader
+from app.engine import LabStatusDeriver
 from app.models.rules import Rulebook
 
+if TYPE_CHECKING:
+    from app.llm import LLMProvider
+
 router = APIRouter()
+logger = logging.getLogger(__name__)
 
 
 def get_rulebook() -> Rulebook:
@@ -24,10 +31,17 @@ def get_rulebook() -> Rulebook:
     return app.state.rulebook
 
 
+def get_llm_provider() -> "LLMProvider | None":
+    """Dependency to get the LLM provider (optional)."""
+    from app.main import app
+    return getattr(app.state, "llm_provider", None)
+
+
 @router.post("/interpret", response_model=LabInterpretResult)
 async def interpret_labs(
     request: LabInterpretRequest,
-    rulebook: Rulebook = Depends(get_rulebook)
+    rulebook: Rulebook = Depends(get_rulebook),
+    llm_provider: "LLMProvider | None" = Depends(get_llm_provider)
 ):
     """
     Interpret lab results and provide explanations.
@@ -35,6 +49,8 @@ async def interpret_labs(
     This endpoint analyzes provided lab results against reference ranges
     and lab test definitions to determine status (normal, high, low, etc.)
     and provide educational explanations.
+
+    Optionally, if LLM is enabled, follow-up questions will be generated.
 
     **Important**: This is NOT a medical diagnosis. Lab interpretation
     is for educational purposes only. Always consult with a healthcare
@@ -56,6 +72,7 @@ async def interpret_labs(
     results = []
     safety_warnings = []
     reason_codes = []
+    abnormal_labs = []
 
     for lab in request.labs:
         test_code = lab.test_code
@@ -97,6 +114,10 @@ async def interpret_labs(
                     interpretation_body=f"Your {lab_test.display_name} level is {status.value.lower().replace('_', ' ')}.",
                 ))
 
+            # Track abnormal labs
+            if status != LabStatus.NORMAL:
+                abnormal_labs.append(f"{lab_test.display_name} ({status.value})")
+
             # Check for critical values and add warnings
             if status in [LabStatus.CRITICAL_HIGH, LabStatus.CRITICAL_LOW]:
                 safety_warnings.append(
@@ -105,8 +126,35 @@ async def interpret_labs(
                 )
                 reason_codes.append(f"CRITICAL_{test_code.upper()}")
 
-    return LabInterpretResult(
+    # Build base result
+    result = LabInterpretResult(
         lab_statuses=results,
         reason_codes=reason_codes,
         safety_warnings=safety_warnings,
     )
+
+    # Optional: Generate follow-up questions with LLM
+    if llm_provider is not None and abnormal_labs:
+        try:
+            from app.llm import EnhancementContext
+
+            # Build context for lab interpretation
+            context = EnhancementContext(
+                explanation="Lab results interpretation",
+                disposition="LAB_REVIEW",
+                matched_rules=[],
+                chief_complaint="lab_results",
+                symptoms={lab: True for lab in abnormal_labs},
+                patient_age=request.patient.age,
+                patient_sex=request.patient.sex,
+                reason_codes=reason_codes,
+            )
+
+            enhanced = await llm_provider.enhance(context)
+            result.follow_up_questions = enhanced.follow_up_questions
+            result.llm_enhanced = True
+
+        except Exception as e:
+            logger.warning(f"LLM enhancement for labs failed: {e}")
+
+    return result

@@ -3,6 +3,7 @@ Application configuration using Pydantic Settings.
 """
 
 from pathlib import Path
+from typing import Optional
 from pydantic_settings import BaseSettings
 
 
@@ -26,6 +27,15 @@ class Settings(BaseSettings):
 
     # CORS
     cors_origins: list[str] = ["http://localhost:3000"]
+
+    # LLM Configuration
+    llm_enabled: bool = True
+    llm_provider: str = "ollama"  # "ollama", "openai", "anthropic"
+    llm_model: str = "qwen3.5:4b"
+    llm_base_url: str = "http://127.0.0.1:11434"
+    llm_api_key: Optional[str] = None
+    llm_timeout_seconds: float = 60.0
+    llm_cache_ttl_seconds: int = 3600
 
     class Config:
         env_file = ".env"

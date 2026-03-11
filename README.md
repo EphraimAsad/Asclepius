@@ -25,6 +25,7 @@ Asclepius is a care navigation and education tool that uses deterministic rules 
 | Backend | FastAPI / Python 3.11+ / Pydantic v2 |
 | Database | PostgreSQL (for audit logging) |
 | Rules | JSON-based with JSON Schema validation |
+| LLM Enhancement | Ollama (local) / OpenAI / Anthropic (optional) |
 | Testing | pytest (backend), Vitest (frontend), Playwright (E2E) |
 | Containers | Docker + docker-compose |
 | CI/CD | GitHub Actions |
@@ -288,6 +289,76 @@ The project includes GitHub Actions CI that:
 - LLM only used for explanations, never for decisions
 - Persistent "not a diagnosis" disclaimer throughout UI
 - Consent gate required before accessing any features
+
+## LLM Enhancement (Optional)
+
+Asclepius optionally uses LLM to enhance explanations and generate follow-up questions. **LLM never makes triage decisions** - all dispositions come from deterministic rules.
+
+### Supported Providers
+
+| Provider | Status | Use Case |
+|----------|--------|----------|
+| Ollama | Full support | Local/private deployment |
+| OpenAI | Stub (future) | Cloud deployment |
+| Anthropic | Stub (future) | Cloud deployment |
+
+### Configuration
+
+Set these environment variables (or in `.env` file):
+
+```env
+# Enable/disable LLM enhancement
+LLM_ENABLED=true
+
+# Provider: "ollama", "openai", "anthropic"
+LLM_PROVIDER=ollama
+
+# Model name (provider-specific)
+LLM_MODEL=qwen3.5:4b
+
+# Ollama endpoint (for local deployment)
+LLM_BASE_URL=http://127.0.0.1:11434
+
+# API key (for OpenAI/Anthropic)
+LLM_API_KEY=sk-...
+
+# Timeout for LLM requests (seconds)
+LLM_TIMEOUT_SECONDS=60.0
+
+# Cache TTL for identical requests (seconds)
+LLM_CACHE_TTL_SECONDS=3600
+```
+
+### Using with Ollama (Local)
+
+1. Install Ollama: https://ollama.ai
+2. Pull a model: `ollama pull qwen3.5:4b`
+3. Start Ollama: `ollama serve`
+4. Set environment variables and start the backend
+
+### Features
+
+- **Explanation Enhancement**: Makes rule-based explanations clearer and more empathetic
+- **Follow-up Questions**: Generates questions patients should be prepared to answer
+- **Caching**: Identical symptom combinations use cached responses
+- **Graceful Fallback**: If LLM fails/times out, original explanation is used
+
+### Response Fields
+
+When LLM is enabled, triage responses include:
+
+```json
+{
+  "disposition": "ER_NOW",
+  "explanation": "Enhanced, patient-friendly explanation...",
+  "follow_up_questions": [
+    "When did your symptoms start?",
+    "Have you experienced this before?",
+    "Are you taking any medications?"
+  ],
+  "llm_enhanced": true
+}
+```
 
 ## License
 
